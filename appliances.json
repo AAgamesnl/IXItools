@@ -1,0 +1,362 @@
+[
+  {
+    "code": "OVN7000",
+    "brand": "AEG",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 420,
+    "price_ex": 1050.0,
+    "img": "OVN7000.jpg"
+  },
+  {
+    "code": "OVN6500",
+    "brand": "AEG",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 300,
+    "price_ex": 780.0,
+    "img": "OVN6500.jpg"
+  },
+  {
+    "code": "HB876",
+    "brand": "Siemens",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 400,
+    "price_ex": 990.0,
+    "img": "HB876.jpg"
+  },
+  {
+    "code": "HB674",
+    "brand": "Siemens",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 320,
+    "price_ex": 820.0,
+    "img": "HB674.jpg"
+  },
+  {
+    "code": "HBG675",
+    "brand": "Bosch",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 360,
+    "price_ex": 899.0,
+    "img": "HBG675.jpg"
+  },
+  {
+    "code": "HBN560",
+    "brand": "Bosch",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 280,
+    "price_ex": 699.0,
+    "img": "HBN560.jpg"
+  },
+  {
+    "code": "B57CR22",
+    "brand": "Neff",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 380,
+    "price_ex": 949.0,
+    "img": "B57CR22.jpg"
+  },
+  {
+    "code": "B45CR20",
+    "brand": "Neff",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 300,
+    "price_ex": 799.0,
+    "img": "B45CR20.jpg"
+  },
+  {
+    "code": "H2661",
+    "brand": "Miele",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 440,
+    "price_ex": 1150.0,
+    "img": "H2661.jpg"
+  },
+  {
+    "code": "H2261",
+    "brand": "Miele",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 310,
+    "price_ex": 830.0,
+    "img": "H2261.jpg"
+  },
+  {
+    "code": "AKZ962",
+    "brand": "Whirlpool",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 340,
+    "price_ex": 850.0,
+    "img": "AKZ962.jpg"
+  },
+  {
+    "code": "AKP745",
+    "brand": "Whirlpool",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 260,
+    "price_ex": 620.0,
+    "img": "AKP745.jpg"
+  },
+  {
+    "code": "NV75K",
+    "brand": "Samsung",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 370,
+    "price_ex": 920.0,
+    "img": "NV75K.jpg"
+  },
+  {
+    "code": "NV66M",
+    "brand": "Samsung",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 290,
+    "price_ex": 760.0,
+    "img": "NV66M.jpg"
+  },
+  {
+    "code": "ZOP379",
+    "brand": "Zanussi",
+    "category": "oven",
+    "option": "met pyrolyse",
+    "punten": 310,
+    "price_ex": 780.0,
+    "img": "ZOP379.jpg"
+  },
+  {
+    "code": "ZOB256",
+    "brand": "Zanussi",
+    "category": "oven",
+    "option": "zonder pyrolyse",
+    "punten": 240,
+    "price_ex": 550.0,
+    "img": "ZOB256.jpg"
+  },
+  {
+    "code": "NZ84",
+    "brand": "Samsung",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 300,
+    "price_ex": 720.0,
+    "img": "NZ84.jpg"
+  },
+  {
+    "code": "IKE844",
+    "brand": "AEG",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 310,
+    "price_ex": 740.0,
+    "img": "IKE844.jpg"
+  },
+  {
+    "code": "PXY875",
+    "brand": "Bosch",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 330,
+    "price_ex": 820.0,
+    "img": "PXY875.jpg"
+  },
+  {
+    "code": "EX975K",
+    "brand": "Siemens",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 340,
+    "price_ex": 840.0,
+    "img": "EX975K.jpg"
+  },
+  {
+    "code": "T68TS6",
+    "brand": "Neff",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 350,
+    "price_ex": 860.0,
+    "img": "T68TS6.jpg"
+  },
+  {
+    "code": "SMF901",
+    "brand": "SMEG",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 360,
+    "price_ex": 880.0,
+    "img": "SMF901.jpg"
+  },
+  {
+    "code": "AKT809",
+    "brand": "Whirlpool",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 270,
+    "price_ex": 640.0,
+    "img": "AKT809.jpg"
+  },
+  {
+    "code": "ZIFN64",
+    "brand": "Zanussi",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 250,
+    "price_ex": 590.0,
+    "img": "ZIFN64.jpg"
+  },
+  {
+    "code": "SN858",
+    "brand": "Siemens",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 300,
+    "price_ex": 780.0,
+    "img": "SN858.jpg"
+  },
+  {
+    "code": "SN636",
+    "brand": "Siemens",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 240,
+    "price_ex": 650.0,
+    "img": "SN636.jpg"
+  },
+  {
+    "code": "SMV88",
+    "brand": "Bosch",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 310,
+    "price_ex": 800.0,
+    "img": "SMV88.jpg"
+  },
+  {
+    "code": "SMV46",
+    "brand": "Bosch",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 230,
+    "price_ex": 620.0,
+    "img": "SMV46.jpg"
+  },
+  {
+    "code": "G7150",
+    "brand": "Miele",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 350,
+    "price_ex": 920.0,
+    "img": "G7150.jpg"
+  },
+  {
+    "code": "G5210",
+    "brand": "Miele",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 260,
+    "price_ex": 700.0,
+    "img": "G5210.jpg"
+  },
+  {
+    "code": "FSK737",
+    "brand": "AEG",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 290,
+    "price_ex": 760.0,
+    "img": "FSK737.jpg"
+  },
+  {
+    "code": "FSE725",
+    "brand": "AEG",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 220,
+    "price_ex": 630.0,
+    "img": "FSE725.jpg"
+  },
+  {
+    "code": "OWFC3",
+    "brand": "Whirlpool",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 250,
+    "price_ex": 680.0,
+    "img": "OWFC3.jpg"
+  },
+  {
+    "code": "OWFE2",
+    "brand": "Whirlpool",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 200,
+    "price_ex": 580.0,
+    "img": "OWFE2.jpg"
+  },
+  {
+    "code": "DFN284",
+    "brand": "Beko",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 210,
+    "price_ex": 560.0,
+    "img": "DFN284.jpg"
+  },
+  {
+    "code": "DFN264",
+    "brand": "Beko",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 190,
+    "price_ex": 530.0,
+    "img": "DFN264.jpg"
+  },
+  {
+    "code": "DW60R",
+    "brand": "Samsung",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 270,
+    "price_ex": 690.0,
+    "img": "DW60R.jpg"
+  },
+  {
+    "code": "DW50R",
+    "brand": "Samsung",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 210,
+    "price_ex": 560.0,
+    "img": "DW50R.jpg"
+  },
+  {
+    "code": "DFB512",
+    "brand": "LG",
+    "category": "vaatwasser",
+    "option": "lade",
+    "punten": 280,
+    "price_ex": 710.0,
+    "img": "DFB512.jpg"
+  },
+  {
+    "code": "DFB325",
+    "brand": "LG",
+    "category": "vaatwasser",
+    "option": "mandje",
+    "punten": 230,
+    "price_ex": 650.0,
+    "img": "DFB325.jpg"
+  }
+]

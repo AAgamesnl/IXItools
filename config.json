@@ -1,0 +1,24 @@
+{
+  "appearance": {
+    "mode": "dark",
+    "theme": "blue",
+    "img_size": [160, 110],
+    "cache_size": 100
+  },
+  "vat_rates": {
+    "high": 0.21,
+    "low": 0.06
+  },
+  "ui": {
+    "window_size": [1400, 800],
+    "min_window_size": [1000, 600],
+    "filter_panel_width": 250,
+    "cart_panel_width": 300
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "app.log",
+    "max_size": "10MB",
+    "backup_count": 1
+  }
+}

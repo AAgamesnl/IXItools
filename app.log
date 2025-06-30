@@ -1,0 +1,36 @@
+2025-06-30 11:30:53,986 - __main__ - INFO - Loaded 8 electrical blocks
+2025-06-30 11:30:53,990 - __main__ - INFO - Loaded 40 appliances
+2025-06-30 11:30:55,091 - __main__ - INFO - Application initialized successfully
+2025-06-30 11:31:20,968 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:21,405 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:21,838 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:22,342 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:23,747 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:23,892 - __main__ - INFO - Added OVN7000 to cart
+2025-06-30 11:31:24,643 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:24,807 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:25,025 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:25,370 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:25,745 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:26,106 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:26,450 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:26,744 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:27,057 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:27,343 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:29,909 - __main__ - INFO - Added OVN6500 to cart
+2025-06-30 11:31:30,657 - __main__ - INFO - Export cart functionality not yet implemented
+2025-06-30 11:31:32,473 - __main__ - INFO - Export cart functionality not yet implemented
+2025-06-30 11:31:34,312 - __main__ - INFO - Application closing
+2025-06-30 11:42:23,101 - ApplianceManagerFrame - INFO - Loaded 8 electrical blocks
+2025-06-30 11:42:23,106 - ApplianceManagerFrame - INFO - Loaded 40 appliances
+2025-06-30 11:42:24,096 - ApplianceManagerFrame - INFO - Application initialized successfully
+2025-06-30 12:46:50,141 - ApplianceManagerFrame - INFO - Loaded 8 electrical blocks
+2025-06-30 12:46:50,153 - ApplianceManagerFrame - INFO - Loaded 40 appliances
+2025-06-30 12:46:51,134 - ApplianceManagerFrame - INFO - Application initialized successfully
+2025-06-30 12:49:33,950 - ApplianceManagerFrame - INFO - Loaded 8 electrical blocks
+2025-06-30 12:49:33,955 - ApplianceManagerFrame - INFO - Loaded 40 appliances
+2025-06-30 12:49:34,985 - ApplianceManagerFrame - INFO - Application initialized successfully
+2025-06-30 12:49:40,970 - ApplianceManagerFrame - INFO - Added IKE844 to cart
+2025-06-30 12:49:47,772 - ApplianceManagerFrame - INFO - Added IKE844 to cart
+2025-06-30 12:51:12,537 - ApplianceManagerFrame - INFO - Added FSE725 to cart
+2025-06-30 12:51:22,188 - ApplianceManagerFrame - INFO - Added OVN7000 to cart
