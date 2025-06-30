@@ -84,6 +84,17 @@ class CartItem:
     quantity: int = 1
 
 
+def vat_rate_for_appliance(appliance: Appliance) -> float:
+    """Return VAT rate based on appliance category."""
+    return 0.06 if appliance.category.lower() == "dampkap" else 0.21
+
+
+def points_to_price(points: int, vat_rate: float) -> float:
+    """Convert points to price in euros for given VAT rate."""
+    factor = 0.344 if abs(vat_rate - 0.06) < 1e-3 else 0.393
+    return round(points * factor, 2)
+
+
 # ============================================================================
 # Business Logic Layer
 # ============================================================================
@@ -319,10 +330,13 @@ class ShoppingCart:
         """Calculate total points in cart."""
         return sum(item.appliance.points * item.quantity for item in self.items)
 
-    def get_total_price(self, vat_rate: float) -> float:
-        """Calculate total price including VAT."""
-        total_ex = sum(item.appliance.price_ex * item.quantity for item in self.items)
-        return round(total_ex * (1 + vat_rate), 2)
+    def get_total_price(self) -> float:
+        """Calculate total price of all items based on points."""
+        total = 0.0
+        for item in self.items:
+            rate = vat_rate_for_appliance(item.appliance)
+            total += points_to_price(item.appliance.points * item.quantity, rate)
+        return round(total, 2)
 
     def add_observer(self, callback: Callable[[], None]) -> None:
         """Add cart change observer."""
@@ -486,7 +500,7 @@ class ApplianceRow(ctk.CTkFrame):
         super().__init__(master)
         self.appliance = appliance
         self.image_cache = image_cache
-        self.vat_rate = vat_rate
+        self.vat_rate = vat_rate  # kept for backward compatibility
         self.on_add_to_cart = on_add_to_cart
 
         self._build_ui()
@@ -501,9 +515,12 @@ class ApplianceRow(ctk.CTkFrame):
         img_label.grid(row=0, column=0, sticky="w", padx=5, pady=5)
 
         # Info
-        price_incl_vat = round(self.appliance.price_ex * (1 + self.vat_rate), 2)
-        info_text = (f"{self.appliance.brand} {self.appliance.code}\n"
-                     f"{self.appliance.points} punten • €{price_incl_vat:.2f}")
+        rate = vat_rate_for_appliance(self.appliance)
+        price_incl_vat = points_to_price(self.appliance.points, rate)
+        info_text = (
+            f"{self.appliance.brand} {self.appliance.code}\n"
+            f"{self.appliance.points} punten (\u20ac{price_incl_vat:.2f})"
+        )
 
         info_label = ctk.CTkLabel(self, text=info_text, anchor="w", justify="left")
         info_label.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
@@ -603,7 +620,7 @@ class CartPanel(ctk.CTkFrame):
             item_frame.grid(row=i, column=0, sticky="ew", padx=2, pady=1)
             self.cart_items[item.appliance.code] = item_frame
 
-        # Update totals (will be called from main app with current VAT rate)
+        # Update totals (will be called from main app)
 
     def _create_cart_item_widget(self, item: CartItem) -> ctk.CTkFrame:
         """Create widget for cart item."""
@@ -611,7 +628,9 @@ class CartPanel(ctk.CTkFrame):
         frame.columnconfigure(0, weight=1)
 
         # Item info
-        text = f"{item.appliance.code}\n{item.appliance.points}p"
+        rate = vat_rate_for_appliance(item.appliance)
+        price = points_to_price(item.appliance.points, rate)
+        text = f"{item.appliance.code}\n{item.appliance.points}p (\u20ac{price:.2f})"
         if item.quantity > 1:
             text += f" (x{item.quantity})"
 
@@ -625,10 +644,10 @@ class CartPanel(ctk.CTkFrame):
 
         return frame
 
-    def update_totals(self, vat_rate: float, max_points: int):
-        """Update totals display with current VAT rate and block limit."""
+    def update_totals(self, max_points: int):
+        """Update totals display with block limit."""
         total_points = self.cart.get_total_points()
-        total_price = self.cart.get_total_price(vat_rate)
+        total_price = self.cart.get_total_price()
         remaining_points = max_points - total_points
 
         # Color coding for remaining points
@@ -639,7 +658,7 @@ class CartPanel(ctk.CTkFrame):
             color = "#F44336"  # Red
             status = f"Overschrijding: {abs(remaining_points)}p"
 
-        totals_text = (f"Totaal: {total_points}p • €{total_price:.2f}\n{status}")
+        totals_text = (f"Totaal: {total_points}p (\u20ac{total_price:.2f})\n{status}")
         self.totals_label.configure(text=totals_text, text_color=color)
 
     def _export_cart(self):
@@ -759,7 +778,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
 
             # Update cart totals
             if max_points is not None:
-                self.cart_panel.update_totals(vat_rate, max_points)
+                self.cart_panel.update_totals(max_points)
 
             self.logger.debug(f"Filter applied: {len(filtered_appliances)} results")
 
@@ -777,7 +796,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
                 vat_rate = self.filter_panel.get_current_vat_rate()
-                self.cart_panel.update_totals(vat_rate, max_points)
+                self.cart_panel.update_totals(max_points)
 
         except Exception as e:
             self.logger.error(f"Error adding item to cart: {e}")
