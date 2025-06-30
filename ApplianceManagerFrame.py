@@ -16,8 +16,11 @@ from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
 from functools import lru_cache
 import customtkinter as ctk
+import tkinter as tk
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 
+BASE_DIR = Path(__file__).parent
+LOGO_IMAGE_PATH = BASE_DIR / "logo.png"
 
 # ============================================================================
 # Configuration and Constants
@@ -787,22 +790,60 @@ class ApplianceManagerApp(ctk.CTkFrame):
 # Application Window
 # ============================================================================
 
+class LoadingFrame(ctk.CTkFrame):
+    """Simple loading screen with progress bar and logo."""
+
+    def __init__(self, master: ctk.CTk):
+        super().__init__(master)
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure((0, 1, 2), weight=1)
+
+        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(150, 45))
+        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(20, 10))
+        ctk.CTkLabel(self, text="Toestellenmanager laden...", font=("Helvetica", 16)).grid(row=1, column=0)
+
+        self.progress = ctk.CTkProgressBar(self, mode="indeterminate")
+        self.progress.grid(row=2, column=0, sticky="ew", padx=40, pady=(10, 20))
+
+    def start(self):
+        self.progress.start()
+
+    def stop(self):
+        self.progress.stop()
+
+
 class ApplianceManagerWindow(ctk.CTkToplevel):
     """Main application window."""
 
     def __init__(self, master: ctk.CTk = None):
         super().__init__(master)
+        self.icon_image = tk.PhotoImage(file=LOGO_IMAGE_PATH)
+        self.iconphoto(False, self.icon_image)
 
         self.title("Ixina Toestellenmanager v2.0")
+
+        # Temporary small window while loading
+        self.geometry("400x200")
+        self.resizable(False, False)
+
+        loader = LoadingFrame(self)
+        loader.pack(expand=True, fill="both")
+        loader.start()
+        self.update_idletasks()
+
+        # Perform heavy initialization
+        self.app = ApplianceManagerApp(self)
+
+        loader.stop()
+        loader.destroy()
+
+        # Final window size
         self.geometry("1400x800")
         self.minsize(1000, 600)
 
         # Configure window layout
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
-
-        # Create main app frame
-        self.app = ApplianceManagerApp(self)
 
         # Center window
         self.after(10, self._center_window)
