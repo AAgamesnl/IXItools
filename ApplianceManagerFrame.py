@@ -826,17 +826,19 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.geometry("400x200")
         self.resizable(False, False)
 
-        # ensure layout uses grid so we don't mix managers
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
+        # container frame packed to avoid geometry manager conflicts
+        self.container = ctk.CTkFrame(self)
+        self.container.pack(fill="both", expand=True)
+        self.container.rowconfigure(0, weight=1)
+        self.container.columnconfigure(0, weight=1)
 
-        loader = LoadingFrame(self)
+        loader = LoadingFrame(self.container)
         loader.grid(row=0, column=0, sticky="nsew")
         loader.start()
         self.update_idletasks()
 
         # Perform heavy initialization
-        self.app = ApplianceManagerApp(self)
+        self.app = ApplianceManagerApp(self.container)
 
         loader.stop()
         loader.destroy()
