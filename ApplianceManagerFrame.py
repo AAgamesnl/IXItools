@@ -826,9 +826,11 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.geometry("400x200")
         self.resizable(False, False)
 
-        # container frame packed to avoid geometry manager conflicts
+        # Container frame managed by grid for consistent layout
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
         self.container = ctk.CTkFrame(self)
-        self.container.pack(fill="both", expand=True)
+        self.container.grid(row=0, column=0, sticky="nsew")
         self.container.rowconfigure(0, weight=1)
         self.container.columnconfigure(0, weight=1)
 
