@@ -826,8 +826,12 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.geometry("400x200")
         self.resizable(False, False)
 
+        # ensure layout uses grid so we don't mix managers
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+
         loader = LoadingFrame(self)
-        loader.pack(expand=True, fill="both")
+        loader.grid(row=0, column=0, sticky="nsew")
         loader.start()
         self.update_idletasks()
 
@@ -840,10 +844,6 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         # Final window size
         self.geometry("1400x800")
         self.minsize(1000, 600)
-
-        # Configure window layout
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
 
         # Center window
         self.after(10, self._center_window)
