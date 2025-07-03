@@ -834,7 +834,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         loader = LoadingFrame(self)
         loader.grid(row=0, column=0, sticky="nsew")
         loader.start()
-        self.update_idletasks()
+        self.update()
 
         # Perform heavy initialization
         self.app = ApplianceManagerApp(self)
