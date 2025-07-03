@@ -5,7 +5,7 @@ from __future__ import annotations
 Enkel het deel voor **Toestellenmanager** is aangepast:
 • De placeholder‑klasse is verwijderd.
 • We importeren nu `ApplianceManagerWindow` uit `ApplianceManagerFrame`.
-Alle andere functionaliteit blijft ongewijzigd.
+Alle andere functionalitefit blijft ongewijzigd.
 """
 
 from pathlib import Path
