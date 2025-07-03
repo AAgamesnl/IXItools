@@ -10,6 +10,7 @@ Alle andere functionaliteit blijft ongewijzigd.
 
 from pathlib import Path
 from tkinter import messagebox
+import tkinter as tk
 from typing import Tuple
 
 import customtkinter as ctk
@@ -63,6 +64,8 @@ class IxinaToolsApp(ctk.CTk):
 
     def __init__(self) -> None:  # noqa: D401
         super().__init__()
+        self.icon_image = tk.PhotoImage(file=LOGO_IMAGE_PATH)
+        self.iconphoto(False, self.icon_image)
         self.title(TITLE)
         self.minsize(900, 300)
 
