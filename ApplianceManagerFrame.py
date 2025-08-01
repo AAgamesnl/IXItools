@@ -826,18 +826,23 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.geometry("400x200")
         self.resizable(False, False)
 
-        # Use grid layout for all contents
+        # Use a container so loader and main app share the same geometry manager
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        # Display loader directly inside the window
-        loader = LoadingFrame(self)
+        self.container = ctk.CTkFrame(self)
+        self.container.grid(row=0, column=0, sticky="nsew")
+        self.container.rowconfigure(0, weight=1)
+        self.container.columnconfigure(0, weight=1)
+
+        # Display loader inside the container
+        loader = LoadingFrame(self.container)
         loader.grid(row=0, column=0, sticky="nsew")
         loader.start()
         self.update()
 
         # Perform heavy initialization
-        self.app = ApplianceManagerApp(self)
+        self.app = ApplianceManagerApp(self.container)
 
         loader.stop()
         loader.destroy()
