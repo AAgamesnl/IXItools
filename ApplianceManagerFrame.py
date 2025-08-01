@@ -71,6 +71,12 @@ except ModuleNotFoundError:  # pragma: no cover - allow headless use
         def stop(self, *args, **kwargs):
             pass
 
+        def columnconfigure(self, *args, **kwargs):
+            pass
+
+        def rowconfigure(self, *args, **kwargs):
+            pass
+
     class _DummyImage:
         def __init__(self, *args, **kwargs):
             pass
@@ -438,11 +444,14 @@ class ShoppingCart:
 # UI Components
 # ============================================================================
 
-class FilterPanel(ctk.CTkFrame):
-    """Left panel containing all filter controls."""
+class FilterPanel(ctk.CTkScrollableFrame):
+    """Left panel containing all filter controls.
+
+    Implemented as a scrollable frame so every control remains accessible even
+    on smaller screens."""
 
     def __init__(self, master, config: AppConfig, on_filter_change: Callable):
-        super().__init__(master)
+        super().__init__(master, width=240)
         self.config = config
         self.on_filter_change = on_filter_change
 
@@ -459,7 +468,7 @@ class FilterPanel(ctk.CTkFrame):
 
     def _build_ui(self):
         """Build the filter panel UI."""
-        self.columnconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
         row = 0
 
@@ -796,25 +805,25 @@ class ApplianceManagerApp(ctk.CTkFrame):
     def _setup_layout(self):
         """Setup the main layout."""
         self.grid(sticky="nsew")
-        # Stack panels vertically: filter on top, results in middle, cart at bottom
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=0)  # Filter panel
-        self.rowconfigure(1, weight=1)  # Results panel
-        self.rowconfigure(2, weight=0)  # Cart panel
+        # Two-column layout: filter left, results and cart stacked on the right
+        self.columnconfigure(0, weight=0)  # Filter panel
+        self.columnconfigure(1, weight=1)  # Main content
+        self.rowconfigure(0, weight=1)  # Results panel
+        self.rowconfigure(1, weight=0)  # Cart panel
 
     def _build_ui(self):
         """Build the main UI components."""
-        # Filter panel
+        # Filter panel on the left
         self.filter_panel = FilterPanel(self, self.config, self._on_filter_change)
-        self.filter_panel.grid(row=0, column=0, sticky="ew", padx=5, pady=(5, 2))
+        self.filter_panel.grid(row=0, column=0, rowspan=2, sticky="nsw", padx=(5, 2), pady=5)
 
-        # Results panel
+        # Results panel on the right, above cart
         self.results_panel = ResultsPanel(self, self.image_cache, self._on_add_to_cart)
-        self.results_panel.grid(row=1, column=0, sticky="nsew", padx=5, pady=2)
+        self.results_panel.grid(row=0, column=1, sticky="nsew", padx=(2, 5), pady=(5, 2))
 
-        # Cart panel
+        # Cart panel at bottom-right
         self.cart_panel = CartPanel(self, self.cart)
-        self.cart_panel.grid(row=2, column=0, sticky="ew", padx=5, pady=(2, 5))
+        self.cart_panel.grid(row=1, column=1, sticky="ew", padx=(2, 5), pady=(2, 5))
 
     def _initialize_data(self):
         """Initialize UI with data."""
