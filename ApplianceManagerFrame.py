@@ -10,96 +10,12 @@ from __future__ import annotations
 
 import json
 import logging
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Protocol, Callable, Any
+from typing import Dict, List, Optional, Callable
 from collections import OrderedDict
 import tkinter as tk
-
-try:
-    import customtkinter as ctk
-except ModuleNotFoundError:  # pragma: no cover - allow headless use
-    logging.getLogger(__name__).warning(
-        "customtkinter not available; using tkinter-based dummies. GUI functionality will be disabled."
-    )
-
-    class _DummyVar:
-        def __init__(self, value=None):
-            self._value = value
-
-        def get(self):
-            return self._value
-
-        def set(self, value):
-            self._value = value
-
-    class _DummyWidget:
-        def __init__(self, *args, **kwargs):
-            pass
-
-        def grid(self, *args, **kwargs):
-            pass
-
-        def pack(self, *args, **kwargs):
-            pass
-
-        def place(self, *args, **kwargs):
-            pass
-
-        def configure(self, *args, **kwargs):
-            pass
-
-        def bind(self, *args, **kwargs):
-            pass
-
-        def destroy(self, *args, **kwargs):
-            pass
-
-        def focus_force(self, *args, **kwargs):
-            pass
-
-        def after(self, *args, **kwargs):
-            pass
-
-        def update(self, *args, **kwargs):
-            pass
-
-        def start(self, *args, **kwargs):
-            pass
-
-        def stop(self, *args, **kwargs):
-            pass
-
-    class _DummyImage:
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class _CTkModule:
-        CTk = _DummyWidget
-        CTkFrame = _DummyWidget
-        CTkLabel = _DummyWidget
-        CTkButton = _DummyWidget
-        CTkEntry = _DummyWidget
-        CTkOptionMenu = _DummyWidget
-        CTkSwitch = _DummyWidget
-        CTkScrollableFrame = _DummyWidget
-        CTkToplevel = _DummyWidget
-        CTkProgressBar = _DummyWidget
-        CTkImage = _DummyImage
-        StringVar = _DummyVar
-        DoubleVar = _DummyVar
-        IntVar = _DummyVar
-        END = tk.END
-
-        def set_appearance_mode(self, *args, **kwargs):
-            pass
-
-        def set_default_color_theme(self, *args, **kwargs):
-            pass
-
-    ctk = _CTkModule()
-
+import customtkinter as ctk
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 
 BASE_DIR = Path(__file__).parent
@@ -174,19 +90,7 @@ class CartItem:
 # Business Logic Layer
 # ============================================================================
 
-class DataRepository(ABC):
-    """Abstract repository for data access."""
-
-    @abstractmethod
-    def load_blocks(self) -> Dict[str, ElectricBlock]:
-        pass
-
-    @abstractmethod
-    def load_appliances(self) -> List[Appliance]:
-        pass
-
-
-class JSONDataRepository(DataRepository):
+class JSONDataRepository:
     """File-based data repository using JSON."""
 
     def __init__(self, config: AppConfig):
@@ -682,15 +586,10 @@ class CartPanel(ctk.CTkFrame):
         btn_frame = ctk.CTkFrame(self)
         btn_frame.grid(row=3, column=0, sticky="ew", padx=5, pady=5)
         btn_frame.columnconfigure(0, weight=1)
-        btn_frame.columnconfigure(1, weight=1)
 
         clear_btn = ctk.CTkButton(btn_frame, text="Wissen",
                                   command=self.cart.clear)
         clear_btn.grid(row=0, column=0, padx=2, pady=2, sticky="ew")
-
-        export_btn = ctk.CTkButton(btn_frame, text="Exporteren",
-                                   command=self._export_cart)
-        export_btn.grid(row=0, column=1, padx=2, pady=2, sticky="ew")
 
     def update_display(self):
         """Update cart display."""
@@ -743,12 +642,6 @@ class CartPanel(ctk.CTkFrame):
 
         totals_text = (f"Totaal: {total_points}p • €{total_price:.2f}\n{status}")
         self.totals_label.configure(text=totals_text, text_color=color)
-
-    def _export_cart(self):
-        """Export cart contents (placeholder for future implementation)."""
-        # This could export to PDF, Excel, etc.
-        logging.getLogger(__name__).info("Export cart functionality not yet implemented")
-
 
 # ============================================================================
 # Main Application
