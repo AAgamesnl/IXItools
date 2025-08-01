@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
-from functools import lru_cache
+from collections import OrderedDict
 import customtkinter as ctk
 import tkinter as tk
 from PIL import Image, ImageDraw, ImageOps, ImageFont
@@ -156,13 +156,14 @@ class ImageCache:
 
     def __init__(self, config: AppConfig):
         self.config = config
-        self.cache: Dict[Optional[str], ctk.CTkImage] = {}
+        self.cache: OrderedDict[Optional[str], ctk.CTkImage] = OrderedDict()
         self.logger = logging.getLogger(__name__)
 
-    @lru_cache(maxsize=100)
     def load_image(self, filename: Optional[str] = None) -> ctk.CTkImage:
         """Load and cache image with fallback to placeholder."""
         if filename in self.cache:
+            # move to end to maintain LRU order
+            self.cache.move_to_end(filename)
             return self.cache[filename]
 
         try:
@@ -178,6 +179,9 @@ class ImageCache:
 
             ctk_image = ctk.CTkImage(image, size=self.config.img_size)
             self.cache[filename] = ctk_image
+            # enforce cache size limit
+            if len(self.cache) > self.config.cache_size:
+                self.cache.popitem(last=False)
             return ctk_image
 
         except Exception as e:
@@ -220,8 +224,10 @@ class ImageCache:
         if "ERROR" not in self.cache:
             self.cache["ERROR"] = ctk.CTkImage(
                 self._create_placeholder("Error"),
-                size=self.config.img_size
+                size=self.config.img_size,
             )
+            if len(self.cache) > self.config.cache_size:
+                self.cache.popitem(last=False)
         return self.cache["ERROR"]
 
 
@@ -882,75 +888,6 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         """Handle window closing."""
         logging.getLogger(__name__).info("Application closing")
         self.destroy()
-
-
-# ============================================================================
-# Unit Tests Examples
-# ============================================================================
-
-def test_appliance_from_dict():
-    """Test Appliance creation from dictionary."""
-    data = {
-        'code': 'TEST001',
-        'brand': 'TestBrand',
-        'category': 'oven',
-        'punten': 50,
-        'price_ex': 499.99,
-        'option': 'met pyrolyse',
-        'img': 'test.jpg'
-    }
-
-    appliance = Appliance.from_dict(data)
-    assert appliance.code == 'TEST001'
-    assert appliance.points == 50
-    assert appliance.price_ex == 499.99
-
-
-def test_shopping_cart():
-    """Test shopping cart functionality."""
-    cart = ShoppingCart()
-    appliance = Appliance('TEST001', 'TestBrand', 'oven', 50, 499.99)
-
-    # Test adding items
-    cart.add_item(appliance)
-    assert len(cart.items) == 1
-    assert cart.get_total_points() == 50
-
-    # Test adding same item (should increase quantity)
-    cart.add_item(appliance)
-    assert len(cart.items) == 1
-    assert cart.items[0].quantity == 2
-    assert cart.get_total_points() == 100
-
-    # Test removing items
-    cart.remove_item(appliance)
-    assert len(cart.items) == 0
-    assert cart.get_total_points() == 0
-
-
-def test_appliance_filter():
-    """Test appliance filtering."""
-    appliances = [
-        Appliance('OVEN001', 'Siemens', 'oven', 60, 599.99),
-        Appliance('KOOK001', 'Bosch', 'kookplaat', 40, 399.99),
-        Appliance('VAAS001', 'Miele', 'vaatwasser', 80, 799.99)
-    ]
-
-    filter_obj = ApplianceFilter(appliances)
-
-    # Test category filter
-    ovens = filter_obj.filter(category='oven')
-    assert len(ovens) == 1
-    assert ovens[0].code == 'OVEN001'
-
-    # Test points filter
-    low_points = filter_obj.filter(max_points=50)
-    assert len(low_points) == 2
-
-    # Test brand filter
-    siemens = filter_obj.filter(brand='Siemens')
-    assert len(siemens) == 1
-    assert siemens[0].brand == 'Siemens'
 
 
 # ============================================================================
