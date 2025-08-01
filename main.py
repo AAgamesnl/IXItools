@@ -70,7 +70,9 @@ class IxinaToolsApp(ctk.CTk):
         self.minsize(900, 300)
 
         self.columnconfigure((0, 1, 2, 3), weight=1)
-        self.rowconfigure(2, weight=1)
+        # Gebruik een lege rij onder de knoppen zodat alle inhoud
+        # tegen de bovenkant van het venster blijft staan.
+        self.rowconfigure(3, weight=1)
 
         self._create_header_section()
         self._create_button_section()
