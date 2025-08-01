@@ -197,6 +197,11 @@ class ImageCache:
         image = Image.new("RGB", self.config.img_size, "#444444")
         draw = ImageDraw.Draw(image)
 
+        # Draw simple cross so the placeholder is clearly visible
+        w, h = self.config.img_size
+        draw.line((0, 0, w, h), fill="white", width=2)
+        draw.line((0, h, w, 0), fill="white", width=2)
+
         try:
             font = ImageFont.truetype("arial.ttf", 12)
         except OSError:
@@ -204,8 +209,8 @@ class ImageCache:
 
         bbox = draw.textbbox((0, 0), text, font=font)
         text_width, text_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
-        x = (self.config.img_size[0] - text_width) // 2
-        y = (self.config.img_size[1] - text_height) // 2
+        x = (w - text_width) // 2
+        y = (h - text_height) // 2
         draw.text((x, y), text, fill="white", font=font)
 
         return image
@@ -525,15 +530,19 @@ class ResultsPanel(ctk.CTkScrollableFrame):
         self.image_cache = image_cache
         self.on_add_to_cart = on_add_to_cart
         self.appliance_rows: List[ApplianceRow] = []
+        self.no_results_label: Optional[ctk.CTkLabel] = None
 
         self.columnconfigure(0, weight=1)
 
     def update_appliances(self, appliances: List[Appliance], vat_rate: float):
         """Update displayed appliances."""
-        # Clear existing rows
+        # Clear existing rows and any previous 'no results' message
         for row in self.appliance_rows:
             row.destroy()
         self.appliance_rows.clear()
+        if self.no_results_label is not None:
+            self.no_results_label.destroy()
+            self.no_results_label = None
 
         # Add new rows
         for i, appliance in enumerate(appliances):
@@ -544,9 +553,10 @@ class ResultsPanel(ctk.CTkScrollableFrame):
 
         # Show message if no results
         if not appliances:
-            no_results = ctk.CTkLabel(self, text="Geen toestellen gevonden",
-                                      font=("Helvetica", 14))
-            no_results.grid(row=0, column=0, pady=50)
+            self.no_results_label = ctk.CTkLabel(
+                self, text="Geen toestellen gevonden", font=("Helvetica", 14)
+            )
+            self.no_results_label.grid(row=0, column=0, pady=50)
 
 
 class CartPanel(ctk.CTkFrame):
@@ -697,24 +707,25 @@ class ApplianceManagerApp(ctk.CTkFrame):
     def _setup_layout(self):
         """Setup the main layout."""
         self.grid(sticky="nsew")
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=0, minsize=250)  # Filter panel
-        self.columnconfigure(1, weight=3)  # Results panel
-        self.columnconfigure(2, weight=1, minsize=300)  # Cart panel
+        # Stack panels vertically: filter on top, results in middle, cart at bottom
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=0)  # Filter panel
+        self.rowconfigure(1, weight=1)  # Results panel
+        self.rowconfigure(2, weight=0)  # Cart panel
 
     def _build_ui(self):
         """Build the main UI components."""
         # Filter panel
         self.filter_panel = FilterPanel(self, self.config, self._on_filter_change)
-        self.filter_panel.grid(row=0, column=0, sticky="nsew", padx=(5, 2), pady=5)
+        self.filter_panel.grid(row=0, column=0, sticky="ew", padx=5, pady=(5, 2))
 
         # Results panel
         self.results_panel = ResultsPanel(self, self.image_cache, self._on_add_to_cart)
-        self.results_panel.grid(row=0, column=1, sticky="nsew", padx=2, pady=5)
+        self.results_panel.grid(row=1, column=0, sticky="nsew", padx=5, pady=2)
 
         # Cart panel
         self.cart_panel = CartPanel(self, self.cart)
-        self.cart_panel.grid(row=0, column=2, sticky="nsew", padx=(2, 5), pady=5)
+        self.cart_panel.grid(row=2, column=0, sticky="ew", padx=5, pady=(2, 5))
 
     def _initialize_data(self):
         """Initialize UI with data."""
