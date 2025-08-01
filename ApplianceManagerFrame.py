@@ -15,8 +15,91 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
 from collections import OrderedDict
-import customtkinter as ctk
 import tkinter as tk
+
+try:
+    import customtkinter as ctk
+except ModuleNotFoundError:  # pragma: no cover - allow headless use
+    logging.getLogger(__name__).warning(
+        "customtkinter not available; using tkinter-based dummies. GUI functionality will be disabled."
+    )
+
+    class _DummyVar:
+        def __init__(self, value=None):
+            self._value = value
+
+        def get(self):
+            return self._value
+
+        def set(self, value):
+            self._value = value
+
+    class _DummyWidget:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def grid(self, *args, **kwargs):
+            pass
+
+        def pack(self, *args, **kwargs):
+            pass
+
+        def place(self, *args, **kwargs):
+            pass
+
+        def configure(self, *args, **kwargs):
+            pass
+
+        def bind(self, *args, **kwargs):
+            pass
+
+        def destroy(self, *args, **kwargs):
+            pass
+
+        def focus_force(self, *args, **kwargs):
+            pass
+
+        def after(self, *args, **kwargs):
+            pass
+
+        def update(self, *args, **kwargs):
+            pass
+
+        def start(self, *args, **kwargs):
+            pass
+
+        def stop(self, *args, **kwargs):
+            pass
+
+    class _DummyImage:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    class _CTkModule:
+        CTk = _DummyWidget
+        CTkFrame = _DummyWidget
+        CTkLabel = _DummyWidget
+        CTkButton = _DummyWidget
+        CTkEntry = _DummyWidget
+        CTkOptionMenu = _DummyWidget
+        CTkSwitch = _DummyWidget
+        CTkScrollableFrame = _DummyWidget
+        CTkToplevel = _DummyWidget
+        CTkProgressBar = _DummyWidget
+        CTkImage = _DummyImage
+        StringVar = _DummyVar
+        DoubleVar = _DummyVar
+        IntVar = _DummyVar
+        END = tk.END
+
+        def set_appearance_mode(self, *args, **kwargs):
+            pass
+
+        def set_default_color_theme(self, *args, **kwargs):
+            pass
+
+    ctk = _CTkModule()
+
 from PIL import Image, ImageDraw, ImageOps, ImageFont
 
 BASE_DIR = Path(__file__).parent
@@ -713,25 +796,25 @@ class ApplianceManagerApp(ctk.CTkFrame):
     def _setup_layout(self):
         """Setup the main layout."""
         self.grid(sticky="nsew")
-        # Stack panels vertically: filter on top, results in middle, cart at bottom
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=0)  # Filter panel
-        self.rowconfigure(1, weight=1)  # Results panel
-        self.rowconfigure(2, weight=0)  # Cart panel
+        # Arrange panels horizontally: filter left, results center, cart right
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=0)  # Filter panel
+        self.columnconfigure(1, weight=1)  # Results panel
+        self.columnconfigure(2, weight=0)  # Cart panel
 
     def _build_ui(self):
         """Build the main UI components."""
         # Filter panel
         self.filter_panel = FilterPanel(self, self.config, self._on_filter_change)
-        self.filter_panel.grid(row=0, column=0, sticky="ew", padx=5, pady=(5, 2))
+        self.filter_panel.grid(row=0, column=0, sticky="nsw", padx=(5, 2), pady=5)
 
         # Results panel
         self.results_panel = ResultsPanel(self, self.image_cache, self._on_add_to_cart)
-        self.results_panel.grid(row=1, column=0, sticky="nsew", padx=5, pady=2)
+        self.results_panel.grid(row=0, column=1, sticky="nsew", padx=2, pady=5)
 
         # Cart panel
         self.cart_panel = CartPanel(self, self.cart)
-        self.cart_panel.grid(row=2, column=0, sticky="ew", padx=5, pady=(2, 5))
+        self.cart_panel.grid(row=0, column=2, sticky="ns", padx=(2, 5), pady=5)
 
     def _initialize_data(self):
         """Initialize UI with data."""
