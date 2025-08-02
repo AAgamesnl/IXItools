@@ -486,7 +486,7 @@ class FilterPanel(ctk.CTkFrame):
         ctk.CTkLabel(vat_frame, text="21%").grid(row=0, column=0, padx=5)
         self.vat_switch = ctk.CTkSwitch(vat_frame, text="", variable=self.vat_var)
         self.vat_switch.grid(row=0, column=1, padx=5)
-        self.vat_switch.select()
+        self.vat_switch.deselect()
         ctk.CTkLabel(vat_frame, text="6%").grid(row=0, column=2, padx=5)
         row += 1
 
@@ -928,11 +928,19 @@ class SplashScreen(ctk.CTkToplevel):
             row=1, column=0, pady=(0, 10)
         )
 
-        self.progress = ctk.CTkProgressBar(self, height=8, mode="indeterminate")
+        self.progress = ctk.CTkProgressBar(self, height=8)
         self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
-        self.progress.start()
+        self.progress.set(0)
+        self._anim = None
+        self.after(0, self._animate)
 
         self.after(10, self._center)
+
+    def _animate(self):
+        """Animate progress bar for visual feedback."""
+        next_val = (self.progress.get() + 0.02) % 1.0
+        self.progress.set(next_val)
+        self._anim = self.after(30, self._animate)
 
     def _center(self):
         """Center splash on the screen."""
@@ -945,32 +953,38 @@ class SplashScreen(ctk.CTkToplevel):
 
     def close(self):
         """Stop animation and destroy splash."""
-        try:
-            self.progress.stop()
-        except Exception:
-            pass
+        if self._anim:
+            try:
+                self.after_cancel(self._anim)
+            except Exception:
+                pass
         self.destroy()
 
 
 class ApplianceManagerWindow(ctk.CTkToplevel):
     """Main application window."""
 
-    def __init__(self, master: ctk.CTk = None):
-        self._own_root = master is None
+    def __init__(self, master: ctk.CTk | None = None):
+        if master is None:
+            master = ctk.CTk()
+            master.withdraw()
+            self._owns_root = True
+        else:
+            self._owns_root = False
+        self._root = master
+
         super().__init__(master)
+        self.withdraw()
+
         self.icon_image = tk.PhotoImage(file=LOGO_IMAGE_PATH)
         self.iconphoto(False, self.icon_image)
-
         self.title("Ixina Toestellenmanager v2.0")
-
-        # hide main window while loading
-        self.withdraw()
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        # display centered splash screen
-        self.splash = SplashScreen(self)
+        # splash shown on the root so main window stays hidden
+        self.splash = SplashScreen(self._root)
 
         # defer heavy initialization so splash becomes visible
         self._init_started = False
@@ -980,7 +994,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
             pass
         self._start_init_thread()
 
-        if self._own_root:
+        if self._owns_root:
             self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
     def _start_init_thread(self) -> None:
@@ -1063,9 +1077,9 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         """Handle window closing."""
         logging.getLogger(__name__).info("Application closing")
         self.destroy()
-        if self._own_root and self.master is not None:
+        if self._owns_root:
             try:
-                self.master.destroy()
+                self._root.destroy()
             except Exception:
                 pass
 
