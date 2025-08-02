@@ -69,13 +69,17 @@ class IxinaToolsApp(ctk.CTk):
         self.title(TITLE)
         self.minsize(900, 300)
 
-        # Plaats alle inhoud in een aparte frame die bovenaan verankerd wordt
-        # zodat er geen grote lege ruimte bovenaan het venster verschijnt.
+        # Gebruik een grid‑indeling op het hoofdvenster zodat het beschikbare
+        # schermoppervlak zich onder de inhoud bevindt i.p.v. erboven.
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)  # lege rij onderaan
+
+        # Plaats alle GUI‑elementen in een frame dat in de bovenste rij staat.
         self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.main_frame.pack(side="top", fill="both", expand=True)
+        self.main_frame.grid(row=0, column=0, sticky="new")
         self.main_frame.grid_anchor("n")
         self.main_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
-        # Lege rij onderaan die overtollige ruimte opvangt
+        # Lege rij onderaan die overtollige ruimte opvangt binnen het frame
         self.main_frame.grid_rowconfigure(3, weight=1)
 
         self._create_header_section()
