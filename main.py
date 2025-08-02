@@ -1,13 +1,5 @@
 from __future__ import annotations
 
-"""IXINA Tools GUI – hoofdmenu
-===============================
-Enkel het deel voor **Toestellenmanager** is aangepast:
-• De placeholder‑klasse is verwijderd.
-• We importeren nu `ApplianceManagerWindow` uit `ApplianceManagerFrame`.
-Alle andere functionalitefit blijft ongewijzigd.
-"""
-
 from pathlib import Path
 from tkinter import messagebox
 import tkinter as tk
