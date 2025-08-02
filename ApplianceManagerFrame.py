@@ -971,7 +971,10 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
             self._owns_root = True
         else:
             self._owns_root = False
-        self._root = master
+        # keep a reference to the hidden root window without shadowing
+        # tkinter's internal ``_root`` function used during widget
+        # initialization
+        self._root_win = master
 
         super().__init__(master)
         self.withdraw()
@@ -984,7 +987,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.columnconfigure(0, weight=1)
 
         # splash shown on the root so main window stays hidden
-        self.splash = SplashScreen(self._root)
+        self.splash = SplashScreen(self._root_win)
 
         # defer heavy initialization so splash becomes visible
         self._init_started = False
@@ -1079,7 +1082,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.destroy()
         if self._owns_root:
             try:
-                self._root.destroy()
+                self._root_win.destroy()
             except Exception:
                 pass
 
