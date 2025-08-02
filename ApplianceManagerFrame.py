@@ -928,10 +928,9 @@ class SplashScreen(ctk.CTkToplevel):
             row=1, column=0, pady=(0, 10)
         )
 
-        self.progress = ctk.CTkProgressBar(self, height=8)
+        self.progress = ctk.CTkProgressBar(self, height=8, mode="indeterminate")
         self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
-        self._progress_value = 0.0
-        self._animate_job = self.after(0, self._animate)
+        self.progress.start()
 
         self.after(10, self._center)
 
@@ -944,16 +943,12 @@ class SplashScreen(ctk.CTkToplevel):
         y = (self.winfo_screenheight() - height) // 2
         self.geometry(f"{width}x{height}+{x}+{y}")
 
-    def _animate(self):
-        """Continuously animate the progress bar."""
-        self._progress_value = (self._progress_value + 0.02) % 1.0
-        self.progress.set(self._progress_value)
-        self._animate_job = self.after(20, self._animate)
-
     def close(self):
         """Stop animation and destroy splash."""
-        if getattr(self, "_animate_job", None):
-            self.after_cancel(self._animate_job)
+        try:
+            self.progress.stop()
+        except Exception:
+            pass
         self.destroy()
 
 
