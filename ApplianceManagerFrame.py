@@ -947,6 +947,9 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         loader.stop()
         loader.destroy()
 
+        # ensure main application fills the window from the top
+        self.app.grid(row=0, column=0, sticky="nsew")
+
         # Final window size
         self.geometry("1400x800")
         self.minsize(1000, 600)
