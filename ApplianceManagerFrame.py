@@ -899,26 +899,39 @@ class ApplianceManagerApp(ctk.CTkFrame):
 # Application Window
 # ============================================================================
 
-class LoadingFrame(ctk.CTkFrame):
-    """Simple loading screen with progress bar and logo."""
+class SplashScreen(ctk.CTkToplevel):
+    """Centered splash screen with logo and progress bar."""
 
     def __init__(self, master: ctk.CTk):
         super().__init__(master)
+        self.overrideredirect(True)
+        self.geometry("300x200")
+
         self.columnconfigure(0, weight=1)
         self.rowconfigure((0, 1, 2), weight=1)
 
-        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(150, 45))
-        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(20, 10))
-        ctk.CTkLabel(self, text="Toestellenmanager laden...", font=("Helvetica", 16)).grid(row=1, column=0)
+        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(180, 60))
+        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(40, 10))
 
         self.progress = ctk.CTkProgressBar(self, mode="indeterminate")
-        self.progress.grid(row=2, column=0, sticky="ew", padx=40, pady=(10, 20))
-
-    def start(self):
+        self.progress.grid(row=1, column=0, sticky="ew", padx=40, pady=(0, 40))
         self.progress.start()
 
-    def stop(self):
+        self.after(10, self._center)
+
+    def _center(self):
+        """Center splash on the screen."""
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() - width) // 2
+        y = (self.winfo_screenheight() - height) // 2
+        self.geometry(f"{width}x{height}+{x}+{y}")
+
+    def close(self):
+        """Stop animation and destroy splash."""
         self.progress.stop()
+        self.destroy()
 
 
 class ApplianceManagerWindow(ctk.CTkToplevel):
@@ -932,24 +945,16 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
 
         self.title("Ixina Toestellenmanager v2.0")
 
-        # Temporary small window while loading
-        self.geometry("400x200")
-        self.resizable(False, False)
+        # hide main window while loading
+        self.withdraw()
 
-        # use a grid container so loader and main app use the same geometry manager
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        self.container = ctk.CTkFrame(self)
-        self.container.grid(row=0, column=0, sticky="nsew")
-        self.container.rowconfigure(0, weight=1)
-        self.container.columnconfigure(0, weight=1)
+        # display centered splash screen
+        self.splash = SplashScreen(self)
 
-        self.loader = LoadingFrame(self.container)
-        self.loader.grid(row=0, column=0, sticky="nsew")
-        self.loader.start()
-
-        # Defer heavy initialization until UI is responsive
+        # defer heavy initialization so splash becomes visible
         self.after(100, self._initialize_app)
 
         if self._own_root:
@@ -957,18 +962,17 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
 
     def _initialize_app(self) -> None:
         """Finish heavy initialization after splash screen."""
-        self.app = ApplianceManagerApp(self.container)
-
-        self.loader.stop()
-        self.loader.destroy()
-
-        # ensure main application fills the window from the top
+        self.app = ApplianceManagerApp(self)
         self.app.grid(row=0, column=0, sticky="nsew")
 
-        # Final window size
+        # final window size
         self.geometry("1400x800")
         self.minsize(1000, 600)
         self.resizable(True, True)
+
+        # remove splash and show main window
+        self.splash.close()
+        self.deiconify()
 
         # Center window
         self.after(10, self._center_window)
