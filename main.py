@@ -69,8 +69,17 @@ class IxinaToolsApp(ctk.CTk):
         self.title(TITLE)
         self.minsize(900, 300)
 
-        self.columnconfigure((0, 1, 2, 3), weight=1)
-        self.rowconfigure(2, weight=1)
+        # Gebruik een grid-layout op het hoofdvenster zodat alle inhoud
+        # strak tegen de bovenkant blijft plakken en overtollige ruimte
+        # onderaan het scherm verschijnt.
+        self.grid_rowconfigure(1, weight=1)  # lege rij onderaan
+        self.grid_columnconfigure(0, weight=1)
+
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
+        # plaats hoofd-frame op rij 0 zodat rij 1 de extra hoogte opvangt
+        self.main_frame.grid(row=0, column=0, sticky="nwe")
+        self.main_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
+        self.main_frame.grid_rowconfigure(3, weight=1)  # ruimte onder de knoppen
 
         self._create_header_section()
         self._create_button_section()
@@ -81,23 +90,26 @@ class IxinaToolsApp(ctk.CTk):
 
     def _create_header_section(self) -> None:
         logo_img = load_ctk_image(LOGO_IMAGE_PATH, size=(150, 45))
-        ctk.CTkLabel(self, image=logo_img, text="").grid(
+        ctk.CTkLabel(self.main_frame, image=logo_img, text="").grid(
             row=0, column=0, padx=20, pady=(20, 5), sticky="nw"
         )
-        ctk.CTkLabel(self, text=LABEL_TEXT, font=("Helvetica", 24, "bold"), anchor="center").grid(
-            row=0, column=1, columnspan=3, pady=20
-        )
-        ctk.CTkLabel(self, text=AUTHOR, font=("Helvetica", 12)).grid(
+        ctk.CTkLabel(
+            self.main_frame,
+            text=LABEL_TEXT,
+            font=("Helvetica", 24, "bold"),
+            anchor="center",
+        ).grid(row=0, column=1, columnspan=3, pady=20)
+        ctk.CTkLabel(self.main_frame, text=AUTHOR, font=("Helvetica", 12)).grid(
             row=1, column=0, sticky="w", padx=20
         )
-        ctk.CTkLabel(self, text=VERSION, font=("Helvetica", 12)).grid(
+        ctk.CTkLabel(self.main_frame, text=VERSION, font=("Helvetica", 12)).grid(
             row=1, column=3, sticky="e", padx=20
         )
 
     def _create_button_section(self) -> None:
         font_cfg = ("Helvetica", 15)
         for idx, label in enumerate(BUTTON_LABELS, start=1):
-            frame = ctk.CTkFrame(self, width=280, height=150)
+            frame = ctk.CTkFrame(self.main_frame, width=280, height=150)
             frame.grid(row=2, column=idx, padx=15, pady=20, sticky="nsew")
             frame.rowconfigure(0, weight=1)
             frame.columnconfigure(0, weight=1)
