@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
 from collections import OrderedDict
 import tkinter as tk
+import threading
 
 try:
     import customtkinter as ctk
@@ -765,22 +766,32 @@ class CartPanel(ctk.CTkFrame):
 class ApplianceManagerApp(ctk.CTkFrame):
     """Main application frame coordinating all components."""
 
-    def __init__(self, master: ctk.CTk = None):
+    def __init__(
+        self,
+        master: ctk.CTk = None,
+        *,
+        config: AppConfig | None = None,
+        repository: JSONDataRepository | None = None,
+        image_cache: ImageCache | None = None,
+        cart: ShoppingCart | None = None,
+        blocks: Dict[str, ElectricBlock] | None = None,
+        appliances: List[Appliance] | None = None,
+    ):
         super().__init__(master)
 
         # Initialize configuration and services
-        self.config = AppConfig()
+        self.config = config or AppConfig()
         self.setup_logging()
         self.logger = logging.getLogger(__name__)
 
         # Initialize data services
-        self.repository = JSONDataRepository(self.config)
-        self.image_cache = ImageCache(self.config)
-        self.cart = ShoppingCart()
+        self.repository = repository or JSONDataRepository(self.config)
+        self.image_cache = image_cache or ImageCache(self.config)
+        self.cart = cart or ShoppingCart()
 
         # Load data
-        self.blocks = self.repository.load_blocks()
-        self.appliances = self.repository.load_appliances()
+        self.blocks = blocks if blocks is not None else self.repository.load_blocks()
+        self.appliances = appliances if appliances is not None else self.repository.load_appliances()
         self.appliance_filter = ApplianceFilter(self.appliances)
 
         # Initialize UI
@@ -905,16 +916,20 @@ class SplashScreen(ctk.CTkToplevel):
     def __init__(self, master: ctk.CTk):
         super().__init__(master)
         self.overrideredirect(True)
-        self.geometry("300x200")
+        self.geometry("420x260")
+        self.configure(fg_color="#2b2b2b")
 
         self.columnconfigure(0, weight=1)
-        self.rowconfigure((0, 1, 2), weight=1)
+        self.rowconfigure((0, 1, 2, 3), weight=1)
 
-        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(180, 60))
-        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(40, 10))
+        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(200, 70))
+        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(60, 10))
+        ctk.CTkLabel(self, text="Loading...", font=ctk.CTkFont(size=16)).grid(
+            row=1, column=0, pady=(0, 10)
+        )
 
-        self.progress = ctk.CTkProgressBar(self, mode="indeterminate")
-        self.progress.grid(row=1, column=0, sticky="ew", padx=40, pady=(0, 40))
+        self.progress = ctk.CTkProgressBar(self, mode="indeterminate", height=8)
+        self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
         self.progress.start()
 
         self.after(10, self._center)
@@ -955,14 +970,68 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.splash = SplashScreen(self)
 
         # defer heavy initialization so splash becomes visible
-        self.after(100, self._initialize_app)
+        self._init_started = False
+        try:
+            self.after(100, self._start_init_thread)
+        except Exception:
+            pass
+        self._start_init_thread()
 
         if self._own_root:
             self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
-    def _initialize_app(self) -> None:
-        """Finish heavy initialization after splash screen."""
-        self.app = ApplianceManagerApp(self)
+    def _start_init_thread(self) -> None:
+        """Start background thread for loading data."""
+        if getattr(self, "_init_started", False):
+            return
+        self._init_started = True
+        threading.Thread(target=self._load_data, daemon=True).start()
+
+    def _load_data(self) -> None:
+        """Load heavy data in background thread."""
+        config = AppConfig()
+        repository = JSONDataRepository(config)
+        image_cache = ImageCache(config)
+        cart = ShoppingCart()
+
+        try:
+            blocks = repository.load_blocks()
+            appliances = repository.load_appliances()
+        except Exception as e:
+            logging.getLogger(__name__).error(f"Failed to load data: {e}")
+            self.after(0, self.destroy)
+            return
+
+        self.after(
+            0,
+            self._finish_initialization,
+            config,
+            repository,
+            image_cache,
+            cart,
+            blocks,
+            appliances,
+        )
+
+    def _finish_initialization(
+        self,
+        config: AppConfig,
+        repository: JSONDataRepository,
+        image_cache: ImageCache,
+        cart: ShoppingCart,
+        blocks: Dict[str, ElectricBlock],
+        appliances: List[Appliance],
+    ) -> None:
+        """Finalize setup on the main thread once data is loaded."""
+        self.app = ApplianceManagerApp(
+            self,
+            config=config,
+            repository=repository,
+            image_cache=image_cache,
+            cart=cart,
+            blocks=blocks,
+            appliances=appliances,
+        )
         self.app.grid(row=0, column=0, sticky="nsew")
 
         # final window size
