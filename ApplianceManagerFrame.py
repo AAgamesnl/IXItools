@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
 from collections import OrderedDict
 import tkinter as tk
+import threading
 
 try:
     import customtkinter as ctk
@@ -453,6 +454,7 @@ class FilterPanel(ctk.CTkFrame):
         self.suboption_var = ctk.StringVar()
         self.search_var = ctk.StringVar()
         self.vat_switch = None
+        self.vat_var = ctk.IntVar(value=1)
 
         self._build_ui()
         self._setup_callbacks()
@@ -482,8 +484,9 @@ class FilterPanel(ctk.CTkFrame):
         vat_frame.columnconfigure(1, weight=1)
 
         ctk.CTkLabel(vat_frame, text="21%").grid(row=0, column=0, padx=5)
-        self.vat_switch = ctk.CTkSwitch(vat_frame, text="")
+        self.vat_switch = ctk.CTkSwitch(vat_frame, text="", variable=self.vat_var)
         self.vat_switch.grid(row=0, column=1, padx=5)
+        self.vat_switch.deselect()
         ctk.CTkLabel(vat_frame, text="6%").grid(row=0, column=2, padx=5)
         row += 1
 
@@ -655,6 +658,8 @@ class CartPanel(ctk.CTkFrame):
         super().__init__(master)
         self.cart = cart
         self.cart_items: Dict[str, ctk.CTkFrame] = {}
+        self.current_vat_rate: float | None = None
+        self.current_max_points: int | None = None
 
         self._build_ui()
         self.cart.add_observer(self.update_display)
@@ -705,7 +710,9 @@ class CartPanel(ctk.CTkFrame):
             item_frame.grid(row=i, column=0, sticky="ew", padx=2, pady=1)
             self.cart_items[item.appliance.code] = item_frame
 
-        # Update totals (will be called from main app with current VAT rate)
+        # Update totals using last known VAT and block limits
+        if self.current_vat_rate is not None and self.current_max_points is not None:
+            self.update_totals(self.current_vat_rate, self.current_max_points)
 
     def _create_cart_item_widget(self, item: CartItem) -> ctk.CTkFrame:
         """Create widget for cart item."""
@@ -729,6 +736,8 @@ class CartPanel(ctk.CTkFrame):
 
     def update_totals(self, vat_rate: float, max_points: int):
         """Update totals display with current VAT rate and block limit."""
+        self.current_vat_rate = vat_rate
+        self.current_max_points = max_points
         total_points = self.cart.get_total_points()
         total_price = self.cart.get_total_price(vat_rate)
         remaining_points = max_points - total_points
@@ -757,22 +766,32 @@ class CartPanel(ctk.CTkFrame):
 class ApplianceManagerApp(ctk.CTkFrame):
     """Main application frame coordinating all components."""
 
-    def __init__(self, master: ctk.CTk = None):
+    def __init__(
+        self,
+        master: ctk.CTk = None,
+        *,
+        config: AppConfig | None = None,
+        repository: JSONDataRepository | None = None,
+        image_cache: ImageCache | None = None,
+        cart: ShoppingCart | None = None,
+        blocks: Dict[str, ElectricBlock] | None = None,
+        appliances: List[Appliance] | None = None,
+    ):
         super().__init__(master)
 
         # Initialize configuration and services
-        self.config = AppConfig()
+        self.config = config or AppConfig()
         self.setup_logging()
         self.logger = logging.getLogger(__name__)
 
         # Initialize data services
-        self.repository = JSONDataRepository(self.config)
-        self.image_cache = ImageCache(self.config)
-        self.cart = ShoppingCart()
+        self.repository = repository or JSONDataRepository(self.config)
+        self.image_cache = image_cache or ImageCache(self.config)
+        self.cart = cart or ShoppingCart()
 
         # Load data
-        self.blocks = self.repository.load_blocks()
-        self.appliances = self.repository.load_appliances()
+        self.blocks = blocks if blocks is not None else self.repository.load_blocks()
+        self.appliances = appliances if appliances is not None else self.repository.load_appliances()
         self.appliance_filter = ApplianceFilter(self.appliances)
 
         # Initialize UI
@@ -891,75 +910,152 @@ class ApplianceManagerApp(ctk.CTkFrame):
 # Application Window
 # ============================================================================
 
-class LoadingFrame(ctk.CTkFrame):
-    """Simple loading screen with progress bar and logo."""
+class SplashScreen(ctk.CTkToplevel):
+    """Centered splash screen with logo and progress bar."""
 
     def __init__(self, master: ctk.CTk):
         super().__init__(master)
+        self.overrideredirect(True)
+        self.geometry("420x260")
+        self.configure(fg_color="#2b2b2b")
+
         self.columnconfigure(0, weight=1)
-        self.rowconfigure((0, 1, 2), weight=1)
+        self.rowconfigure((0, 1, 2, 3), weight=1)
 
-        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(150, 45))
-        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(20, 10))
-        ctk.CTkLabel(self, text="Toestellenmanager laden...", font=("Helvetica", 16)).grid(row=1, column=0)
+        logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(200, 70))
+        ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(60, 10))
+        ctk.CTkLabel(self, text="Laden...", font=ctk.CTkFont(size=16)).grid(
+            row=1, column=0, pady=(0, 10)
+        )
 
-        self.progress = ctk.CTkProgressBar(self, mode="indeterminate")
-        self.progress.grid(row=2, column=0, sticky="ew", padx=40, pady=(10, 20))
-
-    def start(self):
+        self.progress = ctk.CTkProgressBar(self, height=8, mode="indeterminate")
+        self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
         self.progress.start()
 
-    def stop(self):
-        self.progress.stop()
+        self.after(10, self._center)
+
+    def _center(self):
+        """Center splash on the screen."""
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() - width) // 2
+        y = (self.winfo_screenheight() - height) // 2
+        self.geometry(f"{width}x{height}+{x}+{y}")
+
+    def close(self):
+        """Stop animation and destroy splash."""
+        try:
+            self.progress.stop()
+        except Exception:
+            pass
+        self.destroy()
 
 
 class ApplianceManagerWindow(ctk.CTkToplevel):
     """Main application window."""
 
-    def __init__(self, master: ctk.CTk = None):
+    def __init__(self, master: ctk.CTk | None = None):
+        if master is None:
+            master = ctk.CTk()
+            master.withdraw()
+            self._owns_root = True
+        else:
+            self._owns_root = False
+        # keep a reference to the hidden root window without shadowing
+        # tkinter's internal ``_root`` function used during widget
+        # initialization
+        self._root_win = master
+
         super().__init__(master)
+        self.withdraw()
+
         self.icon_image = tk.PhotoImage(file=LOGO_IMAGE_PATH)
         self.iconphoto(False, self.icon_image)
-
         self.title("Ixina Toestellenmanager v2.0")
 
-        # Temporary small window while loading
-        self.geometry("400x200")
-        self.resizable(False, False)
-
-        # use a grid container so loader and main app use the same geometry manager
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        self.container = ctk.CTkFrame(self)
-        self.container.grid(row=0, column=0, sticky="nsew")
-        self.container.rowconfigure(0, weight=1)
-        self.container.columnconfigure(0, weight=1)
+        # splash shown on the root so main window stays hidden
+        self.splash = SplashScreen(self._root_win)
 
-        loader = LoadingFrame(self.container)
-        loader.grid(row=0, column=0, sticky="nsew")
-        loader.start()
-        self.update()
+        # defer heavy initialization so splash becomes visible
+        self._init_started = False
+        try:
+            self.after(100, self._start_init_thread)
+        except Exception:
+            pass
+        self._start_init_thread()
 
-        # Perform heavy initialization
-        self.app = ApplianceManagerApp(self.container)
+        if self._owns_root:
+            self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
-        loader.stop()
-        loader.destroy()
+    def _start_init_thread(self) -> None:
+        """Start background thread for loading data."""
+        if getattr(self, "_init_started", False):
+            return
+        self._init_started = True
+        threading.Thread(target=self._load_data, daemon=True).start()
 
-        # ensure main application fills the window from the top
+    def _load_data(self) -> None:
+        """Load heavy data in background thread."""
+        config = AppConfig()
+        repository = JSONDataRepository(config)
+        image_cache = ImageCache(config)
+        cart = ShoppingCart()
+
+        try:
+            blocks = repository.load_blocks()
+            appliances = repository.load_appliances()
+        except Exception as e:
+            logging.getLogger(__name__).error(f"Failed to load data: {e}")
+            self.after(0, self.destroy)
+            return
+
+        self.after(
+            0,
+            self._finish_initialization,
+            config,
+            repository,
+            image_cache,
+            cart,
+            blocks,
+            appliances,
+        )
+
+    def _finish_initialization(
+        self,
+        config: AppConfig,
+        repository: JSONDataRepository,
+        image_cache: ImageCache,
+        cart: ShoppingCart,
+        blocks: Dict[str, ElectricBlock],
+        appliances: List[Appliance],
+    ) -> None:
+        """Finalize setup on the main thread once data is loaded."""
+        self.app = ApplianceManagerApp(
+            self,
+            config=config,
+            repository=repository,
+            image_cache=image_cache,
+            cart=cart,
+            blocks=blocks,
+            appliances=appliances,
+        )
         self.app.grid(row=0, column=0, sticky="nsew")
 
-        # Final window size
+        # final window size
         self.geometry("1400x800")
         self.minsize(1000, 600)
         self.resizable(True, True)
 
+        # remove splash and show main window
+        self.splash.close()
+        self.deiconify()
+
         # Center window
         self.after(10, self._center_window)
-
-        # Setup window protocols
-        self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
     def _center_window(self):
         """Center the window on screen."""
@@ -975,6 +1071,11 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         """Handle window closing."""
         logging.getLogger(__name__).info("Application closing")
         self.destroy()
+        if self._owns_root:
+            try:
+                self._root_win.destroy()
+            except Exception:
+                pass
 
 
 # ============================================================================
