@@ -453,6 +453,7 @@ class FilterPanel(ctk.CTkFrame):
         self.suboption_var = ctk.StringVar()
         self.search_var = ctk.StringVar()
         self.vat_switch = None
+        self.vat_var = ctk.IntVar(value=1)
 
         self._build_ui()
         self._setup_callbacks()
@@ -482,8 +483,9 @@ class FilterPanel(ctk.CTkFrame):
         vat_frame.columnconfigure(1, weight=1)
 
         ctk.CTkLabel(vat_frame, text="21%").grid(row=0, column=0, padx=5)
-        self.vat_switch = ctk.CTkSwitch(vat_frame, text="")
+        self.vat_switch = ctk.CTkSwitch(vat_frame, text="", variable=self.vat_var)
         self.vat_switch.grid(row=0, column=1, padx=5)
+        self.vat_switch.select()
         ctk.CTkLabel(vat_frame, text="6%").grid(row=0, column=2, padx=5)
         row += 1
 
@@ -655,6 +657,8 @@ class CartPanel(ctk.CTkFrame):
         super().__init__(master)
         self.cart = cart
         self.cart_items: Dict[str, ctk.CTkFrame] = {}
+        self.current_vat_rate: float | None = None
+        self.current_max_points: int | None = None
 
         self._build_ui()
         self.cart.add_observer(self.update_display)
@@ -705,7 +709,9 @@ class CartPanel(ctk.CTkFrame):
             item_frame.grid(row=i, column=0, sticky="ew", padx=2, pady=1)
             self.cart_items[item.appliance.code] = item_frame
 
-        # Update totals (will be called from main app with current VAT rate)
+        # Update totals using last known VAT and block limits
+        if self.current_vat_rate is not None and self.current_max_points is not None:
+            self.update_totals(self.current_vat_rate, self.current_max_points)
 
     def _create_cart_item_widget(self, item: CartItem) -> ctk.CTkFrame:
         """Create widget for cart item."""
@@ -729,6 +735,8 @@ class CartPanel(ctk.CTkFrame):
 
     def update_totals(self, vat_rate: float, max_points: int):
         """Update totals display with current VAT rate and block limit."""
+        self.current_vat_rate = vat_rate
+        self.current_max_points = max_points
         total_points = self.cart.get_total_points()
         total_price = self.cart.get_total_price(vat_rate)
         remaining_points = max_points - total_points
@@ -917,6 +925,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
     """Main application window."""
 
     def __init__(self, master: ctk.CTk = None):
+        self._own_root = master is None
         super().__init__(master)
         self.icon_image = tk.PhotoImage(file=LOGO_IMAGE_PATH)
         self.iconphoto(False, self.icon_image)
@@ -936,16 +945,22 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         self.container.rowconfigure(0, weight=1)
         self.container.columnconfigure(0, weight=1)
 
-        loader = LoadingFrame(self.container)
-        loader.grid(row=0, column=0, sticky="nsew")
-        loader.start()
-        self.update()
+        self.loader = LoadingFrame(self.container)
+        self.loader.grid(row=0, column=0, sticky="nsew")
+        self.loader.start()
 
-        # Perform heavy initialization
+        # Defer heavy initialization until UI is responsive
+        self.after(100, self._initialize_app)
+
+        if self._own_root:
+            self.protocol("WM_DELETE_WINDOW", self._on_closing)
+
+    def _initialize_app(self) -> None:
+        """Finish heavy initialization after splash screen."""
         self.app = ApplianceManagerApp(self.container)
 
-        loader.stop()
-        loader.destroy()
+        self.loader.stop()
+        self.loader.destroy()
 
         # ensure main application fills the window from the top
         self.app.grid(row=0, column=0, sticky="nsew")
@@ -957,9 +972,6 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
 
         # Center window
         self.after(10, self._center_window)
-
-        # Setup window protocols
-        self.protocol("WM_DELETE_WINDOW", self._on_closing)
 
     def _center_window(self):
         """Center the window on screen."""
@@ -975,6 +987,11 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         """Handle window closing."""
         logging.getLogger(__name__).info("Application closing")
         self.destroy()
+        if self._own_root and self.master is not None:
+            try:
+                self.master.destroy()
+            except Exception:
+                pass
 
 
 # ============================================================================
