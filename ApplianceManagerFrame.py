@@ -928,19 +928,11 @@ class SplashScreen(ctk.CTkToplevel):
             row=1, column=0, pady=(0, 10)
         )
 
-        self.progress = ctk.CTkProgressBar(self, height=8)
+        self.progress = ctk.CTkProgressBar(self, height=8, mode="indeterminate")
         self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
-        self.progress.set(0)
-        self._anim = None
-        self.after(0, self._animate)
+        self.progress.start()
 
         self.after(10, self._center)
-
-    def _animate(self):
-        """Animate progress bar for visual feedback."""
-        next_val = (self.progress.get() + 0.02) % 1.0
-        self.progress.set(next_val)
-        self._anim = self.after(30, self._animate)
 
     def _center(self):
         """Center splash on the screen."""
@@ -953,11 +945,10 @@ class SplashScreen(ctk.CTkToplevel):
 
     def close(self):
         """Stop animation and destroy splash."""
-        if self._anim:
-            try:
-                self.after_cancel(self._anim)
-            except Exception:
-                pass
+        try:
+            self.progress.stop()
+        except Exception:
+            pass
         self.destroy()
 
 
