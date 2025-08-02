@@ -924,13 +924,14 @@ class SplashScreen(ctk.CTkToplevel):
 
         logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(200, 70))
         ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(60, 10))
-        ctk.CTkLabel(self, text="Loading...", font=ctk.CTkFont(size=16)).grid(
+        ctk.CTkLabel(self, text="Laden...", font=ctk.CTkFont(size=16)).grid(
             row=1, column=0, pady=(0, 10)
         )
 
-        self.progress = ctk.CTkProgressBar(self, mode="indeterminate", height=8)
+        self.progress = ctk.CTkProgressBar(self, height=8)
         self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
-        self.progress.start()
+        self._progress_value = 0.0
+        self._animate_job = self.after(0, self._animate)
 
         self.after(10, self._center)
 
@@ -943,9 +944,16 @@ class SplashScreen(ctk.CTkToplevel):
         y = (self.winfo_screenheight() - height) // 2
         self.geometry(f"{width}x{height}+{x}+{y}")
 
+    def _animate(self):
+        """Continuously animate the progress bar."""
+        self._progress_value = (self._progress_value + 0.02) % 1.0
+        self.progress.set(self._progress_value)
+        self._animate_job = self.after(20, self._animate)
+
     def close(self):
         """Stop animation and destroy splash."""
-        self.progress.stop()
+        if getattr(self, "_animate_job", None):
+            self.after_cancel(self._animate_job)
         self.destroy()
 
 
