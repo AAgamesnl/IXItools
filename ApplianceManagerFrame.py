@@ -86,7 +86,6 @@ except ModuleNotFoundError:  # pragma: no cover - allow headless use
         CTkSwitch = _DummyWidget
         CTkScrollableFrame = _DummyWidget
         CTkToplevel = _DummyWidget
-        CTkProgressBar = _DummyWidget
         CTkImage = _DummyImage
         StringVar = _DummyVar
         DoubleVar = _DummyVar
@@ -911,7 +910,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
 # ============================================================================
 
 class SplashScreen(ctk.CTkToplevel):
-    """Centered splash screen with logo and progress bar."""
+    """Centered splash screen with logo."""
 
     def __init__(self, master: ctk.CTk):
         super().__init__(master)
@@ -920,17 +919,13 @@ class SplashScreen(ctk.CTkToplevel):
         self.configure(fg_color="#2b2b2b")
 
         self.columnconfigure(0, weight=1)
-        self.rowconfigure((0, 1, 2, 3), weight=1)
+        self.rowconfigure((0, 1, 2), weight=1)
 
         logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(200, 70))
         ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(60, 10))
         ctk.CTkLabel(self, text="Laden...", font=ctk.CTkFont(size=16)).grid(
-            row=1, column=0, pady=(0, 10)
+            row=1, column=0, pady=(0, 60)
         )
-
-        self.progress = ctk.CTkProgressBar(self, height=8, mode="indeterminate")
-        self.progress.grid(row=2, column=0, sticky="ew", padx=80, pady=(0, 60))
-        self.progress.start()
 
         self.after(10, self._center)
 
@@ -944,11 +939,7 @@ class SplashScreen(ctk.CTkToplevel):
         self.geometry(f"{width}x{height}+{x}+{y}")
 
     def close(self):
-        """Stop animation and destroy splash."""
-        try:
-            self.progress.stop()
-        except Exception:
-            pass
+        """Destroy splash."""
         self.destroy()
 
 
