@@ -8,6 +8,8 @@ from ApplianceManagerFrame import (
     ShoppingCart,
     ApplianceFilter,
     AVAILABLE_CATEGORIES,
+    ImageCache,
+    AppConfig,
 )
 
 
@@ -81,3 +83,10 @@ def test_brand_first_helpers():
 
     categories = filter_obj.get_categories_for_brand('Siemens')
     assert set(categories) == set(AVAILABLE_CATEGORIES)
+
+
+def test_image_cache_without_pil(monkeypatch):
+    monkeypatch.setattr('ApplianceManagerFrame.PIL_AVAILABLE', False)
+    config = AppConfig()
+    cache = ImageCache(config)
+    assert cache.load_image('missing.png') is None

@@ -100,7 +100,15 @@ except ModuleNotFoundError:  # pragma: no cover - allow headless use
 
     ctk = _CTkModule()
 
-from PIL import Image, ImageDraw, ImageOps, ImageFont
+try:
+    from PIL import Image, ImageDraw, ImageOps, ImageFont
+    PIL_AVAILABLE = True
+except ModuleNotFoundError:  # pragma: no cover - allow operation without Pillow
+    logging.getLogger(__name__).warning(
+        "Pillow not available; images will not be displayed."
+    )
+    PIL_AVAILABLE = False
+    Image = ImageDraw = ImageOps = ImageFont = None
 
 BASE_DIR = Path(__file__).parent
 LOGO_IMAGE_PATH = BASE_DIR / "logo.png"
@@ -260,8 +268,11 @@ class ImageCache:
         self.cache: OrderedDict[Optional[str], ctk.CTkImage] = OrderedDict()
         self.logger = logging.getLogger(__name__)
 
-    def load_image(self, filename: Optional[str] = None) -> ctk.CTkImage:
+    def load_image(self, filename: Optional[str] = None) -> Optional[ctk.CTkImage]:
         """Load and cache image with fallback to placeholder."""
+        if not PIL_AVAILABLE:
+            return None
+
         if filename in self.cache:
             # move to end to maintain LRU order
             self.cache.move_to_end(filename)
@@ -320,8 +331,10 @@ class ImageCache:
 
         return image
 
-    def _get_error_image(self) -> ctk.CTkImage:
+    def _get_error_image(self) -> Optional[ctk.CTkImage]:
         """Return cached error image."""
+        if not PIL_AVAILABLE:
+            return None
         if "ERROR" not in self.cache:
             self.cache["ERROR"] = ctk.CTkImage(
                 self._create_placeholder("Error"),
