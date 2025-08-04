@@ -382,6 +382,24 @@ class ApplianceFilter:
         brands = sorted(set(a.brand for a in appliances))
         return brands or ["-"]
 
+    def get_categories_for_brand(self, brand: str, max_points: Optional[int] = None) -> List[str]:
+        """Get available categories for a brand."""
+        appliances = self.by_brand.get(brand, [])
+        if max_points is not None:
+            appliances = [a for a in appliances if a.points <= max_points]
+
+        categories = sorted(set(a.category for a in appliances))
+        return categories or ["-"]
+
+    def get_brands(self, max_points: Optional[int] = None) -> List[str]:
+        """Get all available brands."""
+        appliances = self.appliances
+        if max_points is not None:
+            appliances = [a for a in appliances if a.points <= max_points]
+
+        brands = sorted(set(a.brand for a in appliances))
+        return brands or ["-"]
+
 
 class ShoppingCart:
     """Manages shopping cart operations."""
@@ -497,15 +515,6 @@ class FilterPanel(ctk.CTkFrame):
         self.search_entry.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
-        # Category Selection
-        ctk.CTkLabel(self, text="Categorie", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
-        row += 1
-
-        self.category_menu = ctk.CTkOptionMenu(self, variable=self.category_var, values=[])
-        self.category_menu.grid(row=row, column=0, sticky="ew", pady=2)
-        row += 1
-
         # Brand Selection
         ctk.CTkLabel(self, text="Merk", font=("Helvetica", 12, "bold")).grid(
             row=row, column=0, sticky="w", pady=(15, 2))
@@ -513,6 +522,15 @@ class FilterPanel(ctk.CTkFrame):
 
         self.brand_menu = ctk.CTkOptionMenu(self, variable=self.brand_var, values=[])
         self.brand_menu.grid(row=row, column=0, sticky="ew", pady=2)
+        row += 1
+
+        # Category Selection
+        ctk.CTkLabel(self, text="Categorie", font=("Helvetica", 12, "bold")).grid(
+            row=row, column=0, sticky="w", pady=(15, 2))
+        row += 1
+
+        self.category_menu = ctk.CTkOptionMenu(self, variable=self.category_var, values=[])
+        self.category_menu.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
         # Suboption Selection
@@ -822,7 +840,16 @@ class ApplianceManagerApp(ctk.CTkFrame):
         # Update filter panel with available data
         self.filter_panel.update_blocks(self.blocks)
 
-        categories = sorted(set(a.category for a in self.appliances))
+        selected_block = self.filter_panel.block_var.get()
+        max_points = None
+        if selected_block in self.blocks:
+            max_points = self.blocks[selected_block].max_points
+
+        brands = self.appliance_filter.get_brands(max_points)
+        self.filter_panel.update_brands(brands)
+
+        brand = self.filter_panel.brand_var.get()
+        categories = self.appliance_filter.get_categories_for_brand(brand, max_points)
         self.filter_panel.update_categories(categories)
 
         # Initial filter
@@ -833,8 +860,8 @@ class ApplianceManagerApp(ctk.CTkFrame):
         try:
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
-            category = self.filter_panel.category_var.get()
             brand = self.filter_panel.brand_var.get()
+            category = self.filter_panel.category_var.get()
             suboption = self.filter_panel.suboption_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
@@ -843,10 +870,16 @@ class ApplianceManagerApp(ctk.CTkFrame):
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
 
-            # Update available brands for current category and block
-            available_brands = self.appliance_filter.get_brands_for_category(
-                category, max_points)
+            # Update available brands for current block
+            available_brands = self.appliance_filter.get_brands(max_points)
             self.filter_panel.update_brands(available_brands)
+
+            # Update available categories for current brand and block
+            brand = self.filter_panel.brand_var.get()
+            available_categories = self.appliance_filter.get_categories_for_brand(
+                brand, max_points)
+            self.filter_panel.update_categories(available_categories)
+            category = self.filter_panel.category_var.get()
 
             # Filter appliances
             filtered_appliances = self.appliance_filter.filter(

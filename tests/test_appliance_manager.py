@@ -60,3 +60,19 @@ def test_appliance_filter():
     siemens = filter_obj.filter(brand='Siemens')
     assert len(siemens) == 1
     assert siemens[0].brand == 'Siemens'
+
+
+def test_brand_first_helpers():
+    appliances = [
+        Appliance('OVEN001', 'Siemens', 'oven', 60, 599.99),
+        Appliance('KOOK001', 'Siemens', 'kookplaat', 40, 399.99),
+        Appliance('VAAS001', 'Miele', 'vaatwasser', 80, 799.99)
+    ]
+
+    filter_obj = ApplianceFilter(appliances)
+
+    brands = filter_obj.get_brands()
+    assert set(brands) == {'Siemens', 'Miele'}
+
+    categories = filter_obj.get_categories_for_brand('Siemens')
+    assert set(categories) == {'oven', 'kookplaat'}
