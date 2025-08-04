@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Callable, Any
 from collections import OrderedDict
 import tkinter as tk
+import threading
 
 try:
     import customtkinter as ctk
@@ -803,11 +804,18 @@ class CartPanel(ctk.CTkFrame):
 class ApplianceManagerApp(ctk.CTkFrame):
     """Main application frame coordinating all components."""
 
-    def __init__(self, master: ctk.CTk = None):
+    def __init__(
+        self,
+        master: ctk.CTk = None,
+        *,
+        config: "AppConfig" | None = None,
+        blocks: Dict[str, "ElectricBlock"] | None = None,
+        appliances: List["Appliance"] | None = None,
+    ):
         super().__init__(master)
 
         # Initialize configuration and services
-        self.config = AppConfig()
+        self.config = config or AppConfig()
         self.setup_logging()
         self.logger = logging.getLogger(__name__)
 
@@ -816,9 +824,11 @@ class ApplianceManagerApp(ctk.CTkFrame):
         self.image_cache = ImageCache(self.config)
         self.cart = ShoppingCart()
 
-        # Load data
-        self.blocks = self.repository.load_blocks()
-        self.appliances = self.repository.load_appliances()
+        # Load data if not provided
+        self.blocks = blocks if blocks is not None else self.repository.load_blocks()
+        self.appliances = (
+            appliances if appliances is not None else self.repository.load_appliances()
+        )
         self.appliance_filter = ApplianceFilter(self.appliances)
 
         # Initialize UI
@@ -993,8 +1003,34 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
         loader.start()
         self.update()
 
-        # Perform heavy initialization
-        self.app = ApplianceManagerApp(self.container)
+        # load data in background to keep UI responsive
+        threading.Thread(target=self._load_app, args=(loader,), daemon=True).start()
+
+    def _load_app(self, loader: "LoadingFrame") -> None:
+        """Load heavy resources in a background thread."""
+        try:
+            config = AppConfig()
+            repository = JSONDataRepository(config)
+            blocks = repository.load_blocks()
+            appliances = repository.load_appliances()
+        except Exception as e:  # pragma: no cover - best effort logging
+            logging.getLogger(__name__).critical(f"Failed to load data: {e}")
+            self.after(0, self.destroy)
+            return
+
+        self.after(0, lambda: self._start_app(loader, config, blocks, appliances))
+
+    def _start_app(
+        self,
+        loader: "LoadingFrame",
+        config: "AppConfig",
+        blocks: Dict[str, "ElectricBlock"],
+        appliances: List["Appliance"],
+    ) -> None:
+        """Initialize main application after data has loaded."""
+        self.app = ApplianceManagerApp(
+            self.container, config=config, blocks=blocks, appliances=appliances
+        )
 
         loader.stop()
         loader.destroy()
