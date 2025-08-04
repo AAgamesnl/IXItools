@@ -109,6 +109,24 @@ LOGO_IMAGE_PATH = BASE_DIR / "logo.png"
 # Configuration and Constants
 # ============================================================================
 
+AVAILABLE_BRANDS = [
+    "AEG", "AIRFORCE", "BAUKNECHT", "BEKO", "BOSCH", "ELICA",
+    "FABER", "GRUNDIG", "JUNKER", "LAURUS", "LIEBHERR", "MIELE",
+    "NEFF", "PROGRESS", "SAMSUNG", "SIEMENS", "WHIRLPOOL", "XTRA"
+]
+
+CATEGORY_MAP = {
+    "bakoven": "oven",
+    "magnetron": "microgolf",
+    "stoomkoker": "stoomkoker",
+    "kookplaat": "kookplaat",
+    "vaatwasser": "vaatwasser",
+    "koelautomaat": "koelkast",
+    "afzuigkap": "dampkap"
+}
+
+AVAILABLE_CATEGORIES = list(CATEGORY_MAP.keys())
+
 @dataclass
 class AppConfig:
     """Application configuration with sensible defaults."""
@@ -357,7 +375,8 @@ class ApplianceFilter:
             result = [a for a in result if a.category == category]
 
         if brand and brand != "-":
-            result = [a for a in result if a.brand == brand]
+            brand_lower = brand.lower()
+            result = [a for a in result if a.brand.lower() == brand_lower]
 
         if option and option != "-":
             result = [a for a in result if (a.option or "-") == option]
@@ -383,13 +402,9 @@ class ApplianceFilter:
         return brands or ["-"]
 
     def get_categories_for_brand(self, brand: str, max_points: Optional[int] = None) -> List[str]:
-        """Get available categories for a brand."""
-        appliances = self.by_brand.get(brand, [])
-        if max_points is not None:
-            appliances = [a for a in appliances if a.points <= max_points]
-
-        categories = sorted(set(a.category for a in appliances))
-        return categories or ["-"]
+        """Get available categories for a brand (currently static)."""
+        # All brands share the same set of selectable categories.
+        return AVAILABLE_CATEGORIES
 
     def get_brands(self, max_points: Optional[int] = None) -> List[str]:
         """Get all available brands."""
@@ -564,8 +579,8 @@ class FilterPanel(ctk.CTkFrame):
     def _get_suboptions_for_category(self, category: str) -> List[str]:
         """Get suboptions for a category."""
         suboptions_map = {
-            "oven": ["-", "met pyrolyse", "zonder pyrolyse"],
-            "vaatwasser": ["-", "lade", "mandje"]
+            "bakoven": ["-", "met pyrolyse", "zonder pyrolyse"],
+            "vaatwasser": ["-", "lade", "mandje"],
         }
         return suboptions_map.get(category, ["-"])
 
@@ -578,15 +593,15 @@ class FilterPanel(ctk.CTkFrame):
 
     def update_categories(self, categories: List[str]):
         """Update available categories."""
-        self.category_menu.configure(values=categories)
-        if categories:
-            self.category_var.set(categories[0])
+        values = ["-"] + list(categories)
+        self.category_menu.configure(values=values)
+        self.category_var.set("-")
 
     def update_brands(self, brands: List[str]):
         """Update available brands."""
-        self.brand_menu.configure(values=brands)
-        if brands:
-            self.brand_var.set(brands[0])
+        values = ["-"] + list(brands)
+        self.brand_menu.configure(values=values)
+        self.brand_var.set("-")
 
     def get_current_vat_rate(self) -> float:
         """Get current VAT rate."""
@@ -840,17 +855,8 @@ class ApplianceManagerApp(ctk.CTkFrame):
         # Update filter panel with available data
         self.filter_panel.update_blocks(self.blocks)
 
-        selected_block = self.filter_panel.block_var.get()
-        max_points = None
-        if selected_block in self.blocks:
-            max_points = self.blocks[selected_block].max_points
-
-        brands = self.appliance_filter.get_brands(max_points)
-        self.filter_panel.update_brands(brands)
-
-        brand = self.filter_panel.brand_var.get()
-        categories = self.appliance_filter.get_categories_for_brand(brand, max_points)
-        self.filter_panel.update_categories(categories)
+        self.filter_panel.update_brands(AVAILABLE_BRANDS)
+        self.filter_panel.update_categories([])
 
         # Initial filter
         self._on_filter_change()
@@ -861,7 +867,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
             brand = self.filter_panel.brand_var.get()
-            category = self.filter_panel.category_var.get()
+            category_display = self.filter_panel.category_var.get()
             suboption = self.filter_panel.suboption_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
@@ -870,22 +876,22 @@ class ApplianceManagerApp(ctk.CTkFrame):
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
 
-            # Update available brands for current block
-            available_brands = self.appliance_filter.get_brands(max_points)
-            self.filter_panel.update_brands(available_brands)
+            # Update available brands (static list)
+            self.filter_panel.update_brands(AVAILABLE_BRANDS)
 
-            # Update available categories for current brand and block
-            brand = self.filter_panel.brand_var.get()
-            available_categories = self.appliance_filter.get_categories_for_brand(
-                brand, max_points)
-            self.filter_panel.update_categories(available_categories)
-            category = self.filter_panel.category_var.get()
+            # Update categories based on brand selection
+            if brand == "-" or not brand:
+                self.filter_panel.update_categories([])
+            else:
+                self.filter_panel.update_categories(AVAILABLE_CATEGORIES)
+            category_display = self.filter_panel.category_var.get()
+            category_internal = CATEGORY_MAP.get(category_display, category_display)
 
             # Filter appliances
             filtered_appliances = self.appliance_filter.filter(
-                category=category,
-                brand=brand,
-                option=suboption,
+                category=category_internal if category_display != "-" else None,
+                brand=brand if brand != "-" else None,
+                option=suboption if suboption != "-" else None,
                 max_points=max_points,
                 search_term=search_term if search_term else None
             )

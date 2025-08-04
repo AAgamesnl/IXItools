@@ -3,7 +3,12 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from ApplianceManagerFrame import Appliance, ShoppingCart, ApplianceFilter
+from ApplianceManagerFrame import (
+    Appliance,
+    ShoppingCart,
+    ApplianceFilter,
+    AVAILABLE_CATEGORIES,
+)
 
 
 def test_appliance_from_dict():
@@ -75,4 +80,4 @@ def test_brand_first_helpers():
     assert set(brands) == {'Siemens', 'Miele'}
 
     categories = filter_obj.get_categories_for_brand('Siemens')
-    assert set(categories) == {'oven', 'kookplaat'}
+    assert set(categories) == set(AVAILABLE_CATEGORIES)
