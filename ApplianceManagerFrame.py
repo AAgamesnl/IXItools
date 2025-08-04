@@ -484,6 +484,7 @@ class FilterPanel(ctk.CTkFrame):
         ctk.CTkLabel(vat_frame, text="21%").grid(row=0, column=0, padx=5)
         self.vat_switch = ctk.CTkSwitch(vat_frame, text="")
         self.vat_switch.grid(row=0, column=1, padx=5)
+        self.vat_switch.select()  # Default to 6% VAT
         ctk.CTkLabel(vat_frame, text="6%").grid(row=0, column=2, padx=5)
         row += 1
 
