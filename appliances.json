@@ -7135,5 +7135,437 @@
     "punten": 668,
     "price_ex": 1671.18,
     "img": "IDK84453IBL.jpg"
+  },
+  {
+    "code": "AEG_KOELKAST_PLACEHOLDER",
+    "brand": "AEG",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "AEG_MICROGOLF_PLACEHOLDER",
+    "brand": "AEG",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "AIRFORCE_DAMPKAP_PLACEHOLDER",
+    "brand": "Airforce",
+    "category": "dampkap",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "AIRFORCE_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Airforce",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BAUKNECHT_OVEN_PLACEHOLDER",
+    "brand": "Bauknecht",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BAUKNECHT_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Bauknecht",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BAUKNECHT_VAATWASSER_PLACEHOLDER",
+    "brand": "Bauknecht",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BAUKNECHT_KOELKAST_PLACEHOLDER",
+    "brand": "Bauknecht",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BAUKNECHT_MICROGOLF_PLACEHOLDER",
+    "brand": "Bauknecht",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BEKO_OVEN_PLACEHOLDER",
+    "brand": "Beko",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BEKO_KOELKAST_PLACEHOLDER",
+    "brand": "Beko",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BEKO_MICROGOLF_PLACEHOLDER",
+    "brand": "Beko",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "ELICA_DAMPKAP_PLACEHOLDER",
+    "brand": "Elica",
+    "category": "dampkap",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "ELICA_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Elica",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "FABER_DAMPKAP_PLACEHOLDER",
+    "brand": "Faber",
+    "category": "dampkap",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "FABER_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Faber",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "GRUNDIG_OVEN_PLACEHOLDER",
+    "brand": "Grundig",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "GRUNDIG_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Grundig",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "GRUNDIG_VAATWASSER_PLACEHOLDER",
+    "brand": "Grundig",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "GRUNDIG_KOELKAST_PLACEHOLDER",
+    "brand": "Grundig",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "GRUNDIG_MICROGOLF_PLACEHOLDER",
+    "brand": "Grundig",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_DAMPKAP_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "dampkap",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_OVEN_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_VAATWASSER_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_KOELKAST_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "JUNKER_MICROGOLF_PLACEHOLDER",
+    "brand": "Junker",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LAURUS_OVEN_PLACEHOLDER",
+    "brand": "Laurus",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LAURUS_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Laurus",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LAURUS_VAATWASSER_PLACEHOLDER",
+    "brand": "Laurus",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LAURUS_KOELKAST_PLACEHOLDER",
+    "brand": "Laurus",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LAURUS_MICROGOLF_PLACEHOLDER",
+    "brand": "Laurus",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "LIEBHERR_KOELKAST_PLACEHOLDER",
+    "brand": "Liebherr",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "MIELE_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Miele",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "MIELE_KOELKAST_PLACEHOLDER",
+    "brand": "Miele",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "MIELE_MICROGOLF_PLACEHOLDER",
+    "brand": "Miele",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "NEFF_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Neff",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "NEFF_VAATWASSER_PLACEHOLDER",
+    "brand": "Neff",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "NEFF_KOELKAST_PLACEHOLDER",
+    "brand": "Neff",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "NEFF_MICROGOLF_PLACEHOLDER",
+    "brand": "Neff",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "PROGRESS_OVEN_PLACEHOLDER",
+    "brand": "Progress",
+    "category": "oven",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "PROGRESS_KOOKPLAAT_PLACEHOLDER",
+    "brand": "Progress",
+    "category": "kookplaat",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "PROGRESS_VAATWASSER_PLACEHOLDER",
+    "brand": "Progress",
+    "category": "vaatwasser",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "PROGRESS_KOELKAST_PLACEHOLDER",
+    "brand": "Progress",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "PROGRESS_MICROGOLF_PLACEHOLDER",
+    "brand": "Progress",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "WHIRLPOOL_KOELKAST_PLACEHOLDER",
+    "brand": "Whirlpool",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "WHIRLPOOL_MICROGOLF_PLACEHOLDER",
+    "brand": "Whirlpool",
+    "category": "microgolf",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
+  },
+  {
+    "code": "BORA_KOELKAST_PLACEHOLDER",
+    "brand": "Bora",
+    "category": "koelkast",
+    "option": null,
+    "punten": 0,
+    "price_ex": 0,
+    "img": null
   }
 ]
