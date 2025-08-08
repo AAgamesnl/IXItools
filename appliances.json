@@ -2,7 +2,7 @@
   {
     "code": "BEK43511XB",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven BEK43511XB zwart",
     "width_mm": 595.0,
     "height_mm": 598.0,
@@ -14,7 +14,7 @@
   {
     "code": "BP6200B",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven BP6200B met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -26,7 +26,7 @@
   {
     "code": "BS7800T",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven BS7800T met stoom Mat zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -38,7 +38,7 @@
   {
     "code": "NBA5P40AK",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven NBA5P40AK met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -50,7 +50,7 @@
   {
     "code": "NBB8S621AB",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven NBB8S621AB met stoom zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -62,7 +62,7 @@
   {
     "code": "NBR7P621SB",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven NBR7P621SB met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -74,7 +74,7 @@
   {
     "code": "NBU5P40SK",
     "brand": "AEG",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "AEG Inbouwbakoven NBU5P40SK met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -86,7 +86,7 @@
   {
     "code": "NKK8N621B",
     "brand": "AEG",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "AEG Compacte magnetron-bakoven NKK8N621B zwart",
     "width_mm": 595.0,
     "height_mm": 456.0,
@@ -98,7 +98,7 @@
   {
     "code": "NKK8N721T",
     "brand": "AEG",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "AEG Compacte magnetron-bakoven NKK8N721T Mat zwart",
     "width_mm": 595.0,
     "height_mm": 456.0,
@@ -110,7 +110,7 @@
   {
     "code": "CM7300B",
     "brand": "AEG",
-    "category": "Compacte magnetron",
+    "category": "microgolf",
     "description": "AEG Compacte magnetron CM7300B zwart",
     "width_mm": 595.0,
     "height_mm": 456.0,
@@ -122,7 +122,7 @@
   {
     "code": "BBI5S8HM1SK",
     "brand": "BAUKNECHT",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BAUKNECHT Inbouwoven BBI5S8HM1SK met hydrolyse zwart",
     "width_mm": 597.0,
     "height_mm": 595.0,
@@ -134,7 +134,7 @@
   {
     "code": "BBI5S8PM1SK",
     "brand": "BAUKNECHT",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BAUKNECHT Inbouwoven BBI5S8PM1SK met pyrolyse zwart",
     "width_mm": 597.0,
     "height_mm": 595.0,
@@ -146,7 +146,7 @@
   {
     "code": "BBI78PT1SK",
     "brand": "BAUKNECHT",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BAUKNECHT Inbouwoven BBI78PT1SK met pyrolyse zwart",
     "width_mm": 597.0,
     "height_mm": 595.0,
@@ -158,7 +158,7 @@
   {
     "code": "BMW57DMK",
     "brand": "BAUKNECHT",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "BAUKNECHT Compacte magnetron-bakoven BMW57DMK zwart",
     "width_mm": 595.0,
     "height_mm": 455.0,
@@ -170,7 +170,7 @@
   {
     "code": "BBIE110N0X",
     "brand": "BEKO",
-    "category": "Inbouwoven BBIE 110N0 X met hydrolyse Roestvrij staal",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIE 110N0 X met hydrolyse Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -182,7 +182,7 @@
   {
     "code": "BBIE113N1XMP",
     "brand": "BEKO",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIE113N1XMP met pyrolyse Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -194,7 +194,7 @@
   {
     "code": "BBIM110N1X",
     "brand": "BEKO",
-    "category": "Inbouwoven BBIM 110N1 X met hydrolyse Roestvrij staal",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIM 110N1 X met hydrolyse Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -206,7 +206,7 @@
   {
     "code": "BBIM113N1X",
     "brand": "BEKO",
-    "category": "Inbouwoven BBIM 113N1 X met hydrolyse Roestvrij staal",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIM 113N1 X met hydrolyse Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -218,7 +218,7 @@
   {
     "code": "BBIM173N0BMPE",
     "brand": "BEKO",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIM173N0BMPE met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -230,7 +230,7 @@
   {
     "code": "BBIM174N0BE",
     "brand": "BEKO",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIM174N0BE met hydrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -242,7 +242,7 @@
   {
     "code": "BBIM174N0BMPE",
     "brand": "BEKO",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIM174N0BMPE met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -254,7 +254,7 @@
   {
     "code": "BBIS173N0B",
     "brand": "BEKO",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BEKO Inbouwoven BBIS173N0B met hydrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -266,7 +266,7 @@
   {
     "code": "HBA171BB3",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBA171BB3 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -278,7 +278,7 @@
   {
     "code": "HBA234BB3",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBA234BB3 met katalyse Zwart/Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -290,7 +290,7 @@
   {
     "code": "HBA271BB3",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBA271BB3 met pyrolyse Zwart/Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -302,7 +302,7 @@
   {
     "code": "HBA510BA3",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBA510BA3 zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -314,7 +314,7 @@
   {
     "code": "HBG537BB3",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBG537BB3 met katalyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -326,7 +326,7 @@
   {
     "code": "HBG7341B1",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HBG7341B1 met katalyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -338,7 +338,7 @@
   {
     "code": "HMG7361B1",
     "brand": "BOSCH",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouwoven HMG7361B1 met hydrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -350,7 +350,7 @@
   {
     "code": "HSG7361B1",
     "brand": "BOSCH",
-    "category": "Inbouw stoom-bakoven",
+    "category": "bakovens",
     "description": "BOSCH Inbouw stoom-bakoven HSG7361B1 zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -362,7 +362,7 @@
   {
     "code": "HBG578EB7",
     "brand": "BOSCH",
-    "category": "Exclusieve inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Exclusieve inbouwoven HBG578EB7 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -374,7 +374,7 @@
   {
     "code": "HBG7742B1",
     "brand": "BOSCH",
-    "category": "Exclusieve inbouwoven",
+    "category": "bakovens",
     "description": "BOSCH Exclusieve inbouwoven HBG7742B1 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -386,7 +386,7 @@
   {
     "code": "CMA585GB1",
     "brand": "BOSCH",
-    "category": "Magnetron-compacte bakoven",
+    "category": "microgolf",
     "description": "BOSCH Magnetron-compacte bakoven CMA585GB1 zwart",
     "width_mm": 594.0,
     "height_mm": 454.0,
@@ -398,7 +398,7 @@
   {
     "code": "CMG7241B1",
     "brand": "BOSCH",
-    "category": "Magnetron-compacte bakoven",
+    "category": "microgolf",
     "description": "BOSCH Magnetron-compacte bakoven CMG7241B1 zwart",
     "width_mm": 594.0,
     "height_mm": 455.0,
@@ -409,8 +409,8 @@
   },
   {
     "code": "LHOV",
-    "brand": "Bakoven",
-    "category": "en inductiekookplaatafzuiging",
+    "brand": "LHOV",
+    "category": "afzuigkappen",
     "description": "Bakoven en inductiekookplaatafzuiging LHOV met Hydrolyse, 900 mm breed zwart",
     "width_mm": 900.0,
     "height_mm": 360.0,
@@ -422,7 +422,7 @@
   {
     "code": "GEBM19300DXMPF",
     "brand": "GRUNDIG",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "GRUNDIG Inbouwoven GEBM19300DXMPF met pyrolyse Dark Inox",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -434,7 +434,7 @@
   {
     "code": "GEBM19301DXC",
     "brand": "GRUNDIG",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "GRUNDIG Inbouwoven GEBM19301DXC met katalyse Dark Inox",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -446,7 +446,7 @@
   {
     "code": "GEBM19400DXMPH",
     "brand": "GRUNDIG",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "GRUNDIG Inbouwoven GEBM19400DXMPH met pyrolyse Dark Inox",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -458,7 +458,7 @@
   {
     "code": "GEKW19400DX",
     "brand": "GRUNDIG",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "GRUNDIG Compacte magnetron-bakoven GEKW19400DX Dark Inox",
     "width_mm": 594.0,
     "height_mm": 455.0,
@@ -470,7 +470,7 @@
   {
     "code": "JF1300061",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF1300061 zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -482,7 +482,7 @@
   {
     "code": "JF2306061",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF2306061 zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -494,7 +494,7 @@
   {
     "code": "JF2377061",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF2377061 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -506,7 +506,7 @@
   {
     "code": "JF4306063",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF4306063 met hydrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -518,7 +518,7 @@
   {
     "code": "JF4379063",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF4379063 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -530,7 +530,7 @@
   {
     "code": "JF4677063",
     "brand": "JUNKER",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "JUNKER Inbouwoven JF4677063 met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -542,7 +542,7 @@
   {
     "code": "JC4306061",
     "brand": "JUNKER",
-    "category": "Compacte oven",
+    "category": "bakovens",
     "description": "JUNKER Compacte oven JC4306061 met hydrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 455.0,
@@ -554,7 +554,7 @@
   {
     "code": "JC4119961",
     "brand": "JUNKER",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "JUNKER Compacte magnetron-bakoven JC4119961 met hydrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 454.0,
@@ -566,7 +566,7 @@
   {
     "code": "LEB10BK",
     "brand": "LAURUS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwbakoven LEB10BK met hydrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -578,7 +578,7 @@
   {
     "code": "LEB10PBK",
     "brand": "LAURUS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwbakoven LEB10PBK met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -590,7 +590,7 @@
   {
     "code": "LEB12BK",
     "brand": "LAURUS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwbakoven LEB12BK met hydrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -602,7 +602,7 @@
   {
     "code": "LEB12GS373",
     "brand": "LAURUS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwbakoven LEB12GS373 met hydrolyse Decor 373",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -614,7 +614,7 @@
   {
     "code": "LEB12PBK",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEB12PBK met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -626,7 +626,7 @@
   {
     "code": "LEB3",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEB3 Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -638,7 +638,7 @@
   {
     "code": "LEB5",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEB5 Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -650,7 +650,7 @@
   {
     "code": "LEB6P",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEB6P met pyrolyse Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -662,7 +662,7 @@
   {
     "code": "LEB8",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEB8 Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -674,7 +674,7 @@
   {
     "code": "LEH10BK",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEH10BK zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -686,7 +686,7 @@
   {
     "code": "LEH5BK",
     "brand": "LAURUS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "LAURUS Inbouwoven LEH5BK zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -698,7 +698,7 @@
   {
     "code": "LKB12BK",
     "brand": "LAURUS",
-    "category": "Compacte oven",
+    "category": "bakovens",
     "description": "LAURUS Compacte oven LKB12BK met hydrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 455.0,
@@ -710,7 +710,7 @@
   {
     "code": "H7260BCSBE",
     "brand": "MIELE",
-    "category": "Oven H 7260 B Roestvrij staal met CleanSteel",
+    "category": "bakovens",
     "description": "MIELE Oven H 7260 B Roestvrij staal met CleanSteel",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -722,7 +722,7 @@
   {
     "code": "H2851BBE",
     "brand": "MIELE",
-    "category": "Oven H 2851 B Roestvrij staal met CleanSteel",
+    "category": "bakovens",
     "description": "MIELE Oven H 2851 B Roestvrij staal met CleanSteel",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -734,7 +734,7 @@
   {
     "code": "H2861BOBSWBE",
     "brand": "MIELE",
-    "category": "Oven H 2861 B Obsidiaanzwart",
+    "category": "bakovens",
     "description": "MIELE Oven H 2861 B Obsidiaanzwart",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -746,7 +746,7 @@
   {
     "code": "H2861BPOBSWBE",
     "brand": "MIELE",
-    "category": "Oven H 2861 BP Obsidiaanzwart",
+    "category": "bakovens",
     "description": "MIELE Oven H 2861 BP Obsidiaanzwart",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -758,7 +758,7 @@
   {
     "code": "B1ACE2AG3",
     "brand": "NEFF",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "NEFF Inbouwoven B1ACE2AG3 met hydrolyse Graphite",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -770,7 +770,7 @@
   {
     "code": "B3ACE2AG3",
     "brand": "NEFF",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "NEFF Inbouwoven B3ACE2AG3 met hydrolyse Graphite",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -782,7 +782,7 @@
   {
     "code": "B54CR31N0",
     "brand": "NEFF",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "NEFF Inbouwbakoven B54CR31N0 met hydrolyse Roestvrij staal",
     "width_mm": 596.0,
     "height_mm": 595.0,
@@ -794,7 +794,7 @@
   {
     "code": "B54CR71N0",
     "brand": "NEFF",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "NEFF Inbouwbakoven B54CR71N0 met pyrolyse Roestvrij staal",
     "width_mm": 596.0,
     "height_mm": 595.0,
@@ -806,7 +806,7 @@
   {
     "code": "B64CS71N0",
     "brand": "NEFF",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "NEFF Inbouwbakoven B64CS71N0 met pyrolyse Roestvrij staal",
     "width_mm": 596.0,
     "height_mm": 595.0,
@@ -818,7 +818,7 @@
   {
     "code": "B5AVM7AG7F",
     "brand": "NEFF",
-    "category": "Exclusieve inbouwoven",
+    "category": "bakovens",
     "description": "NEFF Exclusieve inbouwoven B5AVM7AG7F met pyrolyse Graphite",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -830,7 +830,7 @@
   {
     "code": "B6ACH7AG3F",
     "brand": "NEFF",
-    "category": "Exclusieve inbouwoven",
+    "category": "bakovens",
     "description": "NEFF Exclusieve inbouwoven B6ACH7AG3F met pyrolyse Graphite",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -842,7 +842,7 @@
   {
     "code": "C1AMG84G1",
     "brand": "NEFF",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "NEFF Compacte magnetron-bakoven C1AMG84G1 Graphite",
     "width_mm": 594.0,
     "height_mm": 454.0,
@@ -854,7 +854,7 @@
   {
     "code": "C24MR21N0",
     "brand": "NEFF",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "NEFF Compacte magnetron-bakoven C24MR21N0 Roestvrij staal",
     "width_mm": 596.0,
     "height_mm": 455.0,
@@ -866,7 +866,7 @@
   {
     "code": "PBD34103B",
     "brand": "PROGRESS",
-    "category": "Inbouwoven PBD 34103 B, solo-toestel",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBD 34103 B, solo-toestel",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -878,7 +878,7 @@
   {
     "code": "PBD34103X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven PBD 34103 X, solo-toestel",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBD 34103 X, solo-toestel",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -890,7 +890,7 @@
   {
     "code": "PBN13002X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBN13002X Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 598.0,
@@ -902,7 +902,7 @@
   {
     "code": "PBN23103X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBN23103X Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 598.0,
@@ -914,7 +914,7 @@
   {
     "code": "PBN43103X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBN43103X Zwart/Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -926,7 +926,7 @@
   {
     "code": "PBP23103X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven PBP23103X, met pyrolyse Roestvrij staal",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBP23103X, met pyrolyse Roestvrij staal",
     "width_mm": 595.0,
     "height_mm": 598.0,
@@ -938,7 +938,7 @@
   {
     "code": "PBP43103B",
     "brand": "PROGRESS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBP43103B met pyrolyse",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -950,7 +950,7 @@
   {
     "code": "PBP43103X",
     "brand": "PROGRESS",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "PROGRESS Inbouwoven PBP43103X met pyrolyse",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -962,7 +962,7 @@
   {
     "code": "PCM43103B",
     "brand": "PROGRESS",
-    "category": "Magnetron-compacte oven PCM 43103 B, 450 mm nis",
+    "category": "microgolf",
     "description": "PROGRESS Magnetron-compacte oven PCM 43103 B, 450 mm nis",
     "width_mm": 595.0,
     "height_mm": 455.0,
@@ -974,7 +974,7 @@
   {
     "code": "PCM43103X",
     "brand": "PROGRESS",
-    "category": "Magnetron-compacte oven PCM 43103 X, 450 mm nis",
+    "category": "microgolf",
     "description": "PROGRESS Magnetron-compacte oven PCM 43103 X, 450 mm nis",
     "width_mm": 595.0,
     "height_mm": 455.0,
@@ -986,7 +986,7 @@
   {
     "code": "NV7B41201DKU1",
     "brand": "SAMSUNG",
-    "category": "Inbouwoven NV7B41201DK/U1 met katalyse ZWART GLAS",
+    "category": "bakovens",
     "description": "SAMSUNG Inbouwoven NV7B41201DK/U1 met katalyse ZWART GLAS",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -998,7 +998,7 @@
   {
     "code": "NV7B41307AKU1",
     "brand": "SAMSUNG",
-    "category": "Inbouwbakoven NV7B41307AK/ U1 met pyrolyse ZWART GLAS",
+    "category": "bakovens",
     "description": "SAMSUNG Inbouwbakoven NV7B41307AK/ U1 met pyrolyse ZWART GLAS",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -1010,7 +1010,7 @@
   {
     "code": "NV7B4550VDKU1",
     "brand": "SAMSUNG",
-    "category": "Inbouwoven NV7B4550VDK/U1 met pyrolyse, Dual Cook-technologie TM, solo-toestel",
+    "category": "bakovens",
     "description": "SAMSUNG Inbouwoven NV7B4550VDK/U1 met pyrolyse, Dual Cook-technologie TM, solo-toestel",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -1022,7 +1022,7 @@
   {
     "code": "NV7B5775QDKU1",
     "brand": "SAMSUNG",
-    "category": "Inbouwoven NV7B5775QDK/U1 met pyrolyse, DualCook Flex™ ZWART GLAS",
+    "category": "bakovens",
     "description": "SAMSUNG Inbouwoven NV7B5775QDK/U1 met pyrolyse, DualCook Flex™ ZWART GLAS",
     "width_mm": 595.0,
     "height_mm": 596.0,
@@ -1034,7 +1034,7 @@
   {
     "code": "NQ5B4353FDKU1",
     "brand": "SAMSUNG",
-    "category": "Compacte magnetron-bakoven NQ5B4353FDK/U1 ZWART GLAS",
+    "category": "microgolf",
     "description": "SAMSUNG Compacte magnetron-bakoven NQ5B4353FDK/U1 ZWART GLAS",
     "width_mm": 595.0,
     "height_mm": 456.0,
@@ -1046,7 +1046,7 @@
   {
     "code": "HB234ABB3",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "SIEMENS Inbouwbakoven HB234ABB3 met katalyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -1058,7 +1058,7 @@
   {
     "code": "HB517GBS3",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "SIEMENS Inbouwbakoven HB517GBS3 met hydrolyse Zwart / Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -1070,7 +1070,7 @@
   {
     "code": "HB578GBS3",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "SIEMENS Inbouwbakoven HB578GBS3 met pyrolyse Zwart / Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -1082,7 +1082,7 @@
   {
     "code": "HB734G1B1",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "SIEMENS Inbouwbakoven HB734G1B1 met katalyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -1094,7 +1094,7 @@
   {
     "code": "HM736GAB1",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "microgolf",
     "description": "SIEMENS Inbouwbakoven HM736GAB1 met magnetron en katalyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -1106,7 +1106,7 @@
   {
     "code": "HS736G3B1",
     "brand": "SIEMENS",
-    "category": "Inbouwbakoven",
+    "category": "bakovens",
     "description": "SIEMENS Inbouwbakoven HS736G3B1 met stoom en katalyse zwart",
     "width_mm": 595.0,
     "height_mm": 594.0,
@@ -1118,7 +1118,7 @@
   {
     "code": "HB776G3B2S",
     "brand": "SIEMENS",
-    "category": "Exclusieve inbouwoven",
+    "category": "bakovens",
     "description": "SIEMENS Exclusieve inbouwoven HB776G3B2S met pyrolyse zwart",
     "width_mm": 594.0,
     "height_mm": 595.0,
@@ -1130,7 +1130,7 @@
   {
     "code": "CM585AGS1",
     "brand": "SIEMENS",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "SIEMENS Compacte magnetron-bakoven CM585AGS1 Zwart / Roestvrij staal",
     "width_mm": 594.0,
     "height_mm": 454.0,
@@ -1142,7 +1142,7 @@
   {
     "code": "CM724G1B1",
     "brand": "SIEMENS",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "SIEMENS Compacte magnetron-bakoven CM724G1B1 met hydrolyse  zwart",
     "width_mm": 594.0,
     "height_mm": 455.0,
@@ -1154,7 +1154,7 @@
   {
     "code": "WNBA28HU1KF",
     "brand": "WHIRLPOOL",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "WHIRLPOOL Inbouwoven WNBA28HU1KF met hydrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 595.0,
@@ -1166,7 +1166,7 @@
   {
     "code": "WNOI5S8CM0BF",
     "brand": "WHIRLPOOL",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "WHIRLPOOL Inbouwoven WNOI5S8CM0BF met katalyse zwart",
     "width_mm": 595.0,
     "height_mm": 597.0,
@@ -1178,7 +1178,7 @@
   {
     "code": "WNOI5S8PM0BF",
     "brand": "WHIRLPOOL",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "WHIRLPOOL Inbouwoven WNOI5S8PM0BF met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 597.0,
@@ -1190,7 +1190,7 @@
   {
     "code": "WNOI5S8PM1SBF",
     "brand": "WHIRLPOOL",
-    "category": "Inbouwoven",
+    "category": "bakovens",
     "description": "WHIRLPOOL Inbouwoven WNOI5S8PM1SBF met pyrolyse zwart",
     "width_mm": 595.0,
     "height_mm": 597.0,
@@ -1202,7 +1202,7 @@
   {
     "code": "WNMW57DMBF",
     "brand": "WHIRLPOOL",
-    "category": "Compacte magnetron-bakoven",
+    "category": "microgolf",
     "description": "WHIRLPOOL Compacte magnetron-bakoven WNMW57DMBF zwart",
     "width_mm": 595.0,
     "height_mm": 455.0,

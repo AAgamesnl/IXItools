@@ -105,6 +105,16 @@ from PIL import Image, ImageDraw, ImageOps, ImageFont
 BASE_DIR = Path(__file__).parent
 LOGO_IMAGE_PATH = BASE_DIR / "logo.png"
 
+# Predefined appliance categories shown in the UI
+CATEGORIES = [
+    "afzuigkappen",
+    "bakovens",
+    "kookplaat",
+    "vaatwasser",
+    "koelkast",
+    "microgolf",
+]
+
 # ============================================================================
 # Configuration and Constants
 # ============================================================================
@@ -557,7 +567,7 @@ class FilterPanel(ctk.CTkFrame):
     def _get_suboptions_for_category(self, category: str) -> List[str]:
         """Get suboptions for a category."""
         suboptions_map = {
-            "oven": ["-", "met pyrolyse", "zonder pyrolyse"],
+            "bakovens": ["-", "met pyrolyse", "zonder pyrolyse"],
             "vaatwasser": ["-", "lade", "mandje"]
         }
         return suboptions_map.get(category, ["-"])
@@ -834,7 +844,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
         # Update filter panel with available data
         self.filter_panel.update_blocks(self.blocks)
 
-        categories = sorted(set(a.category for a in self.appliances))
+        categories = CATEGORIES
         self.filter_panel.update_categories(categories)
 
         # Initial filter
