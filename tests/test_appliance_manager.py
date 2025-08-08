@@ -3,7 +3,12 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from ApplianceManagerFrame import Appliance, ShoppingCart, ApplianceFilter
+from ApplianceManagerFrame import (
+    Appliance,
+    ShoppingCart,
+    ApplianceFilter,
+    sort_appliances,
+)
 
 
 def test_appliance_from_dict():
@@ -77,3 +82,17 @@ def test_price_logic():
     # internal price for 6% VAT (afzuigkappen)
     hood = Appliance('HOOD', 'Brand', 'afzuigkappen', 'desc', 600, 590, 560, 361, 0)
     assert hood.internal_price == 124
+
+
+def test_sort_appliances_function():
+    a1 = Appliance('A1', 'B', 'bakovens', 'Alpha', 600, 590, 560, 100, 0)
+    a2 = Appliance('A2', 'B', 'bakovens', 'Beta', 600, 590, 560, 200, 0)
+    # Sort by name ascending
+    names = [a.description for a in sort_appliances([a2, a1], 'Naam')]
+    assert names == ['Alpha', 'Beta']
+    # Sort by points descending
+    pts = [a.points for a in sort_appliances([a1, a2], 'Punten', descending=True)]
+    assert pts == [200, 100]
+    # Sort by price euro ascending
+    prices = [a.internal_price for a in sort_appliances([a2, a1], 'Prijs €')]
+    assert prices == sorted(prices)

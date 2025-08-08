@@ -439,6 +439,17 @@ class ApplianceFilter:
         return ["-"] + brands if brands else ["-"]
 
 
+def sort_appliances(appliances: List[Appliance], key: str, descending: bool = False) -> List[Appliance]:
+    """Return appliances sorted by the given key."""
+    key_funcs: Dict[str, Callable[[Appliance], Any]] = {
+        "Naam": lambda a: a.description.lower(),
+        "Prijs €": lambda a: a.internal_price,
+        "Punten": lambda a: a.points,
+    }
+    func = key_funcs.get(key, key_funcs["Naam"])
+    return sorted(appliances, key=func, reverse=descending)
+
+
 class ShoppingCart:
     """Manages shopping cart operations."""
 
@@ -580,6 +591,38 @@ class FilterPanel(ctk.CTkFrame):
         if current not in brands and brands:
             self.brand_var.set(brands[0])
 
+
+class SortBar(ctk.CTkFrame):
+    """Top bar with sorting controls."""
+
+    def __init__(self, master, sort_var: ctk.StringVar,
+                 order_var: ctk.StringVar, on_change: Callable):
+        super().__init__(master)
+        self.sort_var = sort_var
+        self.order_var = order_var
+        self.on_change = on_change
+
+        ctk.CTkLabel(self, text="Sorteer op:").grid(row=0, column=0, padx=5)
+        self.option = ctk.CTkOptionMenu(
+            self,
+            values=["Naam", "Prijs €", "Punten"],
+            variable=self.sort_var,
+            command=lambda _: self.on_change(),
+        )
+        self.option.grid(row=0, column=1, padx=5)
+
+        self.order_btn = ctk.CTkButton(
+            self,
+            width=30,
+            textvariable=self.order_var,
+            command=self._toggle_order,
+        )
+        self.order_btn.grid(row=0, column=2, padx=5)
+
+    def _toggle_order(self):
+        self.order_var.set("↓" if self.order_var.get() == "↑" else "↑")
+        self.on_change()
+
 class ApplianceRow(ctk.CTkFrame):
     """Individual appliance row component."""
 
@@ -603,17 +646,30 @@ class ApplianceRow(ctk.CTkFrame):
 
         # Info
         info_text = (
-            f"{self.appliance.description} – €{self.appliance.catalog_price} • {self.appliance.points}p\n"
+            f"{self.appliance.description}\n"
             f"{self.appliance.width_mm:.0f} x {self.appliance.height_mm:.0f} x {self.appliance.depth_mm:.0f} mm"
         )
 
         info_label = ctk.CTkLabel(self, text=info_text, anchor="w", justify="left")
         info_label.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
 
+        # Price box with points
+        price_text = f"€{self.appliance.internal_price}\n{self.appliance.points}p"
+        price_label = ctk.CTkLabel(
+            self,
+            text=price_text,
+            fg_color="#1e88e5",
+            text_color="white",
+            corner_radius=6,
+            width=80,
+            justify="center",
+        )
+        price_label.grid(row=0, column=2, padx=5, pady=5)
+
         # Add button
         add_btn = ctk.CTkButton(self, text="+ Toevoegen", width=100,
                                 command=lambda: self.on_add_to_cart(self.appliance))
-        add_btn.grid(row=0, column=2, padx=5, pady=5)
+        add_btn.grid(row=0, column=3, padx=5, pady=5)
 
 
 class ResultsPanel(ctk.CTkScrollableFrame):
@@ -727,7 +783,7 @@ class CartPanel(ctk.CTkFrame):
 
         # Item info
         info_text = (
-            f"{item.appliance.description} – €{item.appliance.catalog_price} • {item.appliance.points}p"
+            f"{item.appliance.description} – €{item.appliance.internal_price} • {item.appliance.points}p"
         )
         if item.quantity > 1:
             info_text += f" (x{item.quantity})"
@@ -828,9 +884,23 @@ class ApplianceManagerApp(ctk.CTkFrame):
         self.filter_panel = FilterPanel(self, self.config, self._on_filter_change)
         self.filter_panel.grid(row=0, column=0, sticky="ns", padx=(5, 2), pady=5)
 
-        # Results panel (center)
-        self.results_panel = ResultsPanel(self, self.image_cache, self._on_add_to_cart)
-        self.results_panel.grid(row=0, column=1, sticky="nsew", padx=2, pady=5)
+        # Results container with sort bar and results
+        self.results_container = ctk.CTkFrame(self)
+        self.results_container.grid(row=0, column=1, sticky="nsew", padx=2, pady=5)
+        self.results_container.rowconfigure(1, weight=1)
+        self.results_container.columnconfigure(0, weight=1)
+
+        self.sort_var = ctk.StringVar(value="Naam")
+        self.sort_order_var = ctk.StringVar(value="↑")
+        self.sort_bar = SortBar(
+            self.results_container, self.sort_var, self.sort_order_var, self._on_filter_change
+        )
+        self.sort_bar.grid(row=0, column=0, sticky="ew", pady=(0, 5))
+
+        self.results_panel = ResultsPanel(
+            self.results_container, self.image_cache, self._on_add_to_cart
+        )
+        self.results_panel.grid(row=1, column=0, sticky="nsew")
 
         # Cart panel (right)
         self.cart_panel = CartPanel(self, self.cart, self.image_cache)
@@ -880,6 +950,13 @@ class ApplianceManagerApp(ctk.CTkFrame):
                 brand=brand,
                 max_points=max_points,
                 search_term=search_term if search_term else None
+            )
+
+            # Apply sorting
+            filtered_appliances = sort_appliances(
+                filtered_appliances,
+                self.sort_var.get(),
+                descending=self.sort_order_var.get() == "↓",
             )
 
             # Update results panel
