@@ -62,3 +62,18 @@ def test_appliance_filter():
     siemens = filter_obj.filter(brand='Siemens')
     assert len(siemens) == 1
     assert siemens[0].brand == 'Siemens'
+
+
+def test_price_logic():
+    # catalog price conversions
+    a = Appliance('OVEN', 'Brand', 'bakovens', 'desc', 600, 590, 560, 1225, 0)
+    assert a.catalog_price == 839
+    assert Appliance.points_from_catalog_price(839) == 1225
+
+    # internal price for 21% VAT
+    oven = Appliance('OVEN2', 'Brand', 'bakovens', 'desc', 600, 590, 560, 361, 0)
+    assert oven.internal_price == 142
+
+    # internal price for 6% VAT (afzuigkappen)
+    hood = Appliance('HOOD', 'Brand', 'afzuigkappen', 'desc', 600, 590, 560, 361, 0)
+    assert hood.internal_price == 124

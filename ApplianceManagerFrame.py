@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import json
 import logging
+import math
+from decimal import Decimal, ROUND_HALF_UP
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -183,10 +185,38 @@ class Appliance:
             img=data.get('img')
         )
 
+    # ------------------------------------------------------------------
+    # Price conversions
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _round_half_up(value: float) -> int:
+        return int(Decimal(str(value)).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
+
+    @property
+    def vat_rate(self) -> float:
+        """Return VAT rate based on category."""
+        return 0.06 if self.category == "afzuigkappen" else 0.21
+
+    @property
+    def internal_price(self) -> int:
+        """Internal price including VAT using fixed coefficients."""
+        coeff = 0.344 if self.vat_rate == 0.06 else 0.393
+        return self._round_half_up(self.points * coeff)
+
+    @property
+    def catalog_price(self) -> int:
+        """Catalog/site price using €0.685 per point."""
+        return self._round_half_up(self.points * 0.685)
+
     @property
     def price_ex(self) -> float:
-        """Return price excluding 21% VAT."""
-        return self.price / 1.21
+        """Return price excluding VAT using internal price."""
+        return self.internal_price / (1 + self.vat_rate)
+
+    @staticmethod
+    def points_from_catalog_price(price: float) -> int:
+        """Calculate points from catalog price so rounding reproduces price."""
+        return math.ceil((price - 0.5) / 0.685)
 
 
 @dataclass
@@ -441,10 +471,9 @@ class ShoppingCart:
         """Calculate total points in cart."""
         return sum(item.appliance.points * item.quantity for item in self.items)
 
-    def get_total_price(self, vat_rate: float) -> float:
-        """Calculate total price including VAT."""
-        total_ex = sum(item.appliance.price_ex * item.quantity for item in self.items)
-        return round(total_ex * (1 + vat_rate), 2)
+    def get_total_price(self) -> float:
+        """Calculate total internal price including VAT for each item."""
+        return sum(item.appliance.internal_price * item.quantity for item in self.items)
 
     def add_observer(self, callback: Callable[[], None]) -> None:
         """Add cart change observer."""
@@ -477,7 +506,6 @@ class FilterPanel(ctk.CTkFrame):
         self.category_var = ctk.StringVar()
         self.suboption_var = ctk.StringVar()
         self.search_var = ctk.StringVar()
-        self.vat_switch = None
 
         self._build_ui()
         self._setup_callbacks()
@@ -495,21 +523,6 @@ class FilterPanel(ctk.CTkFrame):
 
         self.block_menu = ctk.CTkOptionMenu(self, variable=self.block_var, values=[])
         self.block_menu.grid(row=row, column=0, sticky="ew", pady=2)
-        row += 1
-
-        # VAT Rate Switch
-        ctk.CTkLabel(self, text="BTW Tarief", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
-        row += 1
-
-        vat_frame = ctk.CTkFrame(self)
-        vat_frame.grid(row=row, column=0, sticky="ew", pady=2)
-        vat_frame.columnconfigure(1, weight=1)
-
-        ctk.CTkLabel(vat_frame, text="21%").grid(row=0, column=0, padx=5)
-        self.vat_switch = ctk.CTkSwitch(vat_frame, text="")
-        self.vat_switch.grid(row=0, column=1, padx=5)
-        ctk.CTkLabel(vat_frame, text="6%").grid(row=0, column=2, padx=5)
         row += 1
 
         # Search
@@ -555,7 +568,6 @@ class FilterPanel(ctk.CTkFrame):
         self.category_var.trace_add("write", lambda *_: self._on_category_change())
         self.suboption_var.trace_add("write", lambda *_: self.on_filter_change())
         self.search_var.trace_add("write", lambda *_: self.on_filter_change())
-        self.vat_switch.configure(command=self.on_filter_change)
 
     def _on_category_change(self):
         """Handle category change - update suboptions."""
@@ -595,20 +607,14 @@ class FilterPanel(ctk.CTkFrame):
         if brands:
             self.brand_var.set(brands[0])
 
-    def get_current_vat_rate(self) -> float:
-        """Get current VAT rate."""
-        return self.config.vat_rates["low"] if self.vat_switch.get() else self.config.vat_rates["high"]
-
-
 class ApplianceRow(ctk.CTkFrame):
     """Individual appliance row component."""
 
     def __init__(self, master, appliance: Appliance, image_cache: ImageCache,
-                 vat_rate: float, on_add_to_cart: Callable):
+                 on_add_to_cart: Callable):
         super().__init__(master)
         self.appliance = appliance
         self.image_cache = image_cache
-        self.vat_rate = vat_rate
         self.on_add_to_cart = on_add_to_cart
 
         self._build_ui()
@@ -649,7 +655,7 @@ class ResultsPanel(ctk.CTkScrollableFrame):
 
         self.columnconfigure(0, weight=1)
 
-    def update_appliances(self, appliances: List[Appliance], vat_rate: float):
+    def update_appliances(self, appliances: List[Appliance]):
         """Update displayed appliances."""
         # Clear existing rows and any previous 'no results' message
         for row in self.appliance_rows:
@@ -662,7 +668,7 @@ class ResultsPanel(ctk.CTkScrollableFrame):
         # Add new rows
         for i, appliance in enumerate(appliances):
             row = ApplianceRow(self, appliance, self.image_cache,
-                               vat_rate, self.on_add_to_cart)
+                               self.on_add_to_cart)
             row.grid(row=i, column=0, sticky="ew", padx=5, pady=2)
             self.appliance_rows.append(row)
 
@@ -753,10 +759,10 @@ class CartPanel(ctk.CTkFrame):
 
         return frame
 
-    def update_totals(self, vat_rate: float, max_points: int):
-        """Update totals display with current VAT rate and block limit."""
+    def update_totals(self, max_points: int):
+        """Update totals display with block limit."""
         total_points = self.cart.get_total_points()
-        total_price = self.cart.get_total_price(vat_rate)
+        total_price = self.cart.get_total_price()
         remaining_points = max_points - total_points
 
         # Color coding for remaining points
@@ -892,12 +898,11 @@ class ApplianceManagerApp(ctk.CTkFrame):
             )
 
             # Update results panel
-            vat_rate = self.filter_panel.get_current_vat_rate()
-            self.results_panel.update_appliances(filtered_appliances, vat_rate)
+            self.results_panel.update_appliances(filtered_appliances)
 
             # Update cart totals
             if max_points is not None:
-                self.cart_panel.update_totals(vat_rate, max_points)
+                self.cart_panel.update_totals(max_points)
 
             self.logger.debug(f"Filter applied: {len(filtered_appliances)} results")
 
@@ -914,8 +919,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             selected_block = self.filter_panel.block_var.get()
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
-                vat_rate = self.filter_panel.get_current_vat_rate()
-                self.cart_panel.update_totals(vat_rate, max_points)
+                self.cart_panel.update_totals(max_points)
 
         except Exception as e:
             self.logger.error(f"Error adding item to cart: {e}")
