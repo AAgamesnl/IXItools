@@ -16,7 +16,7 @@ def test_appliance_from_dict():
         'height_mm': 590,
         'depth_mm': 560,
         'punten': 0,
-        'price_ex': 0.0,
+        'price': 0.0,
         'option': 'met pyrolyse',
         'img': 'test.jpg'
     }

@@ -155,7 +155,7 @@ class Appliance:
     height_mm: float
     depth_mm: float
     points: int
-    price_ex: float
+    price: float
     option: Optional[str] = None
     img: Optional[str] = None
 
@@ -164,7 +164,7 @@ class Appliance:
         """Create Appliance from dictionary with validation."""
         required_fields = {
             'code', 'brand', 'category', 'description',
-            'width_mm', 'height_mm', 'depth_mm', 'punten', 'price_ex'
+            'width_mm', 'height_mm', 'depth_mm', 'punten', 'price'
         }
         if not all(field in data for field in required_fields):
             raise ValueError(f"Missing required fields in appliance data: {data}")
@@ -178,10 +178,15 @@ class Appliance:
             height_mm=float(data['height_mm']),
             depth_mm=float(data['depth_mm']),
             points=int(data['punten']),
-            price_ex=float(data['price_ex']),
+            price=float(data['price']),
             option=data.get('option'),
             img=data.get('img')
         )
+
+    @property
+    def price_ex(self) -> float:
+        """Return price excluding 21% VAT."""
+        return self.price / 1.21
 
 
 @dataclass
@@ -399,9 +404,8 @@ class ApplianceFilter:
         appliances = self.by_category.get(category, [])
         if max_points is not None:
             appliances = [a for a in appliances if a.points <= max_points]
-
         brands = sorted(set(a.brand for a in appliances))
-        return brands or ["-"]
+        return ["-"] + brands if brands else ["-"]
 
 
 class ShoppingCart:
@@ -847,6 +851,12 @@ class ApplianceManagerApp(ctk.CTkFrame):
         categories = CATEGORIES
         self.filter_panel.update_categories(categories)
 
+        # Select first category that has appliances so results are visible
+        for cat in categories:
+            if self.appliance_filter.by_category.get(cat):
+                self.filter_panel.category_var.set(cat)
+                break
+
         # Initial filter
         self._on_filter_change()
 
@@ -856,7 +866,6 @@ class ApplianceManagerApp(ctk.CTkFrame):
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
             category = self.filter_panel.category_var.get()
-            brand = self.filter_panel.brand_var.get()
             suboption = self.filter_panel.suboption_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
@@ -869,6 +878,9 @@ class ApplianceManagerApp(ctk.CTkFrame):
             available_brands = self.appliance_filter.get_brands_for_category(
                 category, max_points)
             self.filter_panel.update_brands(available_brands)
+
+            # Read brand again after updating the options
+            brand = self.filter_panel.brand_var.get()
 
             # Filter appliances
             filtered_appliances = self.appliance_filter.filter(
