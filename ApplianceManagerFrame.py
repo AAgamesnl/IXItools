@@ -140,6 +140,10 @@ class Appliance:
     code: str
     brand: str
     category: str
+    description: str
+    width_mm: float
+    height_mm: float
+    depth_mm: float
     points: int
     price_ex: float
     option: Optional[str] = None
@@ -148,7 +152,10 @@ class Appliance:
     @classmethod
     def from_dict(cls, data: dict) -> 'Appliance':
         """Create Appliance from dictionary with validation."""
-        required_fields = {'code', 'brand', 'category', 'punten', 'price_ex'}
+        required_fields = {
+            'code', 'brand', 'category', 'description',
+            'width_mm', 'height_mm', 'depth_mm', 'punten', 'price_ex'
+        }
         if not all(field in data for field in required_fields):
             raise ValueError(f"Missing required fields in appliance data: {data}")
 
@@ -156,6 +163,10 @@ class Appliance:
             code=str(data['code']),
             brand=str(data['brand']),
             category=str(data['category']),
+            description=str(data['description']),
+            width_mm=float(data['width_mm']),
+            height_mm=float(data['height_mm']),
+            depth_mm=float(data['depth_mm']),
             points=int(data['punten']),
             price_ex=float(data['price_ex']),
             option=data.get('option'),
@@ -598,9 +609,10 @@ class ApplianceRow(ctk.CTkFrame):
         img_label.grid(row=0, column=0, sticky="w", padx=5, pady=5)
 
         # Info
-        price_incl_vat = round(self.appliance.price_ex * (1 + self.vat_rate), 2)
-        info_text = (f"{self.appliance.brand} {self.appliance.code}\n"
-                     f"{self.appliance.points} punten • €{price_incl_vat:.2f}")
+        info_text = (
+            f"{self.appliance.description}\n"
+            f"{self.appliance.width_mm:.0f} x {self.appliance.height_mm:.0f} x {self.appliance.depth_mm:.0f} mm"
+        )
 
         info_label = ctk.CTkLabel(self, text=info_text, anchor="w", justify="left")
         info_label.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
