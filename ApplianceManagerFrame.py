@@ -195,7 +195,7 @@ class Appliance:
     @property
     def vat_rate(self) -> float:
         """Return VAT rate based on category."""
-        return 0.06 if self.category == "afzuigkappen" else 0.21
+        return 0.06 if self.category.lower() == "afzuigkappen" else 0.21
 
     @property
     def internal_price(self) -> int:
@@ -295,29 +295,33 @@ class ImageCache:
 
     def __init__(self, config: AppConfig):
         self.config = config
-        self.cache: OrderedDict[Optional[str], ctk.CTkImage] = OrderedDict()
+        # cache key is (filename, size)
+        self.cache: OrderedDict[tuple[Optional[str], tuple[int, int]], ctk.CTkImage] = OrderedDict()
         self.logger = logging.getLogger(__name__)
 
-    def load_image(self, filename: Optional[str] = None) -> ctk.CTkImage:
+    def load_image(self, filename: Optional[str] = None,
+                   size: Optional[tuple[int, int]] = None) -> ctk.CTkImage:
         """Load and cache image with fallback to placeholder."""
-        if filename in self.cache:
+        size = size or self.config.img_size
+        key = (filename, size)
+        if key in self.cache:
             # move to end to maintain LRU order
-            self.cache.move_to_end(filename)
-            return self.cache[filename]
+            self.cache.move_to_end(key)
+            return self.cache[key]
 
         try:
             if filename:
                 img_path = self.config.img_dir / filename
                 if img_path.is_file() and self._is_safe_path(img_path):
                     image = Image.open(img_path)
-                    image = ImageOps.contain(image, self.config.img_size)
+                    image = ImageOps.contain(image, size)
                 else:
-                    image = self._create_placeholder("Not Found")
+                    image = self._create_placeholder("Not Found", size)
             else:
-                image = self._create_placeholder("No Image")
+                image = self._create_placeholder("No Image", size)
 
-            ctk_image = ctk.CTkImage(image, size=self.config.img_size)
-            self.cache[filename] = ctk_image
+            ctk_image = ctk.CTkImage(image, size=size)
+            self.cache[key] = ctk_image
             # enforce cache size limit
             if len(self.cache) > self.config.cache_size:
                 self.cache.popitem(last=False)
@@ -325,7 +329,7 @@ class ImageCache:
 
         except Exception as e:
             self.logger.warning(f"Failed to load image {filename}: {e}")
-            return self._get_error_image()
+            return self._get_error_image(size)
 
     def _is_safe_path(self, path: Path) -> bool:
         """Check if path is safe (prevent directory traversal)."""
@@ -335,13 +339,13 @@ class ImageCache:
         except ValueError:
             return False
 
-    def _create_placeholder(self, text: str) -> Image.Image:
+    def _create_placeholder(self, text: str, size: tuple[int, int]) -> Image.Image:
         """Create placeholder image with text."""
-        image = Image.new("RGB", self.config.img_size, "#444444")
+        image = Image.new("RGB", size, "#444444")
         draw = ImageDraw.Draw(image)
 
         # Draw simple cross so the placeholder is clearly visible
-        w, h = self.config.img_size
+        w, h = size
         draw.line((0, 0, w, h), fill="white", width=2)
         draw.line((0, h, w, 0), fill="white", width=2)
 
@@ -358,16 +362,17 @@ class ImageCache:
 
         return image
 
-    def _get_error_image(self) -> ctk.CTkImage:
+    def _get_error_image(self, size: tuple[int, int]) -> ctk.CTkImage:
         """Return cached error image."""
-        if "ERROR" not in self.cache:
-            self.cache["ERROR"] = ctk.CTkImage(
-                self._create_placeholder("Error"),
-                size=self.config.img_size,
+        key = ("ERROR", size)
+        if key not in self.cache:
+            self.cache[key] = ctk.CTkImage(
+                self._create_placeholder("Error", size),
+                size=size,
             )
             if len(self.cache) > self.config.cache_size:
                 self.cache.popitem(last=False)
-        return self.cache["ERROR"]
+        return self.cache[key]
 
 
 class ApplianceFilter:
@@ -403,7 +408,6 @@ class ApplianceFilter:
     def filter(self,
                category: Optional[str] = None,
                brand: Optional[str] = None,
-               option: Optional[str] = None,
                max_points: Optional[int] = None,
                search_term: Optional[str] = None) -> List[Appliance]:
         """Filter appliances based on criteria."""
@@ -414,9 +418,6 @@ class ApplianceFilter:
 
         if brand and brand != "-":
             result = [a for a in result if a.brand == brand]
-
-        if option and option != "-":
-            result = [a for a in result if (a.option or "-") == option]
 
         if max_points is not None:
             result = [a for a in result if a.points <= max_points]
@@ -504,7 +505,6 @@ class FilterPanel(ctk.CTkFrame):
         self.block_var = ctk.StringVar()
         self.brand_var = ctk.StringVar()
         self.category_var = ctk.StringVar()
-        self.suboption_var = ctk.StringVar()
         self.search_var = ctk.StringVar()
 
         self._build_ui()
@@ -553,40 +553,12 @@ class FilterPanel(ctk.CTkFrame):
         self.brand_menu.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
-        # Suboption Selection
-        ctk.CTkLabel(self, text="Optie", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
-        row += 1
-
-        self.suboption_menu = ctk.CTkOptionMenu(self, variable=self.suboption_var, values=[])
-        self.suboption_menu.grid(row=row, column=0, sticky="ew", pady=2)
-
     def _setup_callbacks(self):
         """Setup callbacks for UI controls."""
         self.block_var.trace_add("write", lambda *_: self.on_filter_change())
         self.brand_var.trace_add("write", lambda *_: self.on_filter_change())
-        self.category_var.trace_add("write", lambda *_: self._on_category_change())
-        self.suboption_var.trace_add("write", lambda *_: self.on_filter_change())
+        self.category_var.trace_add("write", lambda *_: self.on_filter_change())
         self.search_var.trace_add("write", lambda *_: self.on_filter_change())
-
-    def _on_category_change(self):
-        """Handle category change - update suboptions."""
-        category = self.category_var.get()
-        suboptions = self._get_suboptions_for_category(category)
-
-        self.suboption_menu.configure(values=suboptions)
-        if suboptions:
-            self.suboption_var.set(suboptions[0])
-
-        self.on_filter_change()
-
-    def _get_suboptions_for_category(self, category: str) -> List[str]:
-        """Get suboptions for a category."""
-        suboptions_map = {
-            "bakovens": ["-", "met pyrolyse", "zonder pyrolyse"],
-            "vaatwasser": ["-", "lade", "mandje"]
-        }
-        return suboptions_map.get(category, ["-"])
 
     def update_blocks(self, blocks: Dict[str, ElectricBlock]):
         """Update available blocks."""
@@ -603,8 +575,9 @@ class FilterPanel(ctk.CTkFrame):
 
     def update_brands(self, brands: List[str]):
         """Update available brands."""
+        current = self.brand_var.get()
         self.brand_menu.configure(values=brands)
-        if brands:
+        if current not in brands and brands:
             self.brand_var.set(brands[0])
 
 class ApplianceRow(ctk.CTkFrame):
@@ -630,7 +603,7 @@ class ApplianceRow(ctk.CTkFrame):
 
         # Info
         info_text = (
-            f"{self.appliance.description}\n"
+            f"{self.appliance.description} – €{self.appliance.catalog_price} • {self.appliance.points}p\n"
             f"{self.appliance.width_mm:.0f} x {self.appliance.height_mm:.0f} x {self.appliance.depth_mm:.0f} mm"
         )
 
@@ -683,10 +656,12 @@ class ResultsPanel(ctk.CTkScrollableFrame):
 class CartPanel(ctk.CTkFrame):
     """Right panel showing shopping cart."""
 
-    def __init__(self, master, cart: ShoppingCart):
+    def __init__(self, master, cart: ShoppingCart, image_cache: ImageCache):
         super().__init__(master)
         self.cart = cart
+        self.image_cache = image_cache
         self.cart_items: Dict[str, ctk.CTkFrame] = {}
+        self.max_points = 0
 
         self._build_ui()
         self.cart.add_observer(self.update_display)
@@ -737,30 +712,42 @@ class CartPanel(ctk.CTkFrame):
             item_frame.grid(row=i, column=0, sticky="ew", padx=2, pady=1)
             self.cart_items[item.appliance.code] = item_frame
 
-        # Update totals (will be called from main app with current VAT rate)
+        # Update totals using last known block limit
+        self.update_totals(self.max_points)
 
     def _create_cart_item_widget(self, item: CartItem) -> ctk.CTkFrame:
         """Create widget for cart item."""
         frame = ctk.CTkFrame(self.cart_frame)
-        frame.columnconfigure(0, weight=1)
+        frame.grid_columnconfigure(1, weight=1)
+
+        # Image
+        image = self.image_cache.load_image(item.appliance.img, size=(80, 55))
+        img_label = ctk.CTkLabel(frame, image=image, text="")
+        img_label.grid(row=0, column=0, rowspan=2, padx=5, pady=2)
 
         # Item info
-        text = f"{item.appliance.code}\n{item.appliance.points}p"
+        info_text = (
+            f"{item.appliance.description} – €{item.appliance.catalog_price} • {item.appliance.points}p"
+        )
         if item.quantity > 1:
-            text += f" (x{item.quantity})"
+            info_text += f" (x{item.quantity})"
+        info_text += (
+            f"\n{item.appliance.width_mm:.0f} x {item.appliance.height_mm:.0f} x {item.appliance.depth_mm:.0f} mm"
+        )
 
-        info_label = ctk.CTkLabel(frame, text=text, anchor="w")
-        info_label.grid(row=0, column=0, sticky="w", padx=5, pady=2)
+        info_label = ctk.CTkLabel(frame, text=info_text, anchor="w", justify="left")
+        info_label.grid(row=0, column=1, sticky="w", padx=5, pady=2)
 
         # Remove button
         remove_btn = ctk.CTkButton(frame, text="✕", width=30, height=25,
                                    command=lambda: self.cart.remove_item(item.appliance))
-        remove_btn.grid(row=0, column=1, padx=2, pady=2)
+        remove_btn.grid(row=0, column=2, padx=2, pady=2)
 
         return frame
 
     def update_totals(self, max_points: int):
         """Update totals display with block limit."""
+        self.max_points = max_points
         total_points = self.cart.get_total_points()
         total_price = self.cart.get_total_price()
         remaining_points = max_points - total_points
@@ -846,7 +833,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
         self.results_panel.grid(row=0, column=1, sticky="nsew", padx=2, pady=5)
 
         # Cart panel (right)
-        self.cart_panel = CartPanel(self, self.cart)
+        self.cart_panel = CartPanel(self, self.cart, self.image_cache)
         self.cart_panel.grid(row=0, column=2, sticky="ns", padx=(2, 5), pady=5)
 
     def _initialize_data(self):
@@ -872,7 +859,6 @@ class ApplianceManagerApp(ctk.CTkFrame):
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
             category = self.filter_panel.category_var.get()
-            suboption = self.filter_panel.suboption_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
             # Get block limits
@@ -885,14 +871,13 @@ class ApplianceManagerApp(ctk.CTkFrame):
                 category, max_points)
             self.filter_panel.update_brands(available_brands)
 
-            # Read brand again after updating the options
+            # Read brand again after updating the dropdown
             brand = self.filter_panel.brand_var.get()
 
             # Filter appliances
             filtered_appliances = self.appliance_filter.filter(
                 category=category,
                 brand=brand,
-                option=suboption,
                 max_points=max_points,
                 search_term=search_term if search_term else None
             )
