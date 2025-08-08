@@ -7,8 +7,8 @@
     "width_mm": 595.0,
     "height_mm": 598.0,
     "depth_mm": 561.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 790,
+    "price_ex": 541.32,
     "option": "zwart"
   },
   {
@@ -19,8 +19,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1307,
+    "price_ex": 895.04,
     "option": "met pyrolyse zwart"
   },
   {
@@ -31,8 +31,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2419,
+    "price_ex": 1657.02,
     "option": "met stoom Mat zwart"
   },
   {
@@ -43,8 +43,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1117,
+    "price_ex": 765.29,
     "option": "met pyrolyse zwart"
   },
   {
@@ -55,8 +55,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1876,
+    "price_ex": 1285.12,
     "option": "met stoom zwart"
   },
   {
@@ -67,8 +67,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1523,
+    "price_ex": 1042.98,
     "option": "met pyrolyse zwart"
   },
   {
@@ -79,8 +79,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1035,
+    "price_ex": 709.09,
     "option": "met pyrolyse zwart"
   },
   {
@@ -91,8 +91,8 @@
     "width_mm": 595.0,
     "height_mm": 456.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1369,
+    "price_ex": 938.02,
     "option": "zwart"
   },
   {
@@ -103,8 +103,8 @@
     "width_mm": 595.0,
     "height_mm": 456.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1600,
+    "price_ex": 1095.87,
     "option": "Mat zwart"
   },
   {
@@ -115,8 +115,8 @@
     "width_mm": 595.0,
     "height_mm": 456.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1030,
+    "price_ex": 705.79,
     "option": "zwart"
   },
   {
@@ -127,8 +127,8 @@
     "width_mm": 597.0,
     "height_mm": 595.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 950,
+    "price_ex": 650.41,
     "option": "met hydrolyse zwart"
   },
   {
@@ -139,8 +139,8 @@
     "width_mm": 597.0,
     "height_mm": 595.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1080,
+    "price_ex": 739.67,
     "option": "met pyrolyse zwart"
   },
   {
@@ -151,8 +151,8 @@
     "width_mm": 597.0,
     "height_mm": 595.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1121,
+    "price_ex": 767.77,
     "option": "met pyrolyse zwart"
   },
   {
@@ -163,8 +163,8 @@
     "width_mm": 595.0,
     "height_mm": 455.0,
     "depth_mm": 560.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1023,
+    "price_ex": 700.83,
     "option": "zwart"
   },
   {
@@ -175,8 +175,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 385,
+    "price_ex": 263.64,
     "option": ""
   },
   {
@@ -187,8 +187,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 694,
+    "price_ex": 475.21,
     "option": "met pyrolyse Roestvrij staal"
   },
   {
@@ -199,8 +199,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 445,
+    "price_ex": 304.96,
     "option": ""
   },
   {
@@ -211,8 +211,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 484,
+    "price_ex": 331.4,
     "option": ""
   },
   {
@@ -223,8 +223,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 746,
+    "price_ex": 510.74,
     "option": "met pyrolyse zwart"
   },
   {
@@ -235,8 +235,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 632,
+    "price_ex": 433.06,
     "option": "met hydrolyse zwart"
   },
   {
@@ -247,8 +247,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 859,
+    "price_ex": 588.43,
     "option": "met pyrolyse zwart"
   },
   {
@@ -259,8 +259,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 701,
+    "price_ex": 480.17,
     "option": "met hydrolyse zwart"
   },
   {
@@ -271,8 +271,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1087,
+    "price_ex": 744.63,
     "option": "met pyrolyse zwart"
   },
   {
@@ -283,8 +283,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 956,
+    "price_ex": 654.55,
     "option": "met katalyse Zwart/Roestvrij staal"
   },
   {
@@ -295,8 +295,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1268,
+    "price_ex": 868.6,
     "option": "met pyrolyse Zwart/Roestvrij staal"
   },
   {
@@ -307,8 +307,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 880,
+    "price_ex": 602.48,
     "option": "zwart"
   },
   {
@@ -319,8 +319,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1009,
+    "price_ex": 690.91,
     "option": "met katalyse zwart"
   },
   {
@@ -331,8 +331,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1428,
+    "price_ex": 978.51,
     "option": "met katalyse zwart"
   },
   {
@@ -343,8 +343,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2546,
+    "price_ex": 1743.8,
     "option": "met hydrolyse zwart"
   },
   {
@@ -355,8 +355,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2651,
+    "price_ex": 1815.7,
     "option": "zwart"
   },
   {
@@ -367,8 +367,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1321,
+    "price_ex": 904.96,
     "option": "met pyrolyse zwart"
   },
   {
@@ -379,8 +379,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1624,
+    "price_ex": 1112.4,
     "option": "met pyrolyse zwart"
   },
   {
@@ -391,8 +391,8 @@
     "width_mm": 594.0,
     "height_mm": 454.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1479,
+    "price_ex": 1013.22,
     "option": "zwart"
   },
   {
@@ -403,8 +403,8 @@
     "width_mm": 594.0,
     "height_mm": 455.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2121,
+    "price_ex": 1452.89,
     "option": "zwart"
   },
   {
@@ -415,8 +415,8 @@
     "width_mm": 900.0,
     "height_mm": 360.0,
     "depth_mm": 565.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 5958,
+    "price_ex": 4080.99,
     "option": "met Hydrolyse, 900 mm breed zwart"
   },
   {
@@ -427,8 +427,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 941,
+    "price_ex": 644.63,
     "option": "met pyrolyse Dark Inox"
   },
   {
@@ -439,8 +439,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 777,
+    "price_ex": 532.23,
     "option": "met katalyse Dark Inox"
   },
   {
@@ -451,8 +451,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1105,
+    "price_ex": 757.02,
     "option": "met pyrolyse Dark Inox"
   },
   {
@@ -463,8 +463,8 @@
     "width_mm": 594.0,
     "height_mm": 455.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1317,
+    "price_ex": 902.48,
     "option": "Dark Inox"
   },
   {
@@ -475,8 +475,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 474,
+    "price_ex": 324.79,
     "option": "zwart"
   },
   {
@@ -487,8 +487,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 600,
+    "price_ex": 410.74,
     "option": "zwart"
   },
   {
@@ -499,8 +499,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 550.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 912,
+    "price_ex": 624.79,
     "option": "met pyrolyse zwart"
   },
   {
@@ -511,8 +511,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 795,
+    "price_ex": 544.63,
     "option": "met hydrolyse zwart"
   },
   {
@@ -523,8 +523,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1221,
+    "price_ex": 836.36,
     "option": "met pyrolyse zwart"
   },
   {
@@ -535,8 +535,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1027,
+    "price_ex": 703.31,
     "option": "met pyrolyse zwart"
   },
   {
@@ -547,8 +547,8 @@
     "width_mm": 594.0,
     "height_mm": 455.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 764,
+    "price_ex": 523.14,
     "option": "met hydrolyse zwart"
   },
   {
@@ -559,8 +559,8 @@
     "width_mm": 594.0,
     "height_mm": 454.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1280,
+    "price_ex": 876.86,
     "option": "met hydrolyse zwart"
   },
   {
@@ -571,8 +571,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 463,
+    "price_ex": 317.36,
     "option": "met hydrolyse zwart"
   },
   {
@@ -583,8 +583,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 586,
+    "price_ex": 401.65,
     "option": "met pyrolyse zwart"
   },
   {
@@ -595,8 +595,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 545,
+    "price_ex": 373.55,
     "option": "met hydrolyse zwart"
   },
   {
@@ -607,8 +607,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 597,
+    "price_ex": 409.09,
     "option": "met hydrolyse Decor 373"
   },
   {
@@ -619,8 +619,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 693,
+    "price_ex": 474.38,
     "option": "met pyrolyse zwart"
   },
   {
@@ -631,8 +631,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 298,
+    "price_ex": 204.13,
     "option": "Roestvrij staal"
   },
   {
@@ -643,8 +643,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 334,
+    "price_ex": 228.93,
     "option": "Roestvrij staal"
   },
   {
@@ -655,8 +655,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 481,
+    "price_ex": 329.75,
     "option": "met pyrolyse Roestvrij staal"
   },
   {
@@ -667,8 +667,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 373,
+    "price_ex": 255.37,
     "option": "Roestvrij staal"
   },
   {
@@ -679,8 +679,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 481,
+    "price_ex": 329.75,
     "option": "zwart"
   },
   {
@@ -691,8 +691,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 404,
+    "price_ex": 276.86,
     "option": "zwart"
   },
   {
@@ -703,8 +703,8 @@
     "width_mm": 595.0,
     "height_mm": 455.0,
     "depth_mm": 575.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 513,
+    "price_ex": 351.24,
     "option": "met hydrolyse zwart"
   },
   {
@@ -715,8 +715,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2142,
+    "price_ex": 1466.94,
     "option": ""
   },
   {
@@ -727,8 +727,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1544,
+    "price_ex": 1057.85,
     "option": ""
   },
   {
@@ -739,8 +739,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 568.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1842,
+    "price_ex": 1261.98,
     "option": ""
   },
   {
@@ -751,8 +751,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 568.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2291,
+    "price_ex": 1569.42,
     "option": ""
   },
   {
@@ -763,8 +763,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1087,
+    "price_ex": 744.63,
     "option": "met hydrolyse Graphite"
   },
   {
@@ -775,8 +775,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1348,
+    "price_ex": 923.14,
     "option": "met hydrolyse Graphite"
   },
   {
@@ -787,8 +787,8 @@
     "width_mm": 596.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1999,
+    "price_ex": 1369.42,
     "option": "met hydrolyse Roestvrij staal"
   },
   {
@@ -799,8 +799,8 @@
     "width_mm": 596.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2312,
+    "price_ex": 1583.47,
     "option": "met pyrolyse Roestvrij staal"
   },
   {
@@ -811,8 +811,8 @@
     "width_mm": 596.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2572,
+    "price_ex": 1761.98,
     "option": "met pyrolyse Roestvrij staal"
   },
   {
@@ -823,8 +823,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2129,
+    "price_ex": 1458.68,
     "option": "met pyrolyse Graphite"
   },
   {
@@ -835,8 +835,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1582,
+    "price_ex": 1083.47,
     "option": "met pyrolyse Graphite"
   },
   {
@@ -847,8 +847,8 @@
     "width_mm": 594.0,
     "height_mm": 454.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1712,
+    "price_ex": 1172.73,
     "option": "Graphite"
   },
   {
@@ -859,8 +859,8 @@
     "width_mm": 596.0,
     "height_mm": 455.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2330,
+    "price_ex": 1595.87,
     "option": "Roestvrij staal"
   },
   {
@@ -871,8 +871,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 568.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 728,
+    "price_ex": 498.35,
     "option": ""
   },
   {
@@ -883,8 +883,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 568.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 728,
+    "price_ex": 498.35,
     "option": ""
   },
   {
@@ -895,8 +895,8 @@
     "width_mm": 595.0,
     "height_mm": 598.0,
     "depth_mm": 561.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 458,
+    "price_ex": 314.05,
     "option": "Roestvrij staal"
   },
   {
@@ -907,8 +907,8 @@
     "width_mm": 595.0,
     "height_mm": 598.0,
     "depth_mm": 561.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 629,
+    "price_ex": 430.58,
     "option": "Roestvrij staal"
   },
   {
@@ -919,8 +919,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 841,
+    "price_ex": 576.03,
     "option": "Zwart/Roestvrij staal"
   },
   {
@@ -931,8 +931,8 @@
     "width_mm": 595.0,
     "height_mm": 598.0,
     "depth_mm": 561.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 771,
+    "price_ex": 528.1,
     "option": ""
   },
   {
@@ -943,8 +943,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 983,
+    "price_ex": 673.55,
     "option": "met pyrolyse"
   },
   {
@@ -955,8 +955,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 569.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 983,
+    "price_ex": 673.55,
     "option": "met pyrolyse"
   },
   {
@@ -967,8 +967,8 @@
     "width_mm": 595.0,
     "height_mm": 455.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1134,
+    "price_ex": 776.86,
     "option": ""
   },
   {
@@ -979,8 +979,8 @@
     "width_mm": 595.0,
     "height_mm": 455.0,
     "depth_mm": 567.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1134,
+    "price_ex": 776.86,
     "option": ""
   },
   {
@@ -991,8 +991,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 824,
+    "price_ex": 564.46,
     "option": ""
   },
   {
@@ -1003,8 +1003,8 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1012,
+    "price_ex": 693.39,
     "option": ""
   },
   {
@@ -1015,20 +1015,20 @@
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1622,
+    "price_ex": 1110.74,
     "option": ""
   },
   {
     "code": "NV7B5775QDKU1",
     "brand": "SAMSUNG",
     "category": "bakovens",
-    "description": "SAMSUNG Inbouwoven NV7B5775QDK/U1 met pyrolyse, DualCook Flex™ ZWART GLAS",
+    "description": "SAMSUNG Inbouwoven NV7B5775QDK/U1 met pyrolyse, DualCook Flex\u2122 ZWART GLAS",
     "width_mm": 595.0,
     "height_mm": 596.0,
     "depth_mm": 571.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1857,
+    "price_ex": 1271.9,
     "option": ""
   },
   {
@@ -1039,8 +1039,8 @@
     "width_mm": 595.0,
     "height_mm": 456.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1204,
+    "price_ex": 824.79,
     "option": ""
   },
   {
@@ -1051,8 +1051,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 931,
+    "price_ex": 638.02,
     "option": "met katalyse zwart"
   },
   {
@@ -1063,8 +1063,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 983,
+    "price_ex": 673.55,
     "option": "met hydrolyse Zwart / Roestvrij staal"
   },
   {
@@ -1075,8 +1075,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1296,
+    "price_ex": 887.6,
     "option": "met pyrolyse Zwart / Roestvrij staal"
   },
   {
@@ -1087,8 +1087,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1390,
+    "price_ex": 952.07,
     "option": "met katalyse zwart"
   },
   {
@@ -1099,8 +1099,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2546,
+    "price_ex": 1743.8,
     "option": "met magnetron en katalyse zwart"
   },
   {
@@ -1111,8 +1111,8 @@
     "width_mm": 595.0,
     "height_mm": 594.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2649,
+    "price_ex": 1814.88,
     "option": "met stoom en katalyse zwart"
   },
   {
@@ -1123,8 +1123,8 @@
     "width_mm": 594.0,
     "height_mm": 595.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1728,
+    "price_ex": 1183.47,
     "option": "met pyrolyse zwart"
   },
   {
@@ -1135,8 +1135,8 @@
     "width_mm": 594.0,
     "height_mm": 454.0,
     "depth_mm": 570.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1479,
+    "price_ex": 1013.22,
     "option": "Zwart / Roestvrij staal"
   },
   {
@@ -1147,8 +1147,8 @@
     "width_mm": 594.0,
     "height_mm": 455.0,
     "depth_mm": 548.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 2121,
+    "price_ex": 1452.89,
     "option": "met hydrolyse zwart"
   },
   {
@@ -1159,8 +1159,8 @@
     "width_mm": 595.0,
     "height_mm": 595.0,
     "depth_mm": 551.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 672,
+    "price_ex": 460.33,
     "option": "met hydrolyse zwart"
   },
   {
@@ -1171,8 +1171,8 @@
     "width_mm": 595.0,
     "height_mm": 597.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 823,
+    "price_ex": 563.64,
     "option": "met katalyse zwart"
   },
   {
@@ -1183,8 +1183,8 @@
     "width_mm": 595.0,
     "height_mm": 597.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 841,
+    "price_ex": 576.03,
     "option": "met pyrolyse zwart"
   },
   {
@@ -1195,8 +1195,8 @@
     "width_mm": 595.0,
     "height_mm": 597.0,
     "depth_mm": 564.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 925,
+    "price_ex": 633.88,
     "option": "met pyrolyse zwart"
   },
   {
@@ -1207,8 +1207,8 @@
     "width_mm": 595.0,
     "height_mm": 455.0,
     "depth_mm": 560.0,
-    "punten": 0,
-    "price_ex": 0,
+    "punten": 1026,
+    "price_ex": 702.48,
     "option": "zwart"
   }
 ]
