@@ -53,7 +53,8 @@ def test_shopping_cart():
 
 def test_appliance_filter():
     appliances = [
-        Appliance('OVEN001', 'Siemens', 'oven', 'Siemens oven OVEN001', 600, 590, 560, 0, 0.0),
+        Appliance('OVEN001', 'Siemens', 'oven', 'Siemens oven OVEN001', 600, 590, 560, 0, 0.0, option='pyrolyse'),
+        Appliance('OVEN002', 'Bosch', 'oven', 'Bosch oven OVEN002', 600, 590, 560, 0, 0.0, option='hydrolyse'),
         Appliance('KOOK001', 'Bosch', 'kookplaat', 'Bosch kookplaat KOOK001', 600, 590, 560, 0, 0.0),
         Appliance('VAAS001', 'Miele', 'vaatwasser', 'Miele vaatwasser VAAS001', 600, 590, 560, 0, 0.0)
     ]
@@ -61,12 +62,16 @@ def test_appliance_filter():
     filter_obj = ApplianceFilter(appliances)
 
     ovens = filter_obj.filter(category='oven')
-    assert len(ovens) == 1
-    assert ovens[0].code == 'OVEN001'
+    assert len(ovens) == 2
+    assert {o.code for o in ovens} == {'OVEN001', 'OVEN002'}
 
     siemens = filter_obj.filter(brand='Siemens')
     assert len(siemens) == 1
     assert siemens[0].brand == 'Siemens'
+
+    pyro = filter_obj.filter(category='oven', option='pyrolyse')
+    assert len(pyro) == 1
+    assert pyro[0].option == 'pyrolyse'
 
 
 def test_price_logic():
@@ -85,8 +90,9 @@ def test_price_logic():
 
 
 def test_sort_appliances_function():
-    a1 = Appliance('A1', 'B', 'bakovens', 'Alpha', 600, 590, 560, 100, 0)
-    a2 = Appliance('A2', 'B', 'bakovens', 'Beta', 600, 590, 560, 200, 0)
+    a1 = Appliance('A1', 'B', 'bakovens', 'Alpha', 600, 590, 560, 100, 0, option='b')
+    a2 = Appliance('A2', 'A', 'koelkast', 'Beta', 600, 590, 560, 200, 0, option='a')
+    a3 = Appliance('A3', 'C', 'bakovens', 'Gamma', 500, 590, 560, 150, 0)
     # Sort by name ascending
     names = [a.description for a in sort_appliances([a2, a1], 'Naam')]
     assert names == ['Alpha', 'Beta']
@@ -96,3 +102,18 @@ def test_sort_appliances_function():
     # Sort by price euro ascending
     prices = [a.internal_price for a in sort_appliances([a2, a1], 'Prijs €')]
     assert prices == sorted(prices)
+    # Sort by width ascending
+    widths = [a.width_mm for a in sort_appliances([a1, a3], 'Breedte mm')]
+    assert widths == [500, 600]
+    # Sort by brand ascending
+    brands = [a.brand for a in sort_appliances([a1, a2, a3], 'Merk')]
+    assert brands == ['A', 'B', 'C']
+    # Sort by code ascending
+    codes = [a.code for a in sort_appliances([a2, a1], 'Code')]
+    assert codes == ['A1', 'A2']
+    # Sort by category ascending
+    cats = [a.category for a in sort_appliances([a2, a1], 'Categorie')]
+    assert cats == ['bakovens', 'koelkast']
+    # Sort by sub-option ascending
+    opts = [a.option for a in sort_appliances([a1, a2], 'Suboptie')]
+    assert opts == ['a', 'b']

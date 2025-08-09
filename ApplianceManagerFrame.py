@@ -102,7 +102,13 @@ except ModuleNotFoundError:  # pragma: no cover - allow headless use
 
     ctk = _CTkModule()
 
-from PIL import Image, ImageDraw, ImageOps, ImageFont
+try:
+    from PIL import Image, ImageDraw, ImageOps, ImageFont
+except ModuleNotFoundError:  # pragma: no cover - allow headless/test use without Pillow
+    logging.getLogger(__name__).warning(
+        "Pillow not available; image functionality will be disabled."
+    )
+    Image = ImageDraw = ImageOps = ImageFont = None
 
 BASE_DIR = Path(__file__).parent
 LOGO_IMAGE_PATH = BASE_DIR / "logo.png"
@@ -112,6 +118,7 @@ CATEGORIES = [
     "afzuigkappen",
     "bakovens",
     "kookplaat",
+    "kookplaatafzuiging",
     "vaatwasser",
     "koelkast",
     "microgolf",
@@ -387,6 +394,7 @@ class ApplianceFilter:
         self.by_category = {}
         self.by_brand = {}
         self.by_points = {}
+        self.by_option = {}
 
         for appliance in self.appliances:
             # Category index
@@ -405,9 +413,16 @@ class ApplianceFilter:
                 self.by_points[points_range] = []
             self.by_points[points_range].append(appliance)
 
+            # Option index
+            if appliance.option:
+                if appliance.option not in self.by_option:
+                    self.by_option[appliance.option] = []
+                self.by_option[appliance.option].append(appliance)
+
     def filter(self,
                category: Optional[str] = None,
                brand: Optional[str] = None,
+               option: Optional[str] = None,
                max_points: Optional[int] = None,
                search_term: Optional[str] = None) -> List[Appliance]:
         """Filter appliances based on criteria."""
@@ -418,6 +433,9 @@ class ApplianceFilter:
 
         if brand and brand != "-":
             result = [a for a in result if a.brand == brand]
+
+        if option and option != "-":
+            result = [a for a in result if a.option == option]
 
         if max_points is not None:
             result = [a for a in result if a.points <= max_points]
@@ -430,13 +448,25 @@ class ApplianceFilter:
 
         return result
 
-    def get_brands_for_category(self, category: str, max_points: Optional[int] = None) -> List[str]:
+    def get_brands_for_category(self, category: str, max_points: Optional[int] = None,
+                                option: Optional[str] = None) -> List[str]:
         """Get available brands for a category."""
         appliances = self.by_category.get(category, [])
         if max_points is not None:
             appliances = [a for a in appliances if a.points <= max_points]
+        if option and option != "-":
+            appliances = [a for a in appliances if a.option == option]
         brands = sorted(set(a.brand for a in appliances))
         return ["-"] + brands if brands else ["-"]
+
+    def get_options_for_category(self, category: str,
+                                 max_points: Optional[int] = None) -> List[str]:
+        """Get available options for a category."""
+        appliances = self.by_category.get(category, [])
+        if max_points is not None:
+            appliances = [a for a in appliances if a.points <= max_points]
+        options = sorted(set(a.option for a in appliances if a.option))
+        return ["-"] + options if options else ["-"]
 
 
 def sort_appliances(appliances: List[Appliance], key: str, descending: bool = False) -> List[Appliance]:
@@ -445,6 +475,13 @@ def sort_appliances(appliances: List[Appliance], key: str, descending: bool = Fa
         "Naam": lambda a: a.description.lower(),
         "Prijs €": lambda a: a.internal_price,
         "Punten": lambda a: a.points,
+        "Merk": lambda a: a.brand.lower(),
+        "Code": lambda a: a.code.lower(),
+        "Categorie": lambda a: a.category.lower(),
+        "Suboptie": lambda a: (a.option or ""),
+        "Breedte mm": lambda a: a.width_mm,
+        "Hoogte mm": lambda a: a.height_mm,
+        "Diepte mm": lambda a: a.depth_mm,
     }
     func = key_funcs.get(key, key_funcs["Naam"])
     return sorted(appliances, key=func, reverse=descending)
@@ -516,6 +553,7 @@ class FilterPanel(ctk.CTkFrame):
         self.block_var = ctk.StringVar()
         self.brand_var = ctk.StringVar()
         self.category_var = ctk.StringVar()
+        self.option_var = ctk.StringVar()
         self.search_var = ctk.StringVar()
 
         self._build_ui()
@@ -555,6 +593,15 @@ class FilterPanel(ctk.CTkFrame):
         self.category_menu.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
+        # Suboption Selection
+        ctk.CTkLabel(self, text="Suboptie", font=("Helvetica", 12, "bold")).grid(
+            row=row, column=0, sticky="w", pady=(15, 2))
+        row += 1
+
+        self.option_menu = ctk.CTkOptionMenu(self, variable=self.option_var, values=[])
+        self.option_menu.grid(row=row, column=0, sticky="ew", pady=2)
+        row += 1
+
         # Brand Selection
         ctk.CTkLabel(self, text="Merk", font=("Helvetica", 12, "bold")).grid(
             row=row, column=0, sticky="w", pady=(15, 2))
@@ -569,6 +616,7 @@ class FilterPanel(ctk.CTkFrame):
         self.block_var.trace_add("write", lambda *_: self.on_filter_change())
         self.brand_var.trace_add("write", lambda *_: self.on_filter_change())
         self.category_var.trace_add("write", lambda *_: self.on_filter_change())
+        self.option_var.trace_add("write", lambda *_: self.on_filter_change())
         self.search_var.trace_add("write", lambda *_: self.on_filter_change())
 
     def update_blocks(self, blocks: Dict[str, ElectricBlock]):
@@ -583,6 +631,12 @@ class FilterPanel(ctk.CTkFrame):
         self.category_menu.configure(values=categories)
         if categories:
             self.category_var.set(categories[0])
+
+    def update_options(self, options: List[str]):
+        """Update available sub options."""
+        self.option_menu.configure(values=options)
+        if options:
+            self.option_var.set(options[0])
 
     def update_brands(self, brands: List[str]):
         """Update available brands."""
@@ -605,7 +659,18 @@ class SortBar(ctk.CTkFrame):
         ctk.CTkLabel(self, text="Sorteer op:").grid(row=0, column=0, padx=5)
         self.option = ctk.CTkOptionMenu(
             self,
-            values=["Naam", "Prijs €", "Punten"],
+            values=[
+                "Naam",
+                "Merk",
+                "Prijs €",
+                "Punten",
+                "Code",
+                "Categorie",
+                "Suboptie",
+                "Breedte mm",
+                "Hoogte mm",
+                "Diepte mm",
+            ],
             variable=self.sort_var,
             command=lambda _: self.on_change(),
         )
@@ -929,6 +994,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
             category = self.filter_panel.category_var.get()
+            option = self.filter_panel.option_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
             # Get block limits
@@ -936,9 +1002,17 @@ class ApplianceManagerApp(ctk.CTkFrame):
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
 
-            # Update available brands for current category and block
-            available_brands = self.appliance_filter.get_brands_for_category(
+            # Update available sub options for current category and block
+            available_options = self.appliance_filter.get_options_for_category(
                 category, max_points)
+            self.filter_panel.update_options(available_options)
+
+            # Read option again after updating the dropdown
+            option = self.filter_panel.option_var.get()
+
+            # Update available brands for current category, option and block
+            available_brands = self.appliance_filter.get_brands_for_category(
+                category, max_points, option)
             self.filter_panel.update_brands(available_brands)
 
             # Read brand again after updating the dropdown
@@ -948,6 +1022,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             filtered_appliances = self.appliance_filter.filter(
                 category=category,
                 brand=brand,
+                option=option,
                 max_points=max_points,
                 search_term=search_term if search_term else None
             )
