@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.log
+*.sqlite3
+.env
+.venv/
+
+# Unit test / coverage
+.coverage
+.pytest_cache/
+
+# IDEs
+.idea/
+.vscode/
+
+# Excel files generated during runtime
+*.xlsx
+!Opmetingsaanvraag.xlsx
+!Data.xlsx
+!Steen Calculator.xlsx
+!output.xlsx
+

@@ -11,11 +11,12 @@ from __future__ import annotations
 import json
 import logging
 import math
+import os
 from decimal import Decimal, ROUND_HALF_UP
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Protocol, Callable, Any
+from typing import Dict, List, Optional, Callable, Any
 from collections import OrderedDict
 import tkinter as tk
 
@@ -128,26 +129,39 @@ CATEGORIES = [
 # Configuration and Constants
 # ============================================================================
 
+
 @dataclass
 class AppConfig:
     """Application configuration with sensible defaults."""
+
     base_dir: Path = field(default_factory=lambda: Path(__file__).parent)
     img_dir: Path = field(init=False)
     img_size: tuple[int, int] = (160, 110)
-    vat_rates: dict[str, float] = field(default_factory=lambda: {"high": 0.21, "low": 0.06})
+    vat_rates: dict[str, float] = field(
+        default_factory=lambda: {"high": 0.21, "low": 0.06}
+    )
     cache_size: int = 100
 
     def __post_init__(self):
-        self.img_dir = self.base_dir / "images"
+        """Resolve configured paths after initialization.
+
+        The image directory can be overridden via the ``IXITOOLS_IMG_DIR``
+        environment variable. This allows deploying the application with a
+        custom location for image assets without modifying the code.
+        """
+        img_dir_env = os.getenv("IXITOOLS_IMG_DIR")
+        self.img_dir = Path(img_dir_env) if img_dir_env else self.base_dir / "images"
 
 
 # ============================================================================
 # Data Models
 # ============================================================================
 
+
 @dataclass
 class ElectricBlock:
     """Represents an electrical block configuration."""
+
     name: str
     min_points: int
     max_points: int
@@ -156,6 +170,7 @@ class ElectricBlock:
 @dataclass
 class Appliance:
     """Represents a kitchen appliance."""
+
     code: str
     brand: str
     category: str
@@ -169,27 +184,34 @@ class Appliance:
     img: Optional[str] = None
 
     @classmethod
-    def from_dict(cls, data: dict) -> 'Appliance':
+    def from_dict(cls, data: dict) -> "Appliance":
         """Create Appliance from dictionary with validation."""
         required_fields = {
-            'code', 'brand', 'category', 'description',
-            'width_mm', 'height_mm', 'depth_mm', 'punten', 'price'
+            "code",
+            "brand",
+            "category",
+            "description",
+            "width_mm",
+            "height_mm",
+            "depth_mm",
+            "punten",
+            "price",
         }
         if not all(field in data for field in required_fields):
             raise ValueError(f"Missing required fields in appliance data: {data}")
 
         return cls(
-            code=str(data['code']),
-            brand=str(data['brand']),
-            category=str(data['category']),
-            description=str(data['description']),
-            width_mm=float(data['width_mm']),
-            height_mm=float(data['height_mm']),
-            depth_mm=float(data['depth_mm']),
-            points=int(data['punten']),
-            price=float(data['price']),
-            option=data.get('option'),
-            img=data.get('img')
+            code=str(data["code"]),
+            brand=str(data["brand"]),
+            category=str(data["category"]),
+            description=str(data["description"]),
+            width_mm=float(data["width_mm"]),
+            height_mm=float(data["height_mm"]),
+            depth_mm=float(data["depth_mm"]),
+            points=int(data["punten"]),
+            price=float(data["price"]),
+            option=data.get("option"),
+            img=data.get("img"),
         )
 
     # ------------------------------------------------------------------
@@ -229,6 +251,7 @@ class Appliance:
 @dataclass
 class CartItem:
     """Represents an item in the shopping cart."""
+
     appliance: Appliance
     quantity: int = 1
 
@@ -236,6 +259,7 @@ class CartItem:
 # ============================================================================
 # Business Logic Layer
 # ============================================================================
+
 
 class DataRepository(ABC):
     """Abstract repository for data access."""
@@ -303,11 +327,14 @@ class ImageCache:
     def __init__(self, config: AppConfig):
         self.config = config
         # cache key is (filename, size)
-        self.cache: OrderedDict[tuple[Optional[str], tuple[int, int]], ctk.CTkImage] = OrderedDict()
+        self.cache: OrderedDict[
+            tuple[Optional[str], tuple[int, int]], ctk.CTkImage
+        ] = OrderedDict()
         self.logger = logging.getLogger(__name__)
 
-    def load_image(self, filename: Optional[str] = None,
-                   size: Optional[tuple[int, int]] = None) -> ctk.CTkImage:
+    def load_image(
+        self, filename: Optional[str] = None, size: Optional[tuple[int, int]] = None
+    ) -> ctk.CTkImage:
         """Load and cache image with fallback to placeholder."""
         size = size or self.config.img_size
         key = (filename, size)
@@ -419,12 +446,14 @@ class ApplianceFilter:
                     self.by_option[appliance.option] = []
                 self.by_option[appliance.option].append(appliance)
 
-    def filter(self,
-               category: Optional[str] = None,
-               brand: Optional[str] = None,
-               option: Optional[str] = None,
-               max_points: Optional[int] = None,
-               search_term: Optional[str] = None) -> List[Appliance]:
+    def filter(
+        self,
+        category: Optional[str] = None,
+        brand: Optional[str] = None,
+        option: Optional[str] = None,
+        max_points: Optional[int] = None,
+        search_term: Optional[str] = None,
+    ) -> List[Appliance]:
         """Filter appliances based on criteria."""
         result = self.appliances.copy()
 
@@ -442,14 +471,20 @@ class ApplianceFilter:
 
         if search_term:
             search_lower = search_term.lower()
-            result = [a for a in result if
-                      search_lower in a.code.lower() or
-                      search_lower in a.brand.lower()]
+            result = [
+                a
+                for a in result
+                if search_lower in a.code.lower() or search_lower in a.brand.lower()
+            ]
 
         return result
 
-    def get_brands_for_category(self, category: str, max_points: Optional[int] = None,
-                                option: Optional[str] = None) -> List[str]:
+    def get_brands_for_category(
+        self,
+        category: str,
+        max_points: Optional[int] = None,
+        option: Optional[str] = None,
+    ) -> List[str]:
         """Get available brands for a category."""
         appliances = self.by_category.get(category, [])
         if max_points is not None:
@@ -459,8 +494,9 @@ class ApplianceFilter:
         brands = sorted(set(a.brand for a in appliances))
         return ["-"] + brands if brands else ["-"]
 
-    def get_options_for_category(self, category: str,
-                                 max_points: Optional[int] = None) -> List[str]:
+    def get_options_for_category(
+        self, category: str, max_points: Optional[int] = None
+    ) -> List[str]:
         """Get available options for a category."""
         appliances = self.by_category.get(category, [])
         if max_points is not None:
@@ -469,7 +505,9 @@ class ApplianceFilter:
         return ["-"] + options if options else ["-"]
 
 
-def sort_appliances(appliances: List[Appliance], key: str, descending: bool = False) -> List[Appliance]:
+def sort_appliances(
+    appliances: List[Appliance], key: str, descending: bool = False
+) -> List[Appliance]:
     """Return appliances sorted by the given key."""
     key_funcs: Dict[str, Callable[[Appliance], Any]] = {
         "Naam": lambda a: a.description.lower(),
@@ -508,7 +546,9 @@ class ShoppingCart:
 
     def remove_item(self, appliance: Appliance) -> None:
         """Remove appliance from cart."""
-        self.items = [item for item in self.items if item.appliance.code != appliance.code]
+        self.items = [
+            item for item in self.items if item.appliance.code != appliance.code
+        ]
         self._notify_observers()
 
     def clear(self) -> None:
@@ -541,6 +581,7 @@ class ShoppingCart:
 # UI Components
 # ============================================================================
 
+
 class FilterPanel(ctk.CTkFrame):
     """Left panel containing all filter controls."""
 
@@ -567,7 +608,8 @@ class FilterPanel(ctk.CTkFrame):
 
         # Electric Block Selection
         ctk.CTkLabel(self, text="Elektrisch Blok", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(5, 2))
+            row=row, column=0, sticky="w", pady=(5, 2)
+        )
         row += 1
 
         self.block_menu = ctk.CTkOptionMenu(self, variable=self.block_var, values=[])
@@ -576,26 +618,34 @@ class FilterPanel(ctk.CTkFrame):
 
         # Search
         ctk.CTkLabel(self, text="Zoeken", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
+            row=row, column=0, sticky="w", pady=(15, 2)
+        )
         row += 1
 
-        self.search_entry = ctk.CTkEntry(self, textvariable=self.search_var,
-                                         placeholder_text="Zoek op code of merk...")
+        self.search_entry = ctk.CTkEntry(
+            self,
+            textvariable=self.search_var,
+            placeholder_text="Zoek op code of merk...",
+        )
         self.search_entry.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
         # Category Selection
         ctk.CTkLabel(self, text="Categorie", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
+            row=row, column=0, sticky="w", pady=(15, 2)
+        )
         row += 1
 
-        self.category_menu = ctk.CTkOptionMenu(self, variable=self.category_var, values=[])
+        self.category_menu = ctk.CTkOptionMenu(
+            self, variable=self.category_var, values=[]
+        )
         self.category_menu.grid(row=row, column=0, sticky="ew", pady=2)
         row += 1
 
         # Suboption Selection
         ctk.CTkLabel(self, text="Suboptie", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
+            row=row, column=0, sticky="w", pady=(15, 2)
+        )
         row += 1
 
         self.option_menu = ctk.CTkOptionMenu(self, variable=self.option_var, values=[])
@@ -604,7 +654,8 @@ class FilterPanel(ctk.CTkFrame):
 
         # Brand Selection
         ctk.CTkLabel(self, text="Merk", font=("Helvetica", 12, "bold")).grid(
-            row=row, column=0, sticky="w", pady=(15, 2))
+            row=row, column=0, sticky="w", pady=(15, 2)
+        )
         row += 1
 
         self.brand_menu = ctk.CTkOptionMenu(self, variable=self.brand_var, values=[])
@@ -649,8 +700,13 @@ class FilterPanel(ctk.CTkFrame):
 class SortBar(ctk.CTkFrame):
     """Top bar with sorting controls."""
 
-    def __init__(self, master, sort_var: ctk.StringVar,
-                 order_var: ctk.StringVar, on_change: Callable):
+    def __init__(
+        self,
+        master,
+        sort_var: ctk.StringVar,
+        order_var: ctk.StringVar,
+        on_change: Callable,
+    ):
         super().__init__(master)
         self.sort_var = sort_var
         self.order_var = order_var
@@ -688,11 +744,17 @@ class SortBar(ctk.CTkFrame):
         self.order_var.set("↓" if self.order_var.get() == "↑" else "↑")
         self.on_change()
 
+
 class ApplianceRow(ctk.CTkFrame):
     """Individual appliance row component."""
 
-    def __init__(self, master, appliance: Appliance, image_cache: ImageCache,
-                 on_add_to_cart: Callable):
+    def __init__(
+        self,
+        master,
+        appliance: Appliance,
+        image_cache: ImageCache,
+        on_add_to_cart: Callable,
+    ):
         super().__init__(master)
         self.appliance = appliance
         self.image_cache = image_cache
@@ -732,8 +794,12 @@ class ApplianceRow(ctk.CTkFrame):
         price_label.grid(row=0, column=2, padx=5, pady=5)
 
         # Add button
-        add_btn = ctk.CTkButton(self, text="+ Toevoegen", width=100,
-                                command=lambda: self.on_add_to_cart(self.appliance))
+        add_btn = ctk.CTkButton(
+            self,
+            text="+ Toevoegen",
+            width=100,
+            command=lambda: self.on_add_to_cart(self.appliance),
+        )
         add_btn.grid(row=0, column=3, padx=5, pady=5)
 
 
@@ -761,8 +827,7 @@ class ResultsPanel(ctk.CTkScrollableFrame):
 
         # Add new rows
         for i, appliance in enumerate(appliances):
-            row = ApplianceRow(self, appliance, self.image_cache,
-                               self.on_add_to_cart)
+            row = ApplianceRow(self, appliance, self.image_cache, self.on_add_to_cart)
             row.grid(row=i, column=0, sticky="ew", padx=5, pady=2)
             self.appliance_rows.append(row)
 
@@ -793,8 +858,7 @@ class CartPanel(ctk.CTkFrame):
         self.columnconfigure(0, weight=1)
 
         # Header
-        header = ctk.CTkLabel(self, text="Winkelwagen",
-                              font=("Helvetica", 16, "bold"))
+        header = ctk.CTkLabel(self, text="Winkelwagen", font=("Helvetica", 16, "bold"))
         header.grid(row=0, column=0, pady=10)
 
         # Cart items scrollable frame
@@ -812,12 +876,12 @@ class CartPanel(ctk.CTkFrame):
         btn_frame.columnconfigure(0, weight=1)
         btn_frame.columnconfigure(1, weight=1)
 
-        clear_btn = ctk.CTkButton(btn_frame, text="Wissen",
-                                  command=self.cart.clear)
+        clear_btn = ctk.CTkButton(btn_frame, text="Wissen", command=self.cart.clear)
         clear_btn.grid(row=0, column=0, padx=2, pady=2, sticky="ew")
 
-        export_btn = ctk.CTkButton(btn_frame, text="Exporteren",
-                                   command=self._export_cart)
+        export_btn = ctk.CTkButton(
+            btn_frame, text="Exporteren", command=self._export_cart
+        )
         export_btn.grid(row=0, column=1, padx=2, pady=2, sticky="ew")
 
     def update_display(self):
@@ -847,21 +911,22 @@ class CartPanel(ctk.CTkFrame):
         img_label.grid(row=0, column=0, rowspan=2, padx=5, pady=2)
 
         # Item info
-        info_text = (
-            f"{item.appliance.description} – €{item.appliance.internal_price} • {item.appliance.points}p"
-        )
+        info_text = f"{item.appliance.description} – €{item.appliance.internal_price} • {item.appliance.points}p"
         if item.quantity > 1:
             info_text += f" (x{item.quantity})"
-        info_text += (
-            f"\n{item.appliance.width_mm:.0f} x {item.appliance.height_mm:.0f} x {item.appliance.depth_mm:.0f} mm"
-        )
+        info_text += f"\n{item.appliance.width_mm:.0f} x {item.appliance.height_mm:.0f} x {item.appliance.depth_mm:.0f} mm"
 
         info_label = ctk.CTkLabel(frame, text=info_text, anchor="w", justify="left")
         info_label.grid(row=0, column=1, sticky="w", padx=5, pady=2)
 
         # Remove button
-        remove_btn = ctk.CTkButton(frame, text="✕", width=30, height=25,
-                                   command=lambda: self.cart.remove_item(item.appliance))
+        remove_btn = ctk.CTkButton(
+            frame,
+            text="✕",
+            width=30,
+            height=25,
+            command=lambda: self.cart.remove_item(item.appliance),
+        )
         remove_btn.grid(row=0, column=2, padx=2, pady=2)
 
         return frame
@@ -881,18 +946,21 @@ class CartPanel(ctk.CTkFrame):
             color = "#F44336"  # Red
             status = f"Overschrijding: {abs(remaining_points)}p"
 
-        totals_text = (f"Totaal: {total_points}p • €{total_price:.2f}\n{status}")
+        totals_text = f"Totaal: {total_points}p • €{total_price:.2f}\n{status}"
         self.totals_label.configure(text=totals_text, text_color=color)
 
     def _export_cart(self):
         """Export cart contents (placeholder for future implementation)."""
         # This could export to PDF, Excel, etc.
-        logging.getLogger(__name__).info("Export cart functionality not yet implemented")
+        logging.getLogger(__name__).info(
+            "Export cart functionality not yet implemented"
+        )
 
 
 # ============================================================================
 # Main Application
 # ============================================================================
+
 
 class ApplianceManagerApp(ctk.CTkFrame):
     """Main application frame coordinating all components."""
@@ -926,11 +994,11 @@ class ApplianceManagerApp(ctk.CTkFrame):
         """Setup application logging."""
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             handlers=[
-                logging.FileHandler(self.config.base_dir / 'app.log'),
-                logging.StreamHandler()
-            ]
+                logging.FileHandler(self.config.base_dir / "app.log"),
+                logging.StreamHandler(),
+            ],
         )
 
     def _setup_layout(self):
@@ -958,7 +1026,10 @@ class ApplianceManagerApp(ctk.CTkFrame):
         self.sort_var = ctk.StringVar(value="Naam")
         self.sort_order_var = ctk.StringVar(value="↑")
         self.sort_bar = SortBar(
-            self.results_container, self.sort_var, self.sort_order_var, self._on_filter_change
+            self.results_container,
+            self.sort_var,
+            self.sort_order_var,
+            self._on_filter_change,
         )
         self.sort_bar.grid(row=0, column=0, sticky="ew", pady=(0, 5))
 
@@ -1004,7 +1075,8 @@ class ApplianceManagerApp(ctk.CTkFrame):
 
             # Update available sub options for current category and block
             available_options = self.appliance_filter.get_options_for_category(
-                category, max_points)
+                category, max_points
+            )
             self.filter_panel.update_options(available_options)
 
             # Read option again after updating the dropdown
@@ -1012,7 +1084,8 @@ class ApplianceManagerApp(ctk.CTkFrame):
 
             # Update available brands for current category, option and block
             available_brands = self.appliance_filter.get_brands_for_category(
-                category, max_points, option)
+                category, max_points, option
+            )
             self.filter_panel.update_brands(available_brands)
 
             # Read brand again after updating the dropdown
@@ -1024,7 +1097,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
                 brand=brand,
                 option=option,
                 max_points=max_points,
-                search_term=search_term if search_term else None
+                search_term=search_term if search_term else None,
             )
 
             # Apply sorting
@@ -1066,6 +1139,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
 # Application Window
 # ============================================================================
 
+
 class LoadingFrame(ctk.CTkFrame):
     """Simple loading screen with progress bar and logo."""
 
@@ -1076,7 +1150,9 @@ class LoadingFrame(ctk.CTkFrame):
 
         logo_img = ctk.CTkImage(Image.open(LOGO_IMAGE_PATH), size=(150, 45))
         ctk.CTkLabel(self, image=logo_img, text="").grid(row=0, column=0, pady=(20, 10))
-        ctk.CTkLabel(self, text="Toestellenmanager laden...", font=("Helvetica", 16)).grid(row=1, column=0)
+        ctk.CTkLabel(
+            self, text="Toestellenmanager laden...", font=("Helvetica", 16)
+        ).grid(row=1, column=0)
 
         self.progress = ctk.CTkProgressBar(self, mode="indeterminate")
         self.progress.grid(row=2, column=0, sticky="ew", padx=40, pady=(10, 20))
@@ -1155,6 +1231,7 @@ class ApplianceManagerWindow(ctk.CTkToplevel):
 # ============================================================================
 # Main Entry Point
 # ============================================================================
+
 
 def main():
     """Main application entry point."""
