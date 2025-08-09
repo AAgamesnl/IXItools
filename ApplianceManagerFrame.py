@@ -561,8 +561,8 @@ class ShoppingCart:
         return sum(item.appliance.points * item.quantity for item in self.items)
 
     def get_total_price(self) -> float:
-        """Calculate total internal price including VAT for each item."""
-        return sum(item.appliance.internal_price * item.quantity for item in self.items)
+        """Calculate total price of all items in the cart."""
+        return sum(item.appliance.price * item.quantity for item in self.items)
 
     def add_observer(self, callback: Callable[[], None]) -> None:
         """Add cart change observer."""
@@ -685,8 +685,11 @@ class FilterPanel(ctk.CTkFrame):
 
     def update_options(self, options: List[str]):
         """Update available sub options."""
+        current = self.option_var.get()
         self.option_menu.configure(values=options)
-        if options:
+        if current in options:
+            self.option_var.set(current)
+        elif options:
             self.option_var.set(options[0])
 
     def update_brands(self, brands: List[str]):
@@ -911,7 +914,10 @@ class CartPanel(ctk.CTkFrame):
         img_label.grid(row=0, column=0, rowspan=2, padx=5, pady=2)
 
         # Item info
-        info_text = f"{item.appliance.description} – €{item.appliance.internal_price} • {item.appliance.points}p"
+        price_text = f"€{item.appliance.price:.2f}"
+        info_text = (
+            f"{item.appliance.description} – {price_text} • {item.appliance.points}p"
+        )
         if item.quantity > 1:
             info_text += f" (x{item.quantity})"
         info_text += f"\n{item.appliance.width_mm:.0f} x {item.appliance.height_mm:.0f} x {item.appliance.depth_mm:.0f} mm"
