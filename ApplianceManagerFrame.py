@@ -256,6 +256,18 @@ class CartItem:
     quantity: int = 1
 
 
+def option_group(appliance: Appliance) -> Optional[str]:
+    """Return normalized sub-option for an appliance."""
+    if appliance.category == "bakovens":
+        text = f"{appliance.description} {(appliance.option or '')}".lower()
+        if "stoom" in text:
+            return "stoom"
+        if "pyrolyse" in text:
+            return "pyrolyse"
+        return "geen pyrolyse"
+    return appliance.option
+
+
 # ============================================================================
 # Business Logic Layer
 # ============================================================================
@@ -464,7 +476,7 @@ class ApplianceFilter:
             result = [a for a in result if a.brand == brand]
 
         if option and option != "-":
-            result = [a for a in result if a.option == option]
+            result = [a for a in result if option_group(a) == option]
 
         if max_points is not None:
             result = [a for a in result if a.points <= max_points]
@@ -490,18 +502,28 @@ class ApplianceFilter:
         if max_points is not None:
             appliances = [a for a in appliances if a.points <= max_points]
         if option and option != "-":
-            appliances = [a for a in appliances if a.option == option]
+            appliances = [a for a in appliances if option_group(a) == option]
         brands = sorted(set(a.brand for a in appliances))
         return ["-"] + brands if brands else ["-"]
 
     def get_options_for_category(
-        self, category: str, max_points: Optional[int] = None
+        self,
+        category: str,
+        max_points: Optional[int] = None,
+        brand: Optional[str] = None,
     ) -> List[str]:
         """Get available options for a category."""
         appliances = self.by_category.get(category, [])
+        if brand and brand != "-":
+            appliances = [a for a in appliances if a.brand == brand]
         if max_points is not None:
             appliances = [a for a in appliances if a.points <= max_points]
-        options = sorted(set(a.option for a in appliances if a.option))
+        opts = set()
+        for a in appliances:
+            og = option_group(a)
+            if og:
+                opts.add(og)
+        options = sorted(opts)
         return ["-"] + options if options else ["-"]
 
 
@@ -516,7 +538,7 @@ def sort_appliances(
         "Merk": lambda a: a.brand.lower(),
         "Code": lambda a: a.code.lower(),
         "Categorie": lambda a: a.category.lower(),
-        "Suboptie": lambda a: (a.option or ""),
+        "Suboptie": lambda a: (option_group(a) or ""),
         "Breedte mm": lambda a: a.width_mm,
         "Hoogte mm": lambda a: a.height_mm,
         "Diepte mm": lambda a: a.depth_mm,
@@ -685,8 +707,11 @@ class FilterPanel(ctk.CTkFrame):
 
     def update_options(self, options: List[str]):
         """Update available sub options."""
+        current = self.option_var.get()
         self.option_menu.configure(values=options)
-        if options:
+        if current in options:
+            self.option_var.set(current)
+        elif options:
             self.option_var.set(options[0])
 
     def update_brands(self, brands: List[str]):
@@ -1065,6 +1090,7 @@ class ApplianceManagerApp(ctk.CTkFrame):
             # Get current filter values
             selected_block = self.filter_panel.block_var.get()
             category = self.filter_panel.category_var.get()
+            brand = self.filter_panel.brand_var.get()
             option = self.filter_panel.option_var.get()
             search_term = self.filter_panel.search_var.get().strip()
 
@@ -1073,23 +1099,26 @@ class ApplianceManagerApp(ctk.CTkFrame):
             if selected_block in self.blocks:
                 max_points = self.blocks[selected_block].max_points
 
-            # Update available sub options for current category and block
+            # Update options based on category, block and brand
             available_options = self.appliance_filter.get_options_for_category(
-                category, max_points
+                category, max_points, brand
             )
             self.filter_panel.update_options(available_options)
-
-            # Read option again after updating the dropdown
             option = self.filter_panel.option_var.get()
 
-            # Update available brands for current category, option and block
+            # Update brands for current selection
             available_brands = self.appliance_filter.get_brands_for_category(
                 category, max_points, option
             )
             self.filter_panel.update_brands(available_brands)
-
-            # Read brand again after updating the dropdown
             brand = self.filter_panel.brand_var.get()
+
+            # Recompute options after brand update
+            available_options = self.appliance_filter.get_options_for_category(
+                category, max_points, brand
+            )
+            self.filter_panel.update_options(available_options)
+            option = self.filter_panel.option_var.get()
 
             # Filter appliances
             filtered_appliances = self.appliance_filter.filter(
