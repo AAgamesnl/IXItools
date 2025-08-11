@@ -4244,8 +4244,8 @@
     "height_mm": 818.0,
     "depth_mm": 570.0,
     "option": "45cm",
-    "price": 0.0,
-    "punten": 0
+    "price": 455.0,
+    "punten": 664
   },
   {
     "code": "JB55X02ITE",
@@ -5024,8 +5024,8 @@
     "height_mm": 805.0,
     "depth_mm": 550.0,
     "option": "60cm",
-    "price": 0.0,
-    "punten": 0
+    "price": 1999.0,
+    "punten": 2920
   },
   {
     "code": "EB9741XHL",
@@ -6305,11 +6305,11 @@
     "category": "kookplaatafzuiging",
     "description": "Bakoven en inductiekookplaatafzuiging LHOV met Hydrolyse, 900 mm breed zwart",
     "width_mm": 900.0,
-    "height_mm": 0.0,
-    "depth_mm": 0.0,
+    "height_mm": 900.0,
+    "depth_mm": 600.0,
     "option": "afvoer+recirculatie",
-    "price": 0.0,
-    "punten": 0
+    "price": 3500.0,
+    "punten": 5110
   },
   {
     "code": "COCKTAILBK55L",
@@ -6736,12 +6736,12 @@
     "brand": "FABER",
     "category": "afzuigkappen",
     "description": "FABER Eilandschouw CHLOE ISOLA XL Antraciet",
-    "width_mm": 0.0,
-    "height_mm": 0.0,
-    "depth_mm": 0.0,
+    "width_mm": 1100.0,
+    "height_mm": 880.0,
+    "depth_mm": 400.0,
     "option": "eiland",
-    "price": 0.0,
-    "punten": 0
+    "price": 850.0,
+    "punten": 1241
   },
   {
     "code": "CLOUDSEVENF",
@@ -6776,8 +6776,8 @@
     "height_mm": 320.0,
     "depth_mm": 570.0,
     "option": "plafond",
-    "price": 0.0,
-    "punten": 0
+    "price": 1054.0,
+    "punten": 1539
   },
   {
     "code": "DFR097A52",
@@ -6832,12 +6832,36 @@
     "brand": "AIRFORCE",
     "category": "afzuigkappen",
     "description": "AIRFORCE Downdraft Downdraft BK Antraciet",
-    "width_mm": 0.0,
-    "height_mm": 0.0,
-    "depth_mm": 0.0,
+    "width_mm": 880.0,
+    "height_mm": 646.0,
+    "depth_mm": 351.0,
     "option": "downdraft",
-    "price": 0.0,
-    "punten": 0
+    "price": 1300.0,
+    "punten": 1898
+  },
+  {
+    "code": "F300BK60",
+    "brand": "AIRFORCE",
+    "category": "afzuigkappen",
+    "description": "AIRFORCE Geïntegreerde afzuigkap F300 BK60",
+    "width_mm": 600.0,
+    "height_mm": 337.0,
+    "depth_mm": 310.0,
+    "option": "inbouw",
+    "price": 368.0,
+    "punten": 537
+  },
+  {
+    "code": "F300BK90",
+    "brand": "AIRFORCE",
+    "category": "afzuigkappen",
+    "description": "AIRFORCE Geïntegreerde afzuigkap F300 BK90",
+    "width_mm": 900.0,
+    "height_mm": 337.0,
+    "depth_mm": 310.0,
+    "option": "inbouw",
+    "price": 389.0,
+    "punten": 568
   },
   {
     "code": "BOXIN60",
