@@ -6838,5 +6838,53 @@
     "option": "downdraft",
     "price": 0.0,
     "punten": 0
+  },
+  {
+    "code": "BOXIN60",
+    "brand": "ELICA",
+    "category": "afzuigkappen",
+    "description": "ELICA Geïntegreerde afzuigkap BOX IN 60, roestvrijstaal, 600 mm breed",
+    "width_mm": 594.0,
+    "height_mm": 314.0,
+    "depth_mm": 340.0,
+    "option": "inbouw",
+    "price": 198.0,
+    "punten": 289
+  },
+  {
+    "code": "BOXIN60BK",
+    "brand": "ELICA",
+    "category": "afzuigkappen",
+    "description": "ELICA Geïntegreerde BOXIN 60 BK afzuigkap",
+    "width_mm": 594.0,
+    "height_mm": 339.0,
+    "depth_mm": 310.0,
+    "option": "inbouw",
+    "price": 205.0,
+    "punten": 299
+  },
+  {
+    "code": "BOXIN90",
+    "brand": "ELICA",
+    "category": "afzuigkappen",
+    "description": "ELICA Geïntegreerde afzuigkap BOX IN 90, roestvrijstaal, 900 mm breed",
+    "width_mm": 894.0,
+    "height_mm": 314.0,
+    "depth_mm": 340.0,
+    "option": "inbouw",
+    "price": 224.0,
+    "punten": 327
+  },
+  {
+    "code": "BOXIN90BK",
+    "brand": "ELICA",
+    "category": "afzuigkappen",
+    "description": "ELICA Geïntegreerde BOXIN 90 BK afzuigkap",
+    "width_mm": 894.0,
+    "height_mm": 339.0,
+    "depth_mm": 310.0,
+    "option": "inbouw",
+    "price": 228.0,
+    "punten": 333
   }
 ]
